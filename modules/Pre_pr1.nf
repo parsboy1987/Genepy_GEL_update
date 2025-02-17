@@ -1,8 +1,8 @@
 process Pre_processing_1 {
-  //publishDir "${params.output}/${vcf_n}", mode: "copy", overwrite: true
+  publishDir "${params.output}/${vcf_n}", mode: "copy", overwrite: true
   //maxForks 10
   label "Pre_processing_1"
-  label : "process_medium"
+  label "process_medium"
   
   input:
   tuple path(x), val(vcf_n), file(vcfFile), val(chrx) 
