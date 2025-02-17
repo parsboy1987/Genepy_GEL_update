@@ -1,8 +1,8 @@
 process Pre_processing_2 {
-  //publishDir "${params.output}/${vcf_n}", mode: "copy", overwrite: true
+  publishDir "${params.output}/${vcf_n}", mode: "copy", overwrite: true
   //maxForks 10
   label "Pre_processing_2"
-  label : "process_small"
+  label "process_micro"
   input:
   tuple file("f5.vcf.gz"), val(vcf_n), val(chrx) 
   output:
