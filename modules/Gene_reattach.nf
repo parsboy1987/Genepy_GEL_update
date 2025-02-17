@@ -1,6 +1,6 @@
 process ConcatenateDuplicateGenes {
     publishDir "${params.output}", mode: "copy", overwrite: true
-    label : "process_micro"
+    label "process_micro"
     input:
     tuple val(cadd),val(chromosome_name),val(folder_paths)
 
