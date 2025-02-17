@@ -1,4 +1,4 @@
-process ConcatenateDuplicateGenes {
+process Reatt_Genes {
     publishDir "${params.output}", mode: "copy", overwrite: true
     label "process_micro"
     input:
