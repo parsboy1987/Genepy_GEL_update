@@ -1,7 +1,7 @@
 process CADD_score {
   label "CADD_score"
-  label : "process_micro"
-  //publishDir "${projectDir}/${params.chr}", mode: "copy", overwrite: true
+  label "process_micro"
+  publishDir "${projectDir}/${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   input:
   tuple val(chrx), val(vcf_n), file(vcfFile)
