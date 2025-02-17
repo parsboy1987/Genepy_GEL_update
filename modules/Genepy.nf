@@ -1,7 +1,7 @@
 process Genepy_score {
     publishDir "${params.output}/Genepy_score/${chr}_${cadd}", mode: "copy", overwrite: true
     label "Genepy_score"
-    label : "process_large"
+    label "process_large"
     
     input:
     tuple val(path),val(chr),val(cadd)
