@@ -26,6 +26,9 @@ include { Genepy_score } from "./modules/Genepy"
 
 // Define workflow
 workflow {
+def caddDir = new File(params.annotations_cadd)
+def subfolders = caddDir.listFiles { file -> file.isDirectory() }?.collect { it.name } ?: ['No subfolders found']
+
     println """\
          G E N E P Y           P I P E L I N E
           ===================================
@@ -36,6 +39,7 @@ workflow {
           ===================================
          Samples         : ${params.vcf}
          params.cadd     : ${params.annotations_cadd}
+         CADD Subfolders : ${subfolders.join(', ')}
          """.stripIndent()
      
 
