@@ -49,7 +49,7 @@ workflow {
                       }
 
       
-      ch_cadd = Channel.fromPath(params.annotations_cadd).view()
+      ch_cadd = Channel.fromPath(params.annotations_cadd).combine(chrx1).view()
       CADD_score(chrx1.combine(ch_cadd))
       VEP_score(CADD_score.out.pre_proc_1)
 //      Pre_processing_1(VEP_score.out)
