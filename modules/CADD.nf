@@ -1,7 +1,7 @@
 process CADD_score {
   label "CADD_score"
   label "process_micro"
-  publishDir "${projectDir}/${params.chr}", mode: "copy", overwrite: true
+  publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   input:
   tuple val(chrx), val(vcf_n), file(vcfFile)
@@ -11,7 +11,7 @@ process CADD_score {
   
   script:
     """
-    
+    ls /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     bcftools view -G ${vcfFile} -Ov -o p1.vcf
     
     awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '3383,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
