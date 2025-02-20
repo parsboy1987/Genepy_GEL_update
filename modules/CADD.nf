@@ -4,8 +4,7 @@ process CADD_score {
   publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   input:
-  tuple val(chrx), val(vcf_n), file(vcfFile) from chrx1
-  path annotations from ch_cadd
+  tuple val(chrx), val(vcf_n), file(vcfFile)
   output:
   tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(vcfFile), emit: pre_proc_1
   
