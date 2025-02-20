@@ -50,7 +50,7 @@ Channel.fromPath(params.annotations_cadd)
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
-       chrx1 = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
+       chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
                       return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
                       }
