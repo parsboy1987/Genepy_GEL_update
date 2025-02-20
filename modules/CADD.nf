@@ -12,6 +12,9 @@ process CADD_score {
   script:
     """
     ls /opt/CADD-scripts-CADD1.6/data/annotations
+    ls /opt/CADD-scripts-CADD1.6/data/
+    ls /opt/
+    echo "test"
     bcftools view -G ${vcfFile} -Ov -o p1.vcf
     
     awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '3383,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
