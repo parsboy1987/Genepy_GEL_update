@@ -35,6 +35,7 @@ workflow {
                      Iman Nazari
           ===================================
          Samples         : ${params.vcf}
+         params.cadd     : ${params.annotations_cadd}
          """.stripIndent()
      
 
