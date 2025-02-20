@@ -26,8 +26,12 @@ include { Genepy_score } from "./modules/Genepy"
 
 // Define workflow
 workflow {
-def caddDir = new File(params.annotations_cadd)
-def subfolders = caddDir.listFiles { file -> file.isDirectory() }?.collect { it.name } ?: ['No subfolders found']
+Channel.fromPath(params.annotations_cadd)
+    .ifEmpty { error "Directory ${params.annotations_cadd} not found or is empty" }
+    .filter { it.isDirectory() }
+    .map { it.name }
+    .collect()
+    .view { "CADD Subfolders: ${it.join(', ')}" }
 
     println """\
          G E N E P Y           P I P E L I N E
@@ -39,7 +43,6 @@ def subfolders = caddDir.listFiles { file -> file.isDirectory() }?.collect { it.
           ===================================
          Samples         : ${params.vcf}
          params.cadd     : ${params.annotations_cadd}
-         CADD Subfolders : ${subfolders.join(', ')}
          """.stripIndent()
      
 
