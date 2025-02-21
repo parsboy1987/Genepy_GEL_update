@@ -52,7 +52,7 @@ Channel.fromPath(params.annotations_cadd)
        println "Chromosome list: $chromosomeList"
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
-                      return [chromosomeList,filename,file,params.cadd_annotations]       // Returns a tuple with [full path, base filename]
+                      return [chromosomeList,filename,file,params.annotations_cadd]       // Returns a tuple with [full path, base filename]
                       }
 
       
