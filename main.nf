@@ -46,7 +46,7 @@ Channel.fromPath(params.annotations_cadd)
          """.stripIndent()
      
 
-      subfolders_ch = Channel.fromPath("${params.annotations_cadd}/**/*", type: 'file')
+      subfolders_ch = Channel.fromPath("${params.annotations_cadd}")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
