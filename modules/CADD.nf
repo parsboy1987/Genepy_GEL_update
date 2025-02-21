@@ -5,6 +5,7 @@ process CADD_score {
   //maxForks 10
   input:
   tuple val(chrx), val(vcf_n), file(vcfFile)
+  val cadd_param = params.cadd_
   output:
   tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(vcfFile), emit: pre_proc_1
   
@@ -13,6 +14,8 @@ process CADD_score {
     ls /opt/CADD-scripts-CADD1.6/data/annotations
     ls /opt/CADD-scripts-CADD1.6/data/
     ls /opt/
+    ls cadd_param
+    exit
     echo "test"
     bcftools view -G ${vcfFile} -Ov -o p1.vcf
     
