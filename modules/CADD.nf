@@ -11,9 +11,9 @@ process CADD_score {
   
   script:
     """
-    ln -s ${cadd_param} /opt/CADD-scripts-CADD1.6/data/annotations/
+    ln -s ${cadd_param} /opt/CADD-scripts-CADD1.6/data/
     ls /opt/CADD-scripts-CADD1.6/data/annotations/
-    // ls ${cadd_param}
+   ## ls ${cadd_param}
    
     echo "test"
     bcftools view -G ${vcfFile} -Ov -o p1.vcf
