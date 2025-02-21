@@ -46,13 +46,13 @@ Channel.fromPath(params.annotations_cadd)
          """.stripIndent()
      
 
-  
+       subfolders_ch = Channel.fromPath("${params.annotations_cadd}/*", type: 'dir').view()
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
-                      return [chromosomeList,filename,file,params.annotations_cadd]       // Returns a tuple with [full path, base filename]
+                      return [chromosomeList,filename,file,subfolders_ch]       // Returns a tuple with [full path, base filename]
                       }
 
       
