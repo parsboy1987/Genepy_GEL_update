@@ -46,7 +46,7 @@ Channel.fromPath(params.annotations_cadd)
          """.stripIndent()
      
 
-      sch = Channel.fromPath("${params.annotations_cadd}/*")
+      sch = Channel.fromPath("${params.annotations_cadd}/*").view()
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
@@ -54,7 +54,7 @@ Channel.fromPath(params.annotations_cadd)
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
                       return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
                       }
-      com_ch= chrx.combine(sch).view()
+      com_ch= chrx.combine(sch)
       CADD_score(com_ch)
     //  VEP_score(CADD_score.out.pre_proc_1)
 //      Pre_processing_1(VEP_score.out)
