@@ -30,7 +30,7 @@ Channel.fromPath("${params.annotations_cadd}/**/*")
     .map { it.name }
     .collect()
     .view { "CADD Subfolders: ${it.join(', ')}" }
-Channel.fromPath(${params.annotations_cadd})
+Channel.fromPath(params.annotations_cadd)
     .map { it.name }
     .collect()
     .view { "CADD Subfolders: ${it.join(', ')}" }
