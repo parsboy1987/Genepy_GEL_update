@@ -26,7 +26,7 @@ include { Genepy_score } from "./modules/Genepy"
 
 // Define workflow
 workflow {
-Channel.fromPath(params.annotations_cadd)
+Channel.fromPath("${params.annotations_cadd}/**/*")
     .ifEmpty { error "Directory ${params.annotations_cadd} not found or is empty" }
     .filter { it.isDirectory() }
     .map { it.name }
@@ -55,7 +55,7 @@ Channel.fromPath(params.annotations_cadd)
                       return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
                       }.view()
       //com_ch= chrx.combine(sch).view()
-      CADD_score(chrx,sch)
+  //    CADD_score(chrx,sch)
     //  VEP_score(CADD_score.out.pre_proc_1)
 //      Pre_processing_1(VEP_score.out)
 //      Pre_processing_2(Pre_processing_1.out)
