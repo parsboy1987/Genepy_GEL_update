@@ -55,7 +55,7 @@ Channel.fromPath(params.annotations_cadd)
                       return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
                       }.view()
       //com_ch= chrx.combine(sch).view()
-      CADD_score(chrx,sch)
+      CADD_score(chrx)
     //  VEP_score(CADD_score.out.pre_proc_1)
 //      Pre_processing_1(VEP_score.out)
 //      Pre_processing_2(Pre_processing_1.out)
