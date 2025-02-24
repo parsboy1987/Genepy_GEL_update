@@ -12,8 +12,8 @@ process CADD_score {
   
   script:
     """
-    ls ${params.annotations.cadd}
-    ln -s ${params.annotations.cadd} /opt/CADD-scripts-CADD1.6/data/annotations/
+    ls ${params.annotations_cadd}
+    ln -s ${params.annotations_cadd} /opt/CADD-scripts-CADD1.6/data/annotations/
     ls -R /opt/CADD-scripts-CADD1.6/data/annotations/
    
    
