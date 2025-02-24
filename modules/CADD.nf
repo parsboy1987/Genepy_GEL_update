@@ -12,7 +12,7 @@ process CADD_score {
   
   script:
     """
-    ls -R ${cadd_}
+    ls ${cadd_}/GRCh38_v1.6
   ##  ln -s ${cadd_} /opt/CADD-scripts-CADD1.6/data/annotations/
   ##  ls -R /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6/
    
