@@ -46,16 +46,16 @@ Channel.fromPath(params.annotations_cadd)
          """.stripIndent()
      
 
-      subfolders_ch = Channel.fromPath(params.annotations_cadd,typr='dir')
+      sch = Channel.fromPath(params.annotations_cadd,typr='dir')
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
-                      return [chromosomeList,filename,file,subfolders_ch]       // Returns a tuple with [full path, base filename]
+                      return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
                       }
-
-      CADD_score(chrx)
+      com_ch= chrx.combine(sch).view()
+      CADD_score(com_ch)
     //  VEP_score(CADD_score.out.pre_proc_1)
 //      Pre_processing_1(VEP_score.out)
 //      Pre_processing_2(Pre_processing_1.out)
