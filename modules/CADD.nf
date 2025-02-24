@@ -5,15 +5,15 @@ process CADD_score {
   //maxForks 10
   input:
   tuple val(chrx), val(vcf_n), file(vcfFile)
- // each file(cadd_param) from sch    
+  path(cadd_)    
   //val cadd_param = params.cadd_
   output:
   tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(vcfFile), emit: pre_proc_1
   
   script:
     """
-    ls ${params.annotations_cadd}
-    ln -s ${params.annotations_cadd} /opt/CADD-scripts-CADD1.6/data/annotations/
+    ls ${cadd_}
+    ln -s ${cadd_} /opt/CADD-scripts-CADD1.6/data/annotations/
     ls -R /opt/CADD-scripts-CADD1.6/data/annotations/
    
    
