@@ -26,7 +26,7 @@ include { Genepy_score } from "./modules/Genepy"
 
 // Define workflow
 workflow {
-Channel.fromPath("${params.annotations_cadd}/*").view()
+Channel.fromPath(params.annotations_cadd)
     .ifEmpty { error "Directory ${params.annotations_cadd} not found or is empty" }
     .filter { it.isDirectory() }
     .map { it.name }
@@ -46,7 +46,7 @@ Channel.fromPath("${params.annotations_cadd}/*").view()
          """.stripIndent()
      
 
-      sch = Channel.fromPath(params.annotations_cadd)
+      sch = Channel.fromPath("${params.annotations_cadd}/*")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
