@@ -27,8 +27,6 @@ include { Genepy_score } from "./modules/Genepy"
 // Define workflow
 workflow {
 Channel.fromPath("${params.annotations_cadd}/**/*")
-    .ifEmpty { error "Directory ${params.annotations_cadd} not found or is empty" }
-    .filter { it.isDirectory() }
     .map { it.name }
     .collect()
     .view { "CADD Subfolders: ${it.join(', ')}" }
