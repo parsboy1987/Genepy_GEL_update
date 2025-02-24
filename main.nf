@@ -26,7 +26,7 @@ include { Genepy_score } from "./modules/Genepy"
 
 // Define workflow
 workflow {
-Channel.fromPath(params.annotations_cadd)
+Channel.fromPath("${params.annotations_cadd}/*").view()
     .ifEmpty { error "Directory ${params.annotations_cadd} not found or is empty" }
     .filter { it.isDirectory() }
     .map { it.name }
