@@ -53,7 +53,7 @@ Channel.fromPath(params.annotations_cadd)
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
                       return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
-                      }
+                      }.view()
       com_ch= chrx.combine(sch)
       CADD_score(com_ch)
     //  VEP_score(CADD_score.out.pre_proc_1)
