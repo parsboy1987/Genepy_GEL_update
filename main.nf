@@ -27,7 +27,7 @@ include { Genepy_score } from "./modules/Genepy"
 // Define workflow
 workflow {
 Channel.fromPath("${params.annotations_cadd}/**")
-    .map { it.name }
+   // .map { it.name }
     .collect()
     .view { "CADD Subfolders: ${it.join(', ')}" }
 //Channel.fromPath(params.annotations_cadd)
