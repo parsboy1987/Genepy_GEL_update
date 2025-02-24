@@ -26,10 +26,10 @@ include { Genepy_score } from "./modules/Genepy"
 
 // Define workflow
 workflow {
-Channel.fromPath("${params.annotations_cadd}/**")
+sch= Channel.fromPath("${params.annotations_cadd}/**").view()
    // .map { it.name }
-    .collect()
-    .view { "CADD Subfolders: ${it.join(', ')}" }
+  //  .collect()
+  //  .view { "CADD Subfolders: ${it.join(', ')}" }
 //Channel.fromPath(params.annotations_cadd)
 //    .filter{is.
 //    .map { it.name }
@@ -49,7 +49,7 @@ Channel.fromPath("${params.annotations_cadd}/**")
          """.stripIndent()
      
 
-      sch = Channel.fromPath("${params.annotations_cadd}/*").view()
+      //sch = Channel.fromPath("${params.annotations_cadd}/*").view()
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
@@ -58,7 +58,7 @@ Channel.fromPath("${params.annotations_cadd}/**")
                       return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
                       }.view()
       //com_ch= chrx.combine(sch).view()
-  //    CADD_score(chrx,sch)
+      CADD_score(chrx,sch)
     //  VEP_score(CADD_score.out.pre_proc_1)
 //      Pre_processing_1(VEP_score.out)
 //      Pre_processing_2(Pre_processing_1.out)
