@@ -20,8 +20,8 @@ process CADD_score {
    # mkdir -p /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     cd /opt/CADD-scripts-CADD1.6/data/annotations
     
-   # ln -fs ${cadd_}/v1.6/data/annotations/GRCh38_v1.6/ .
-   # ln -fs ${cadd_} ./CADD
+   # ln -sf ${cadd_}/v1.6/data/annotations/GRCh38_v1.6/ .
+   # ln -sf ${cadd_} ./CADD
     ls  /opt/CADD-scripts-CADD1.6/data/annotations
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations
     ls -R /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
