@@ -19,8 +19,8 @@ process CADD_score {
     ln -fs ${cadd_}/* /opt/CADD-scripts-CADD1.6/data/annotations/.
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations
 ##ls -ld /opt/CADD-scripts-CADD1.6/data/annotations/
-    ls -ld /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
-    ls -R /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6/
+    ls -ld annotations/GRCh38_v1.6
+    ls -R annotations/GRCh38_v1.6/
    
    
 #    echo "test"
