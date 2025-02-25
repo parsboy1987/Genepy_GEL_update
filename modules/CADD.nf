@@ -18,11 +18,11 @@ process CADD_score {
    # find ${cadd_} -mindepth 1 -exec bash -c 'ln -s "\$(readlink -f {})" "/opt/CADD-scripts-CADD1.6/data/annotations/\$(basename {})"' \;
     ln -sf ${cadd_} /opt/CADD-scripts-CADD1.6/data/annotations
    # mkdir -p /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
-    cd /opt/CADD-scripts-CADD1.6/data/annotations
+   # cd /opt/CADD-scripts-CADD1.6/data/annotations
     
    # ln -sf ${cadd_}/v1.6/data/annotations/GRCh38_v1.6/ .
    # ln -sf ${cadd_} ./CADD
-    ls  /opt/CADD-scripts-CADD1.6/data/annotations
+    ls -l /opt/CADD-scripts-CADD1.6/data/annotations
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations
     ls -R /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
    
