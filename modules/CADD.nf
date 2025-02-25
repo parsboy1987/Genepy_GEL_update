@@ -12,8 +12,8 @@ process CADD_score {
   
   script:
     """
-    ls ${cadd_}/GRCh38_v1.6
-    ls $PWD/cadd_/*
+    ls ${cadd_}/GRCh38_v1.6/vep
+    ls $PWD/${cadd_}/*
     ls -R $PWD/cadd_/*
     ln -s ${cadd_}/GRCh38_v1.6 /opt/CADD-scripts-CADD1.6/data/annotations/
     ls -R /opt/CADD-scripts-CADD1.6/data/annotations/
