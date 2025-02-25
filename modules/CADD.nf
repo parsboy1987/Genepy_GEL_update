@@ -12,12 +12,12 @@ process CADD_score {
   
   script:
     """
-    ls ${cadd_}/GRCh38_v1.6/vep
+    ls ${cadd_}/v1.6/data/annotations/GRCh38_v1.6/vep
     ##ls $PWD/${cadd_}/*
     ##ls -R $PWD/cadd_/*
    # find ${cadd_} -mindepth 1 -exec bash -c 'ln -s "\$(readlink -f {})" "/opt/CADD-scripts-CADD1.6/data/annotations/\$(basename {})"' \;
     #ln -fs ${cadd_}/* /opt/CADD-scripts-CADD1.6/data/annotations
-    ln -fs ${cadd_}/GRCh38_v1.6 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
+    ln -fs ${cadd_}/v1.6/data/annotations/GRCh38_v1.6 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6/vep
