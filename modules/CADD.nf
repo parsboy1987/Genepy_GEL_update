@@ -21,7 +21,7 @@ process CADD_score {
     cd /opt/CADD-scripts-CADD1.6/data/annotations
     
     ln -fs ${cadd_}/v1.6/data/annotations/ .
-    ln -fs ${cadd_} .
+    ln -fs ${cadd_} ./CADD
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations
     ls  /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
   #  ls -ld /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6/vep
