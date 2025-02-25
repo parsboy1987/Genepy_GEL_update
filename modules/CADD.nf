@@ -12,7 +12,7 @@ process CADD_score {
   
   script:
     """
-    #ls ${cadd_}/v1.6/data/annotations/GRCh38_v1.6/vep
+    ls -l ${cadd_}
     ##ls $PWD/${cadd_}/*
     ##ls -R $PWD/cadd_/*
    # find ${cadd_} -mindepth 1 -exec bash -c 'ln -s "\$(readlink -f {})" "/opt/CADD-scripts-CADD1.6/data/annotations/\$(basename {})"' \;
