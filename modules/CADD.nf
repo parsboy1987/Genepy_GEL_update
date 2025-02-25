@@ -16,11 +16,11 @@ process CADD_score {
     ##ls $PWD/${cadd_}/*
     ##ls -R $PWD/cadd_/*
    # find ${cadd_} -mindepth 1 -exec bash -c 'ln -s "\$(readlink -f {})" "/opt/CADD-scripts-CADD1.6/data/annotations/\$(basename {})"' \;
-    ln -fs ${cadd_}/* /opt/CADD-scripts-CADD1.6/data/annotations/.
+    ln -fs ${cadd_}/* /opt/CADD-scripts-CADD1.6/data/annotations
     ls -ld /opt/CADD-scripts-CADD1.6/data/annotations
 ##ls -ld /opt/CADD-scripts-CADD1.6/data/annotations/
     ls -ld annotations/GRCh38_v1.6
-    ls -R annotations/GRCh38_v1.6/
+    #ls -R annotations/GRCh38_v1.6/
    
    
 #    echo "test"
