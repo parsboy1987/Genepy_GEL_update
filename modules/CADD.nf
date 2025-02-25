@@ -15,7 +15,7 @@ process CADD_score {
     ls -l ${cadd_}
     REAL_PATH=\$(readlink -f ${cadd_}/GRCh38_v1.6)
     REAL_PATH1=\$(readlink -f ${cadd_})
-    echo "$REAL_PATH1"
+    echo "\$REAL_PATH1"
     ln -sf \$REAL_PATH /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     ##ls $PWD/${cadd_}/*
     ##ls -R $PWD/cadd_/*
