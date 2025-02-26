@@ -50,7 +50,11 @@ sch= Channel.fromPath("${params.annotations_cadd}")
          """.stripIndent()
      
 
-        Channel.fromPath("${params.vep_plugins}/*").view()
+        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
+        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
+        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
+        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
+        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
