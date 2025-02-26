@@ -15,8 +15,8 @@ process Pre_processing_2 {
   shell:
     """
     cat ${header_meta} > meta_CADD_head
-    cat ${IBD_gwas.bed} > IBD.bed
-    cat ${Genecode_p50.bed} > p50.bed
+    cat ${IBD_gwas_bed} > IBD.bed
+    cat ${Genecode_p50_bed} > p50.bed
     ## bgzip -c "f5.vcf" > f5.vcf.gz
     bcftools view -h f5.vcf.gz | grep -v "##" | cut -f 10- >p
     ${template("pre_1.sh")}
