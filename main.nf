@@ -49,12 +49,15 @@ sch= Channel.fromPath("${params.annotations_cadd}")
          params.cadd     : ${params.annotations_cadd}
          """.stripIndent()
      
-
-        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
-        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
-        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
-        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
-        vep_plugin = Channel.fromPath("${params.vep_plugins}").view()
+        homos_vep = Channel.fromPath("${params.homos_vep}")
+        vep_plugins = Channel.fromPath("${params.vep_plugins}")
+        header_meta  = Channel.fromPath("${params.header_meta}")
+        genepy_py = Channel.fromPath("${params.genepy_py}")
+        gene_code_bed = Channel.fromPath("${params.gene_code_bed}")
+        templates = Channel.fromPath("${params.templates}")
+        xgen_bed = Channel.fromPath("${params.xgen_bed}")
+        IBD_gwas.bed = Channel.fromPath("${params.IBD_gwas.bed}")
+        Genecode_p50.bed = Channel.fromPath("${params.Genecode_p50.bed}")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
@@ -64,7 +67,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
                       }.view()
       //com_ch= chrx.combine(sch).view()
       CADD_score(chrx,sch)
-      VEP_score(CADD_score.out.pre_proc_1)
+      VEP_score(CADD_score.out.pre_proc_1,homos_vep,vep_plugins,plugin1,plugin2)
 //      Pre_processing_1(VEP_score.out)
 //      Pre_processing_2(Pre_processing_1.out)
 //      Pre_processing_3(Pre_processing_2.out)
