@@ -6,7 +6,8 @@ process Pre_processing_1 {
   
   input:
   tuple path(x), val(vcf_n), file(vcfFile), val(chrx) 
-  
+  path(ethnicity)
+  path(xgen_bed)
   output:
   tuple path("f5.vcf.gz"), val(vcf_n), val(chrx) 
   
@@ -27,12 +28,12 @@ process Pre_processing_1 {
     bcftools filter -S . --include 'FORMAT/DP>=8 & FORMAT/AB>=0.15 |FORMAT/GT="0/0"' -Oz -o f3b.vcf.gz f3.vcf.gz
     tabix -p vcf f3b.vcf.gz
 
-    cat ${params.ethnicity} > ethnicity.txt
+    cat ${ethnicity} > ethnicity.txt
     bcftools +fill-tags f3b.vcf.gz -- -S ethnicity.txt -t 'HWE,F_MISSING' | bcftools view -e '(CHROM=="chrY" & INFO/F_MISSING>=0.56 & INFO/HWE_1>(0.05/15922704))'| bcftools view -i 'INFO/F_MISSING<0.12 & INFO/HWE_1>(0.05/15922704)' -Oz -o f4.vcf.gz
 
     tabix -p vcf f4.vcf.gz
     
-    bcftools view f4.vcf.gz -R ${params.xgen_bed} -Oz -o f5.vcf.gz
+    bcftools view f4.vcf.gz -R ${xgen_bed} -Oz -o f5.vcf.gz
     
     
     """
