@@ -60,6 +60,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
         Genecode_p50_bed = Channel.fromPath("${params.Genecode_p50_bed}")
         plugin1 = Channel.fromPath("${params.plugin1}")
         plugin2 = Channel.fromPath("${params.plugin2}")
+        ethnicity = Channel.fromPath("${params.ethnicity}")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
@@ -70,7 +71,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
       //com_ch= chrx.combine(sch).view()
       CADD_score(chrx,sch)
       VEP_score(CADD_score.out.pre_proc_1,homos_vep,vep_plugins,plugin1,plugin2)
-      Pre_processing_1(VEP_score.out,templates)
+      Pre_processing_1(VEP_score.out,ethnicity,xgen_bed)
 //      Pre_processing_2(Pre_processing_1.out)
 //      Pre_processing_3(Pre_processing_2.out)
 //      
