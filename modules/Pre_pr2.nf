@@ -16,6 +16,7 @@ process Pre_processing_2 {
     """
     REAL_PATH1=\$(readlink -f ${template})
     ls \$REAL_PATH1
+    chmod +x \$REAL_PATH1/pre_1.sh
     cat ${header_meta} > meta_CADD_head
     cat ${IBD_gwas_bed} > IBD.bed
     cat ${Genecode_p50_bed} > p50.bed
