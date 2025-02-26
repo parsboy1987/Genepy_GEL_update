@@ -1,5 +1,5 @@
 process VEP_score {
-   publishDir "${params.output}/${vcf_n}", mode: "copy", overwrite: true
+    publishDir "${params.chr}", mode: "copy", overwrite: true
    //maxForks 10
   label "VEP_score"
   label "process_micro"
