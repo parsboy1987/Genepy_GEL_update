@@ -70,7 +70,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
       //com_ch= chrx.combine(sch).view()
       CADD_score(chrx,sch)
       VEP_score(CADD_score.out.pre_proc_1,homos_vep,vep_plugins,plugin1,plugin2)
-//      Pre_processing_1(VEP_score.out)
+      Pre_processing_1(VEP_score.out,templates)
 //      Pre_processing_2(Pre_processing_1.out)
 //      Pre_processing_3(Pre_processing_2.out)
 //      
