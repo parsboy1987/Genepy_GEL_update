@@ -72,7 +72,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
       CADD_score(chrx,sch)
       VEP_score(CADD_score.out.pre_proc_1,homos_vep,vep_plugins,plugin1,plugin2)
       Pre_processing_1(VEP_score.out,ethnicity,xgen_bed)
-//      Pre_processing_2(Pre_processing_1.out)
+      Pre_processing_2(Pre_processing_1.out,header_meta,IBD_gwas_bed,Genecode_p50_bed)
 //      Pre_processing_3(Pre_processing_2.out)
 //      
 //      def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
