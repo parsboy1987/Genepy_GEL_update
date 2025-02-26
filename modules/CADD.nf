@@ -12,29 +12,8 @@ process CADD_score {
   
   script:
     """
-    ls -l ${cadd_}
-    REAL_PATH=\$(readlink -f ${cadd_}/GRCh38_v1.6)
     REAL_PATH1=\$(readlink -f ${cadd_})
-    echo "\$REAL_PATH1"
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
-    ##ls $PWD/${cadd_}/*
-    ##ls -R $PWD/cadd_/*
-   # find ${cadd_} -mindepth 1 -exec bash -c 'ln -s "\$(readlink -f {})" "/opt/CADD-scripts-CADD1.6/data/annotations/\$(basename {})"' \;
-   # ln -sf ${cadd_} /opt/CADD-scripts-CADD1.6/data/annotations
-   # mkdir -p /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
-   # cd /opt/CADD-scripts-CADD1.6/data/annotations
-    
-   # ln -sf ${cadd_}/v1.6/data/annotations/GRCh38_v1.6/ .
-   # ln -sf ${cadd_} ./CADD
-    ls -l /opt/CADD-scripts-CADD1.6/data/annotations
-    ls  /opt/CADD-scripts-CADD1.6/data/annotations
-   # ls -R /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
-   
-   # ls -ld annotations/GRCh38_v1.6
-    #ls -R annotations/GRCh38_v1.6/
-   
-   
-#    echo "test"
     bcftools view -G ${vcfFile} -Ov -o p1.vcf
     
     awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '3383,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
