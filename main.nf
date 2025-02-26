@@ -56,8 +56,8 @@ sch= Channel.fromPath("${params.annotations_cadd}")
         gene_code_bed = Channel.fromPath("${params.gene_code_bed}")
         templates = Channel.fromPath("${params.templates}")
         xgen_bed = Channel.fromPath("${params.xgen_bed}")
-        IBD_gwas.bed = Channel.fromPath("${params.IBD_gwas.bed}")
-        Genecode_p50.bed = Channel.fromPath("${params.Genecode_p50.bed}")
+        IBD_gwas_bed = Channel.fromPath("${params.IBD_gwas_bed}")
+        Genecode_p50_bed = Channel.fromPath("${params.Genecode_p50_bed}")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
        println "Chromosome list: $chromosomeList"
