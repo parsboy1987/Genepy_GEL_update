@@ -20,7 +20,7 @@ process Pre_processing_3 {
     REAL_PATH1=\$(readlink -f ${template})
     ls \$REAL_PATH1
     cp \$REAL_PATH1/pre_2.sh ./pre_2.sh
-    chmod +x ./pre_1.sh
+    chmod +x ./pre_2.sh
 
 
     region=\$(echo ${vcf_n} | awk -F'[_|.]' '{print \$3"_"\$4}')
