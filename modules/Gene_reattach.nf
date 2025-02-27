@@ -1,5 +1,7 @@
 process Reatt_Genes {
-    publishDir "${params.output}", mode: "copy", overwrite: true
+    publishDir "${params.chr}", mode: "copy", overwrite: true
+    //maxForks 10
+    label "Reatt_Genes"
     label "process_micro"
     input:
     tuple val(cadd),val(chromosome_name),val(folder_paths)
