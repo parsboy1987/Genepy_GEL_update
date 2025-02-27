@@ -19,11 +19,11 @@ process Pre_processing_3 {
     echo "vcf_n: ${vcf_n}"
 
     REAL_PATH1=\$(readlink -f ${template})
-    ls \$REAL_PATH1
+    ##ls \$REAL_PATH1
     cp \$REAL_PATH1/pre_2.sh ./pre_2.sh
     chmod +x ./pre_2.sh
-    cat ${head_meta} > header.meta
-
+    cp ${head_meta} header.meta
+    chmod +x header.meta
     region=\$(echo ${vcf_n} | awk -F'[_|.]' '{print \$3"_"\$4}')
 
     mkdir -p metafiles15_\${region}
