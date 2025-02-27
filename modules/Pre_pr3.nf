@@ -14,12 +14,19 @@ process Pre_processing_3 {
     """
     echo "Processing 3"
     echo "vcf_n: ${vcf_n}"
+
+    REAL_PATH1=\$(readlink -f ${template})
+    ls \$REAL_PATH1
+    cp \$REAL_PATH1/pre_2.sh ./pre_2.sh
+    chmod +x ./pre_1.sh
+
+
     region=\$(echo ${vcf_n} | awk -F'[_|.]' '{print \$3"_"\$4}')
 
     mkdir -p metafiles15_\${region}
     mkdir -p metafiles20_\${region}
     mkdir -p metafilesALL_\${region}
 
-    ${template("pre_2.sh")} \${region}
+    ./pre_2.sh \${region}
     """
 }
