@@ -22,7 +22,7 @@ process Pre_processing_3 {
     cp \$REAL_PATH1/pre_2.sh ./pre_2.sh
     chmod +x ./pre_2.sh
     region=\$(echo ${vcf_n} | awk -F'[_|.]' '{print \$3"_"\$4}')
-    cat ${header.meta}
+    cat ${"header.meta"}
     mkdir -p metafiles15_\${region}
     mkdir -p metafiles20_\${region}
     mkdir -p metafilesALL_\${region}
