@@ -16,12 +16,13 @@ process Pre_processing_2 {
     """
     REAL_PATH1=\$(readlink -f ${template})
     ls \$REAL_PATH1
-    chmod +x \$REAL_PATH1/pre_1.sh
+    cp \$REAL_PATH1/pre_1.sh ./pre_1.sh
+    chmod +x ./pre_1.sh
     cat ${header_meta} > meta_CADD_head
     cat ${IBD_gwas_bed} > IBD.bed
     cat ${Genecode_p50_bed} > p50.bed
     ## bgzip -c "f5.vcf" > f5.vcf.gz
     bcftools view -h f5.vcf.gz | grep -v "##" | cut -f 10- >p
-    \$REAL_PATH1/pre_1.sh
+    ./pre_1.sh
     """
 }
