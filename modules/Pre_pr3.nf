@@ -6,6 +6,7 @@ process Pre_processing_3 {
   input:
   tuple path("c1"), path("c2"), path("c3"), path("c4"),path("c5"),path("c5a"),path("c5b"),path("gene.lst"),path("f5.vcf.gz"),path("header.meta"), val(vcf_n) , val(chrx) 
   path(template)
+  path(head_meta)
   output:
   path("metafiles15_*"), emit: meta_files15
   path("metafiles20_*"), emit: meta_files20
