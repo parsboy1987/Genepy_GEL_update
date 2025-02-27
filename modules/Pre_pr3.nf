@@ -1,6 +1,7 @@
 process Pre_processing_3 {
   publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
+  label "Pre_processing_3"
   label "process_micro"
   input:
   tuple path("c1"), path("c2"), path("c3"), path("c4"),path("c5"),path("c5a"),path("c5b"),path("gene.lst"),path("f5.vcf.gz"),path("header.meta"), val(vcf_n) , val(chrx) 
