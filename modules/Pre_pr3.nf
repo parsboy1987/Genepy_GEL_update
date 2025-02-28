@@ -26,7 +26,7 @@ process Pre_processing_3 {
     mkdir -p metafiles15_\${region}
     mkdir -p metafiles20_\${region}
     mkdir -p metafilesALL_\${region}
-
-    ./pre_2.sh \${region}
+    echo "\$region"
+  ##  ./pre_2.sh \${region}
     """
 }
