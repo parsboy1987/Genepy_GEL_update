@@ -23,11 +23,11 @@ process Pre_processing_3 {
     chmod +x ./pre_2.sh
     VCF_NAME=\$(basename ${vcf_n})
     region=\$(echo \$VCF_NAME | awk -F'[_|.]' '{print \$5"_"\$6}')
-    cat ${"header.meta"}
+    ##cat ${"header.meta"}
     mkdir -p metafiles15_\${region}
     mkdir -p metafiles20_\${region}
     mkdir -p metafilesALL_\${region}
     echo "\$region"
-  ##./pre_2.sh \${region}
+    ./pre_2.sh \${region}
     """
 }
