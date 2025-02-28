@@ -3,7 +3,7 @@
 > meta_CADDALL.txt
 > meta_CADD15.txt
 > meta_CADD20.txt
-region=$1
+##region=$1
 echo "$region"
 cp header.meta meta_CADDALL.txt
 cp header.meta meta_CADD15.txt
