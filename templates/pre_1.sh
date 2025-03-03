@@ -1,4 +1,4 @@
-paste meta_CADD_head p > header.meta
+paste meta_CADD_head p > header_meta
 
 cp header.meta meta_CADDALL.txt
 cp header.meta meta_CADD15.txt
