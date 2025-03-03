@@ -35,6 +35,7 @@ cat c4 | head
 cat c5 | head
 cat gene.lst | head
     ##zcat f5.vcf.gz | grep -v "##" | head 
-    ./pre_2.sh
+cat ./pre_2.sh
+ ##   ./pre_2.sh
     """
 }
