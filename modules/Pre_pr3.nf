@@ -28,6 +28,7 @@ process Pre_processing_3 {
     mkdir -p metafiles20_\${region}
     mkdir -p metafilesALL_\${region}
     echo "\$region"
-    ./pre_2.sh
+    cat \${"f5.vcf.gz"} | grep -v "##" | head 
+    ##./pre_2.sh
     """
 }
