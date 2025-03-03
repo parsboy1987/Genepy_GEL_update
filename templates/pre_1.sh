@@ -1,8 +1,8 @@
 paste meta_CADD_head p > header_meta
 
-cp header.meta meta_CADDALL.txt
-cp header.meta meta_CADD15.txt
-cp header.meta meta_CADD20.txt
+#cp header.meta meta_CADDALL.txt
+#cp header.meta meta_CADD15.txt
+#cp header.meta meta_CADD20.txt
 
 bcftools view -G f5.vcf.gz  -Ov -o p1.vcf
 
