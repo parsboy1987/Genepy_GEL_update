@@ -28,7 +28,13 @@ process Pre_processing_3 {
     mkdir -p metafiles20_\${region}
     mkdir -p metafilesALL_\${region}
     echo "\$region"
+cat c1 | head
+cat c2 | head
+cat c3 | head
+cat c4 | head
+cat c5 | head
+cat gene.lst | head
     ##zcat f5.vcf.gz | grep -v "##" | head 
-    ./pre_2.sh
+  #  ./pre_2.sh
     """
 }
