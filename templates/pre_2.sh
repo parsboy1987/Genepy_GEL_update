@@ -1,10 +1,10 @@
 ###zcat f5.vcf.gz | awk 'BEGIN { OFS="\t" } !/^#/ { for (i = 10; i <= NF; i++) { $i = substr($i, 1, 3) } print }' > c6
 ###awk 'BEGIN { OFS="\t" } !/^#/ { for (i = 10; i <= NF; i++) { $i = substr($i, 1, 3) } print }' f5.vcf > c6
-###> meta_CADDALL.txt
-###> meta_CADD15.txt
-###> meta_CADD20.txt
+> meta_CADDALL.txt
+> meta_CADD15.txt
+> meta_CADD20.txt
 ###region=$1
-echo "this is $region"
+echo "this is ${region}"
 ##cp header_meta meta_CADDALL.txt
 ##cp header_meta meta_CADD15.txt
 ##cp header_meta meta_CADD20.txt
