@@ -29,6 +29,6 @@ process Pre_processing_3 {
     mkdir -p metafilesALL_\${region}
     echo "\$region"
     ##zcat f5.vcf.gz | grep -v "##" | head 
- ./pre_2.sh \$region
+    ./pre_2.sh ${c1} ${c2} ${c3} ${c4} ${c5} ${c5a} ${c5b} ${"gene.lst"} ${"f5.vcf.gz"} ${header_meta} ${vcf_n} ${chrx}  \$region
     """
 }
