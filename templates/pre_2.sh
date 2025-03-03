@@ -3,20 +3,20 @@
 > meta_CADDALL.txt
 > meta_CADD15.txt
 > meta_CADD20.txt
-##region=$1
-c1=$1 
-c2=$2 
-c3=$3
-c4=$4
-c5=$5
-c5a=$6 
-c5b=$7 
-gene.lst=$8 
-f5.vcf.gz=$9 
-header_meta=$10
-vcf_n=$11 
-chrx=$12 
-region=$13
+region=$1
+#c1=$1 
+#c2=$2 
+#c3=$3
+#c4=$4
+#c5=$5
+#c5a=$6 
+#c5b=$7 
+#gene.lst=$8 
+#f5.vcf.gz=$9 
+#header_meta=$10
+#vcf_n=$11 
+#chrx=$12 
+#region=$13
 ##echo "this is ${region}"
 cat gene.lst | head
 cp header_meta meta_CADDALL.txt
