@@ -23,7 +23,8 @@ cp header_meta meta_CADDALL.txt
 cp header_meta meta_CADD15.txt
 cp header_meta meta_CADD20.txt
 echo "Header copied!"
-zcat f5.vcf.gz | grep -v '#'| cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
+zcat f5.vcf.gz | grep -v "#" | head | cut -f 1-10
+#zcat f5.vcf.gz | grep -v '#'| cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
 echo "c6 just created!"
 
 ##merge;
