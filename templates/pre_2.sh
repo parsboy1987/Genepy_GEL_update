@@ -13,10 +13,10 @@ zgrep -v '#' f5.vcf.gz | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i
 echo "c6 just created!"
 
 ##merge;
-paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
-paste c1 c2 c3 c4 c5a c6 >> meta_CADD15.txt
-paste c1 c2 c3 c4 c5b c6 >> meta_CADD20.txt
-echo "C1 to C6 copied!"
+#paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
+#paste c1 c2 c3 c4 c5a c6 >> meta_CADD15.txt
+#paste c1 c2 c3 c4 c5b c6 >> meta_CADD20.txt
+#echo "C1 to C6 copied!"
 
 
 
