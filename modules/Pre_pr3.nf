@@ -24,8 +24,6 @@ process Pre_processing_3 {
     chmod +x ./pre_2.sh
     VCF_NAME=\$(basename ${vcf_n})
     region=\$(echo \$VCF_NAME | awk -F'[_|.]' '{print \$5"_"\$6}')
-  
-##############################################
-  ./pre_2.sh \$region \$f5_vcf_gz
+    ./pre_2.sh \$region
     """
 }
