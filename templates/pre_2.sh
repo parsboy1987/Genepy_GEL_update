@@ -4,6 +4,10 @@
 > meta_CADD15.txt
 > meta_CADD20.txt
 region=$1
+mkdir -p "metafiles15_${region}"
+mkdir -p "metafiles20_${region}"
+mkdir -p "metafilesALL_${region}"
+
 cp header_meta meta_CADDALL.txt
 cp header_meta meta_CADD15.txt
 cp header_meta meta_CADD20.txt
