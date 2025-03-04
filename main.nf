@@ -90,7 +90,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
             [path, chromosome, cadd_score]
         }
       result.view()
-//      Genepy_score(result)
+      Genepy_score(result,genepy_py)
 
 }
 
