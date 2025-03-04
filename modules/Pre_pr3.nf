@@ -11,7 +11,7 @@ process Pre_processing_3 {
   //path("metafiles20_*"), emit: meta_files20
   //path("metafilesALL_*"), emit: meta_filesALL
   file("f5.vcf")
-  file("c6")
+  //file("c6")
   
   shell:
     """
