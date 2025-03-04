@@ -7,12 +7,12 @@ process Pre_processing_3 {
   tuple file("c1"), file("c2"), file("c3"), file("c4"),file("c5"),file("c5a"),file("c5b"),file("gene.lst"),file("f5.vcf.gz"),file("header_meta"), val(vcf_n) , val(chrx) 
   path(template)
   output:
-  //path("metafiles15_*"), emit: meta_files15
-  //path("metafiles20_*"), emit: meta_files20
-  //path("metafilesALL_*"), emit: meta_filesALL
-  file("f5.vcf")
-  file("c6")
-  file("meta_CADDALL.txt")
+  path("metafiles15_*"), emit: meta_files15
+  path("metafiles20_*"), emit: meta_files20
+  path("metafilesALL_*"), emit: meta_filesALL
+  //file("f5.vcf")
+  //file("c6")
+  //file("meta_CADDALL.txt")
   shell:
     """
     echo "Processing 3"
