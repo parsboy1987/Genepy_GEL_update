@@ -24,20 +24,9 @@ process Pre_processing_3 {
     chmod +x ./pre_2.sh
     VCF_NAME=\$(basename ${vcf_n})
     region=\$(echo \$VCF_NAME | awk -F'[_|.]' '{print \$5"_"\$6}')
+    f5_vcf_gz=\$(readlink -f ${"f5.vcf.gz")
 ##############################################
-mkdir -p metafiles15_\$region
-mkdir -p metafiles20_\$region
-mkdir -p metafilesALL_\$region
-
-cp header_meta meta_CADDALL.txt
-cp header_meta meta_CADD15.txt
-cp header_meta meta_CADD20.txt
-#zcat f5.vcf.gz | grep -v "#"| cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
-#bcftools view f5.vcf.gz | grep -v "#" | head -n 100 | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' > c6
-bcftools view f5.vcf.gz | grep -v "#" > f5.vcf
-cat f5.vcf | cut -f 10- | awk -F"\\t" '{OFS=FS}{for(i=1;i<=NF;i++) \$i=substr(\$i,1,3)}1' > c6
-echo "c6 just created!"
 ##############################################
-   ## ./pre_2.sh \$region
+  ./pre_2.sh \$region \$f5_vcf_gz
     """
 }
