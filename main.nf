@@ -82,7 +82,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
       Reatt_Genes.out.path_.view()
     //  def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
     //        path1 = path.toString()
-             println "path: $path1"
+    //         println "path: $path1"
      //       def chromosome = (path1 =~ /chr([1-9]|1[0-9]|2[0-4])\b/)[0][0]
      //       def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
      //                        (path1.contains('metafiles20')) ? '20' :
