@@ -74,11 +74,11 @@ sch= Channel.fromPath("${params.annotations_cadd}")
       Pre_processing_1(VEP_score.out,ethnicity,xgen_bed)
       Pre_processing_2(Pre_processing_1.out,header_meta,IBD_gwas_bed,Genecode_p50_bed,templates)
       Pre_processing_3(Pre_processing_2.out,templates)     
-  //    def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
-  //    def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
-  //    def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
-  //    x_combo= meta15.concat(meta20).concat(metaALL).view()
-  //    Reatt_Genes(x_combo)
+      def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
+      def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
+      def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
+      x_combo= meta15.concat(meta20).concat(metaALL).view()
+      Reatt_Genes(x_combo)
   //    def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
   //          path1 = path.toString()
   //          def chromosome = (path1 =~ /chr([1-9]|1[0-9]|2[0-4])\b/)[0][0]
