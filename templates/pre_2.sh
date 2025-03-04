@@ -9,7 +9,8 @@ cp header_meta meta_CADD15.txt
 cp header_meta meta_CADD20.txt
 #zcat f5.vcf.gz | grep -v "#"| cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
 #bcftools view f5.vcf.gz | grep -v "#" | head -n 100 | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' > c6
-bcftools view f5.vcf.gz | grep -v "#" | head -n 100 > f5.vcf
+bcftools view f5.vcf.gz | grep -v "#" > f5.vcf
+cat f5.vcf | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' > c6
 echo "c6 just created!"
 
 ##merge;
