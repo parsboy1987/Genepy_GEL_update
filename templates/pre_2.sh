@@ -4,6 +4,7 @@
 > meta_CADD15.txt
 > meta_CADD20.txt
 region=$1
+f5.vcf.gz=$2
 mkdir -p "metafiles15_${region}"
 mkdir -p "metafiles20_${region}"
 mkdir -p "metafilesALL_${region}"
