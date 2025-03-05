@@ -15,9 +15,7 @@ process Genepy_score {
     """
 
     Genepy=\$(readlink -f ${genepy})
-    cp \$Genepy ./genepy.py
-    chmod +x ./genepy.py
     echo "${path[0]}"
-    python -u ./genepy.py "${path[0]}"
+    python -u \$Genepy "${path[0]}"
     """
 }
