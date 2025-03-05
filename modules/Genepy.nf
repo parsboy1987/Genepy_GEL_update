@@ -6,13 +6,15 @@ process Genepy_score {
     
     input:
     tuple val(path),val(chr),val(cadd)
-    //path(genepy) 
+    path(genepy) 
+
     output:
     path("*.txt"),optional: true
 
     script:
     """
-    ##echo "Path: ${path[0]}, Chromosome: ${chr}, CADD Score: ${cadd}"
-    python -u "${params.genepy_py}" "${path[0]}"
+    Genepy=\$(readlink -f ${genepy})
+    echo "\$Genepy"
+    python -u "\$Genepy" "${path[0]}"
     """
 }
