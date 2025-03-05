@@ -5,14 +5,14 @@ process Reatt_Genes {
     label "process_micro"
     input:
     tuple val(cadd),val(chromosome_name),val(folder_paths)
-
+    tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
     output:
     path("*.lstx"), emit: path_
     shell:
     """
     echo "start"
+    
     OUTPUT_FOLDER="metafiles${cadd}"
-    mkdir -p "\$OUTPUT_FOLDER"
     FINAL_LIST="${chromosome_name}_${cadd}_final.lst"
     > "\$FINAL_LIST"
 
