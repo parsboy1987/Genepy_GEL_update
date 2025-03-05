@@ -10,6 +10,7 @@ process Pre_processing_3 {
   path("metafiles15_*"), emit: meta_files15
   path("metafiles20_*"), emit: meta_files20
   path("metafilesALL_*"), emit: meta_filesALL
+  tuple path("metafilesALL"),path("metafiles15"),path("metafiles20), emit: folders
   //file("f5.vcf")
   //file("c6")
   //file("meta_CADDALL.txt")
@@ -24,6 +25,9 @@ process Pre_processing_3 {
     chmod +x ./pre_2.sh
     VCF_NAME=\$(basename ${vcf_n})
     region=\$(echo \$VCF_NAME | awk -F'[_|.]' '{print \$5"_"\$6}')
+    mkdir -p metafilesALL
+    mkdir -p metafiles15
+    mkdir -p metafiles20
     ./pre_2.sh \$region
     """
 }
