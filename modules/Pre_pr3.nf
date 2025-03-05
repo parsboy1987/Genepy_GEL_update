@@ -10,7 +10,7 @@ process Pre_processing_3 {
   path("metafiles15_*"), emit: meta_files15
   path("metafiles20_*"), emit: meta_files20
   path("metafilesALL_*"), emit: meta_filesALL
-  tuple path("metafilesALL"),path("metafiles15"),path("metafiles20), emit: folders
+  tuple path("metafilesALL"),path("metafiles15"),path("metafiles20"), emit: folders
   //file("f5.vcf")
   //file("c6")
   //file("meta_CADDALL.txt")
