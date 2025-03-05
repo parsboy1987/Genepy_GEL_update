@@ -11,6 +11,7 @@ process Reatt_Genes {
 
     shell:
     """
+    echo "start"
     OUTPUT_FOLDER="metafiles${cadd}"
     mkdir -p "\$OUTPUT_FOLDER"
     FINAL_LIST="${chromosome_name}_${cadd}_final.lst"
