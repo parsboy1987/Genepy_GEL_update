@@ -1,4 +1,4 @@
-#!/opt/conda/envs/drop/bin/python3.10
+#!/bin/python3.10
 # -*- coding: utf-8 -*-
 import sys
 #sys.path.append("/drop/.local/lib/python3.10/site-packages")
@@ -190,7 +190,7 @@ def is_file_empty_or_header_only(file_path):
         # Read only the first two lines
         df = pd.read_csv(file_path, sep='\t', nrows=2)
         
-        # Check if there’s only a header or fewer than expected columns
+        # Check if thereâ€™s only a header or fewer than expected columns
         if df.shape[0] < 1:
             print(f"No data after header in file: {file_path}")
             return True
