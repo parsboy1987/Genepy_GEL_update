@@ -11,7 +11,7 @@ process Genepy_score {
     output:
     path("*.txt"),optional: true
 
-    script:
+    shell:
     """
 
     Genepy=\$(readlink -f ${genepy})
