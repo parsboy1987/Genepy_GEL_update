@@ -79,17 +79,17 @@ sch= Channel.fromPath("${params.annotations_cadd}")
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_.view()
-     // def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
-     //       path1 = path.toString()
-     //        println "path: $path1"
-    //        def chromosome =  chromosomeList
-     //       def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-     //                        (path1.contains('metafiles20')) ? '20' :
-     //                        (path1.contains('metafiles15')) ? '15' : 'ALL'
-     //       [path, chromosome, cadd_score]
-     //   }
-     // result.view()
+      //Reatt_Genes.out.path_.view()
+      def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
+            path1 = path.toString()
+             println "path: $path1"
+            def chromosome =  chromosomeList
+            def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+                             (path1.contains('metafiles20')) ? '20' :
+                             (path1.contains('metafiles15')) ? '15' : 'ALL'
+            [path, chromosome, cadd_score]
+        }
+      result.view()
      // Genepy_score(result,genepy_py)
 
 }
