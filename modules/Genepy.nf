@@ -13,7 +13,9 @@ process Genepy_score {
 
     script:
     """
+
     Genepy=\$(readlink -f ${genepy})
+    echo "${path[0]}"
     echo "\$Genepy"
     python -u "\$Genepy" "${path[0]}"
     """
