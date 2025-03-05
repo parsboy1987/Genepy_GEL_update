@@ -8,7 +8,7 @@ process Reatt_Genes {
 
     output:
     path("*.lstx"), emit: path_
-
+    path("metafiles${cadd}")
     shell:
     """
     echo "start"
