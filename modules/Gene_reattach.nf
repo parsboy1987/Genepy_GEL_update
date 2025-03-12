@@ -64,10 +64,15 @@ process Reatt_Genes {
         realpath "\$OUTPUT_FOLDER" >> "\$FINAL_LIST"
     fi
     
-    while IFS= read -r line; do
+ ##   while IFS= read -r line; do
+ ##       base_name=\$(basename "\$line")
+ ##       echo "\$line" > "\$base_name".lstx
+ ##   done < "\$FINAL_LIST"
+   while IFS= read -r line; do
+    if [ -s "\$line" ]; then  # Check if the file is not empty
         base_name=\$(basename "\$line")
-        echo "\$line" > "\$base_name".lstx
-    done < "\$FINAL_LIST"
-    
+        echo "\$line" > "\$base_name.lstx"  # Write the line to output file
+    fi
+    done < "\$FINAL_LIST" 
     """
 }
