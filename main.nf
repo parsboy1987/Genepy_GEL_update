@@ -87,7 +87,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
             def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
                              (path1.contains('metafiles20')) ? '20' :
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
-            [path, chromosome, cadd_score].flatten()
+            [path, chromosome, cadd_score]
         }
       result.view()
       Genepy_score(result,genepy_py)
