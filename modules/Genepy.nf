@@ -20,6 +20,11 @@ process Genepy_score {
     cp \$Genepy ./gp.py
     chmod +x ./gp.py
     echo ${path1}
-    python -u ./gp.py ${path1}
+    for file in ${path1}/*; do
+        if [ -f "\$file" ]; then
+            echo "Processing file: \$file"
+            python -u ./gp.py "\$file"
+        fi
+    done
     """
 }
