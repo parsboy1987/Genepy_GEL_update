@@ -204,7 +204,25 @@ def is_file_empty_or_header_only(file_path):
     print(f"correct file {file_path}")
     return False
     
-     
+ def read_head(file_path, n=10):
+    """
+    Read the first n lines of a file.
+    
+    Args:
+        file_path (str): Path to the text file.
+        n (int): Number of lines to read (default is 10).
+    
+    Returns:
+        list: List of the first n lines.
+    """
+    head_lines = []
+    with open(file_path, 'r') as file:
+        for i, line in enumerate(file):
+            if i >= n:
+                break
+            head_lines.append(line.strip())  # strip() removes trailing newlines
+    return head_lines
+ 
 files_with_paths = sys.argv[1]
 gene=files_with_paths
 file_name = os.path.basename(gene)
@@ -215,6 +233,8 @@ if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     if is_file_empty_or_header_only(gene):
         print(f"Skipping empty file: {gene}")
         ## continue
+    head_content = read_head(files_with_paths, n=5)  # Read first 5 lines
+    print(head_content)
     gpu=0
     meta_file = gene
     # Extract gene list from the file
