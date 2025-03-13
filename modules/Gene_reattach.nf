@@ -7,8 +7,8 @@ process Reatt_Genes {
     tuple val(cadd),val(chromosome_name),val(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
     output:
-    val(folder_paths)
-    val("metafiles${cadd}")
+    tuple val(folder_paths),val("metafiles${cadd}")
+    
     shell:
     """
     echo "start"
