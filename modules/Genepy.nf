@@ -19,7 +19,7 @@ process Genepy_score {
     ls ${path1[0]}
     cp \$Genepy ./gp.py
     chmod +x ./gp.py
-    echo "${path1[0]}"
-    python -u ./gp.py "${path1[0]}"
+    echo ${path1[0]}
+    python -u ./gp.py ${path1[0]}
     """
 }
