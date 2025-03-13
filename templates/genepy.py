@@ -206,29 +206,30 @@ def is_file_empty_or_header_only(file_path):
     
      
 files_with_paths = sys.argv[1]
-for gene in files_with_paths:
-    file_name = os.path.basename(gene)
-    if file_name.startswith("ENSG") and file_name.endswith('.meta'):
-        print(file_name)
+gene=files_with_paths
+file_name = os.path.basename(gene)
+print(file_name)
+if file_name.startswith("ENSG") and file_name.endswith('.meta'):
+    print(file_name)
 ##    if is_file_empty(gene):
-        if is_file_empty_or_header_only(gene):
-            print(f"Skipping empty file: {gene}")
-            continue
-        gpu=0
-        meta_file = gene
-        # Extract gene list from the file
-        data = read_meta_file(filepath=meta_file)
-        scores, af, data, samples_header = format_data(data=data)
-        #print(f"Gene list from {file_name}:")
-        if (np.isnan(scores).sum()) < (
-           scores.shape[0]):  # compute metascores if at least 1 variant
-           U1 = score_db(
-                        samples=data,
-                        scores=scores,
-                        af=af,
-                        gpu=gpu,
-                        gpu_threads_per_block=0)
-    
-           np.savetxt(file_name+ ".txt", U1, fmt="%s", delimiter="\t")
-           del data, scores, af, samples_header
-           gc.collect()
+    if is_file_empty_or_header_only(gene):
+        print(f"Skipping empty file: {gene}")
+        ## continue
+    gpu=0
+    meta_file = gene
+    # Extract gene list from the file
+    data = read_meta_file(filepath=meta_file)
+    scores, af, data, samples_header = format_data(data=data)
+    #print(f"Gene list from {file_name}:")
+    if (np.isnan(scores).sum()) < (
+       scores.shape[0]):  # compute metascores if at least 1 variant
+       U1 = score_db(
+                    samples=data,
+                    scores=scores,
+                    af=af,
+                    gpu=gpu,
+                    gpu_threads_per_block=0)
+
+       np.savetxt(file_name+ ".txt", U1, fmt="%s", delimiter="\t")
+       del data, scores, af, samples_header
+       gc.collect()
