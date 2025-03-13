@@ -205,55 +205,30 @@ def is_file_empty_or_header_only(file_path):
     return False
     
      
-directory1 = sys.argv[1]
-#print(directory1)
-with open(directory1, 'r') as f:
-    folder_paths = [line.strip() for line in f if line.strip()]  # Remove whitespace and ignore empty lines
-print(folder_paths)
-# Initialize a list to store all file paths
-files_with_paths = []
+gene = sys.argv[1]
 
-# Iterate through each folder path
-for folder_path in folder_paths:
-    # Check if the folder path exists and is a directory
-    if os.path.isdir(folder_path):
-        # Get all file paths in the directory
-        files_in_folder = [
-            os.path.join(folder_path, file)
-            for file in os.listdir(folder_path)
-            if os.path.isfile(os.path.join(folder_path, file))
-            
-        ]
-        # Extend the main list with files from the current folder
-        files_with_paths.extend(files_in_folder)
-    else:
-        print(f"Warning: {folder_path} is not a valid directory.")
-##directory = os.path.splitext(directory1)[0]
-print(files_with_paths)
-#files_with_paths = [os.path.join(directory, file) for file in os.listdir(directory) if os.path.isfile(os.path.join(directory, file))]
-for gene in files_with_paths:
-    file_name = os.path.basename(gene)
-    if file_name.startswith("ENSG") and file_name.endswith('.meta'):
-        print(file_name)
+file_name = gene
+if file_name.startswith("ENSG") and file_name.endswith('.meta'):
+    print(file_name)
 ##    if is_file_empty(gene):
-        if is_file_empty_or_header_only(gene):
-            print(f"Skipping empty file: {gene}")
-            continue
-        gpu=0
-        meta_file = gene
-        # Extract gene list from the file
-        data = read_meta_file(filepath=meta_file)
-        scores, af, data, samples_header = format_data(data=data)
-        #print(f"Gene list from {file_name}:")
-        if (np.isnan(scores).sum()) < (
-           scores.shape[0]):  # compute metascores if at least 1 variant
-           U1 = score_db(
-                        samples=data,
-                        scores=scores,
-                        af=af,
-                        gpu=gpu,
-                        gpu_threads_per_block=0)
+    if is_file_empty_or_header_only(gene):
+        print(f"Skipping empty file: {gene}")
+        continue
+    gpu=0
+    meta_file = gene
+    # Extract gene list from the file
+    data = read_meta_file(filepath=meta_file)
+    scores, af, data, samples_header = format_data(data=data)
+    #print(f"Gene list from {file_name}:")
+    if (np.isnan(scores).sum()) < (
+       scores.shape[0]):  # compute metascores if at least 1 variant
+       U1 = score_db(
+                    samples=data,
+                    scores=scores,
+                    af=af,
+                    gpu=gpu,
+                    gpu_threads_per_block=0)
 
-           np.savetxt(file_name+ ".txt", U1, fmt="%s", delimiter="\t")
-           del data, scores, af, samples_header
-           gc.collect()
+       np.savetxt(file_name+ ".txt", U1, fmt="%s", delimiter="\t")
+       del data, scores, af, samples_header
+       gc.collect()
