@@ -205,7 +205,7 @@ def is_file_empty_or_header_only(file_path):
     return False
     
      
-gene = sys.argv[1]
+files_with_paths = sys.argv[1]
 for gene in files_with_paths:
     file_name = os.path.basename(gene)
     if file_name.startswith("ENSG") and file_name.endswith('.meta'):
