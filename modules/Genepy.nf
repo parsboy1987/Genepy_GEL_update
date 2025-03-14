@@ -5,8 +5,8 @@ process Genepy_score {
     label "process_large"
     
     input:
-    tuple path(path1),val(chr),val(cadd)
-    path(genepy) 
+    tuple path(path1),val(chr),val(cadd),path(genepy)
+    // path(genepy) 
 
     output:
     path("*.txt"),optional: true
