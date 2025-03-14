@@ -1,3 +1,4 @@
+
 #!/bin/python3.10
 # -*- coding: utf-8 -*-
 import sys
@@ -204,7 +205,7 @@ def is_file_empty_or_header_only(file_path):
     print(f"correct file {file_path}")
     return False
     
- def read_head(file_path, n=10):
+def read_head(file_path, n=10):
     """
     Read the first n lines of a file.
     
