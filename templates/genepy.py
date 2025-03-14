@@ -234,8 +234,8 @@ if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     if is_file_empty_or_header_only(gene):
         print(f"Skipping empty file: {gene}")
         ## continue
-    head_content = read_head(files_with_paths, n=5)  # Read first 5 lines
-    print(head_content)
+   ## head_content = read_head(files_with_paths, n=5)  # Read first 5 lines
+   ## print(head_content)
     gpu=0
     meta_file = gene
     # Extract gene list from the file
