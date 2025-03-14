@@ -230,6 +230,7 @@ file_name = os.path.basename(gene)
 print(file_name)
 if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     print(file_name)
+    
 ##    if is_file_empty(gene):
     if is_file_empty_or_header_only(gene):
         print(f"Skipping empty file: {gene}")
@@ -240,6 +241,10 @@ if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     meta_file = gene
     # Extract gene list from the file
     data = read_meta_file(filepath=meta_file)
+    header_data = data.iloc[:10, :10]
+
+# Display the extracted data
+    print(header_data)
     scores, af, data, samples_header = format_data(data=data)
     #print(f"Gene list from {file_name}:")
     if (np.isnan(scores).sum()) < (
