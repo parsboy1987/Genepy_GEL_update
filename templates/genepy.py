@@ -30,11 +30,11 @@ def read_meta_file(filepath: str) -> pd.DataFrame:
 def get_scores(data: np.array) -> np.array:
     ##cadd score; reformat CADD range to 0-1
     ## the UKBB 200k cohort raw variant has CADD16 ranges from -18.793437 to 19.100986 including the prescore and permutated score (GRCh38_v1.6;VEP 100_GRCh38)
-    scores = data[:, 16:25]
+    scores = data.iloc[:, 16:25]
     scores = scores.astype("float")
     scores = (scores - (-19.811548)) / (25.028523 - (-19.811548))
     scores[np.isnan(scores)] = 0
-    s0 = scores[:, 0]
+    s0 = scores.iloc[:, 0]
     scores = np.insert(scores, 0, s0, axis=1)
     scores[np.isnan(scores)] = 0
 
@@ -42,7 +42,7 @@ def get_scores(data: np.array) -> np.array:
 
 def get_allele_freq(data: np.array) -> np.array:
     ##allele frequency as it is in the UKBB cohort; this is currently based on the raw pVCF data.
-    af = data[:, 6:15]
+    af = data.iloc[:, 6:15]
     af = af.astype("float")
     ##the ref allele frequency
     af0 = 1 - np.nansum(af, axis=1)
@@ -59,7 +59,7 @@ def format_data(data: pd.DataFrame) -> Tuple[np.array, np.array, np.array, np.ar
     scores = get_scores(data=data)
     af = get_allele_freq(data=data)
     samples_header = header[26:]
-    samples = data[:, 26:]
+    samples = data.iloc[:, 26:]
     samples[samples == "0"] = "0/0"
     samples = samples.astype("str")
 
