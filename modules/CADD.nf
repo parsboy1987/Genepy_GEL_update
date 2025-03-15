@@ -22,7 +22,7 @@ process CADD_score {
     ##bgzip wes1_${chrx}.tsv
     tabix -p vcf wes_${chrx}.tsv.gz
    ##bcftools filter -i 'PHRED >= 15' wes1_${chrx}.tsv.gz -Oz -o wes_${chrx}.tsv.gz
-   ##tabix -p vcf wes_${chrx}.tsv.gz
+   #tabix -p vcf wes_${chrx}.tsv.gz
     
     """
 }
