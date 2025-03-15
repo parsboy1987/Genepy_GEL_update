@@ -113,6 +113,6 @@ perl -F'\t' -ane 'for(@F){$_="" if $_ ne "" && $_ < 2.097252}; print join("\t", 
 #    print
 #}' > c6
 
-rm p1* alt_re order*
+#rm p1* alt_re order*
 
 #rm k j
