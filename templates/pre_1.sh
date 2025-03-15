@@ -1,3 +1,4 @@
+#!/bin/bash
 paste meta_CADD_head p > header_meta
 
 #cp header.meta meta_CADDALL.txt
