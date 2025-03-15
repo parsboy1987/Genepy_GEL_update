@@ -12,7 +12,7 @@ process Pre_processing_2 {
   output:
   tuple file("c1"), file("c2"), file("c3"), file("c4"),file("c5"),file("c5a"),file("c5b"),file("gene.lst"),file("f5.vcf.gz"),file("header_meta"), val(vcf_n) , val(chrx) ,emit: main 
   file(c_u)
-  file(p1*)
+  tuple file(p1_s),file(p1_1),file(p1_order),file(p1_2)
   file(c1a)
   shell:
     """
