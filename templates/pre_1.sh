@@ -89,19 +89,19 @@ cut -f 3 -d';' c_u | awk -F"|" '{OFS="\t"}{if ($5>0) print$6,$15,$24,$33,$42,$51
 
 
 ##raw_score_all
-#####cut -f 3 -d';' c_u |awk -F"|" '{OFS="\t"}{print$9,$18,$27,$36,$45,$54,$63,$72,$81,$90}' >c5
+cut -f 3 -d';' c_u |awk -F"|" '{OFS="\t"}{print$9,$18,$27,$36,$45,$54,$63,$72,$81,$90}' >c5
 
 ##phred_score >=15, which set smaller scores as 0
-######awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<1.387112){$i="";}}1' c5 >c5a
+awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<1.387112){$i="";}}1' c5 >c5a
 
 ##phred_score >=20
-######awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<2.097252){$i="";}}1' c5 >c5b
+wk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<2.097252){$i="";}}1' c5 >c5b
 # Step 1: Extract the 3rd field (semicolon-separated) and select specific subfields
-perl -F';' -ane 'print join("\t", (split(/\|/, $F[2]))[8,17,26,35,44,53,62,71,80,89]), "\n"' c_u > c5
+###perl -F';' -ane 'print join("\t", (split(/\|/, $F[2]))[8,17,26,35,44,53,62,71,80,89]), "\n"' c_u > c5
 
 # Step 2: Apply Phred score filters
-perl -F'\t' -ane 'for(@F){$_="" if $_ ne "" && $_ < 1.387112}; print join("\t", @F), "\n"' c5 > c5a
-perl -F'\t' -ane 'for(@F){$_="" if $_ ne "" && $_ < 2.097252}; print join("\t", @F), "\n"' c5 > c5b
+###perl -F'\t' -ane 'for(@F){$_="" if $_ ne "" && $_ < 1.387112}; print join("\t", @F), "\n"' c5 > c5a
+###perl -F'\t' -ane 'for(@F){$_="" if $_ ne "" && $_ < 2.097252}; print join("\t", @F), "\n"' c5 > c5b
 
 ##genotype
 ##zgrep -v '#' f5.vcf.gz | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
@@ -114,6 +114,6 @@ perl -F'\t' -ane 'for(@F){$_="" if $_ ne "" && $_ < 2.097252}; print join("\t", 
 #    print
 #}' > c6
 
-#rm p1* alt_re order*
+rm p1* alt_re order*
 
 #rm k j
