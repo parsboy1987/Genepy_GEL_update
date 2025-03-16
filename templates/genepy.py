@@ -58,7 +58,7 @@ def format_data(data: pd.DataFrame) -> Tuple[np.array, np.array, np.array, np.ar
     scores = get_scores(data=data)
     af = get_allele_freq(data=data)
     samples_header = header[26:]
-    samples = data.iloc[:, 26:]
+    samples = data[:, 26:]
     samples[samples == "0"] = "0/0"
     samples = samples.astype("str")
 
@@ -240,7 +240,7 @@ if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     meta_file = gene
     # Extract gene list from the file
     data = read_meta_file(filepath=meta_file)
-    header_data = data.iloc[:10, :10]
+    ##header_data = data.iloc[:10, :10]
 
 # Display the extracted data
     print(header_data)
