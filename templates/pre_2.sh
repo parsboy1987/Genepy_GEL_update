@@ -13,11 +13,11 @@ mkdir -p "metafilesALL_${region}"
 cp header_meta meta_CADDALL.txt
 cp header_meta meta_CADD15.txt
 cp header_meta meta_CADD20.txt
-#zcat f5.vcf.gz | grep -v "#"| cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
+zgrep  -v "#" f5.vcf.gz| cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
 #bcftools view f5.vcf.gz | grep -v "#" | head -n 100 | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' > c6
-bcftools view f5.vcf.gz | grep -v "#" > f5.vcf
+#bcftools view f5.vcf.gz | grep -v "#" > f5.vcf
 #cat f5.vcf | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' > c6
-perl -lane '$,="\t"; print @F[0..8], map { substr($_,0,3) } @F[9..$#F]' f5.vcf > c6
+#perl -lane '$,="\t"; print @F[0..8], map { substr($_,0,3) } @F[9..$#F]' f5.vcf > c6
 
 ##merge;
 paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
