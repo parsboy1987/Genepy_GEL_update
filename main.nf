@@ -64,6 +64,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
         ethnicity = Channel.fromPath("${params.ethnicity}")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
+       println "params.gnomad_add"
        println "Chromosome list: $chromosomeList"
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
@@ -71,7 +72,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
                       }.view()
       //com_ch= chrx.combine(sch).view()
       CADD_score(chrx,sch)
-      VEP_score(CADD_score.out.pre_proc_1,homos_vep,params.vep_plugins,params.plugin1,params.plugin2,gnomad_add)
+  //    VEP_score(CADD_score.out.pre_proc_1,homos_vep,params.vep_plugins,params.plugin1,params.plugin2,gnomad_add)
  //     Pre_processing_1(VEP_score.out,ethnicity,xgen_bed)
  //     Pre_processing_2(Pre_processing_1.out,header_meta,IBD_gwas_bed,Genecode_p50_bed,templates)
  //     Pre_processing_3(Pre_processing_2.out.main,templates)     
