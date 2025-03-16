@@ -11,8 +11,8 @@ process VEP_score {
   path(vep_plugins)
   path(plugin1)
   path(plugin2)
-  path(gnomad_indx1)
-  path(gnomad_indx2)
+  path(genomad_indx1)
+  path(genomad_indx2)
   
   output:
    tuple path("${chrx}.p1.vep.vcf"), val(vcf_n), file(vcfFile), val(chrx) ,emit: vep_out
