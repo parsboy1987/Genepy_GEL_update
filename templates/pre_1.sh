@@ -95,7 +95,7 @@ cut -f 3 -d';' c_u |awk -F"|" '{OFS="\t"}{print$9,$18,$27,$36,$45,$54,$63,$72,$8
 awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<1.387112){$i="";}}1' c5 >c5a
 
 ##phred_score >=20
-wk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<2.097252){$i="";}}1' c5 >c5b
+awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<2.097252){$i="";}}1' c5 >c5b
 # Step 1: Extract the 3rd field (semicolon-separated) and select specific subfields
 ###perl -F';' -ane 'print join("\t", (split(/\|/, $F[2]))[8,17,26,35,44,53,62,71,80,89]), "\n"' c_u > c5
 
