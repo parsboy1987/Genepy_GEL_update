@@ -1,6 +1,6 @@
 process CADD_score {
   label "CADD_score"
-  label "process_micro"
+  label "process_medium"
   publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   input:
