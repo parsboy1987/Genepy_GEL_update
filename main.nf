@@ -68,10 +68,10 @@ sch= Channel.fromPath("${params.annotations_cadd}")
        println "Chromosome list: $chromosomeList"
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
-                      return [chromosomeList,filename,file]       // Returns a tuple with [full path, base filename]
+                      return [chromosomeList,filename,file,"${params.annotations_cadd}"]       // Returns a tuple with [full path, base filename]
                       }.view()
       //com_ch= chrx.combine(sch).view()
-      CADD_score(chrx,sch)
+      CADD_score(chrx)
       VEP_score(CADD_score.out.pre_proc_1,homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
       Pre_processing_1(VEP_score.out,ethnicity,xgen_bed)
       Pre_processing_2(Pre_processing_1.out,header_meta,IBD_gwas_bed,Genecode_p50_bed,templates)
