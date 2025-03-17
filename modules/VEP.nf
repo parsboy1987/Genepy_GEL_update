@@ -2,7 +2,7 @@ process VEP_score {
     publishDir "${params.chr}", mode: "copy", overwrite: true
    //maxForks 10
   label "VEP_score"
-  label "process_micro"
+  label "process_large"
 
   
   input:
