@@ -243,7 +243,7 @@ if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     ##header_data = data.iloc[:10, :10]
 
 # Display the extracted data
-    print(header_data)
+    #print(header_data)
     scores, af, data, samples_header = format_data(data=data)
     #print(f"Gene list from {file_name}:")
     if (np.isnan(scores).sum()) < (
