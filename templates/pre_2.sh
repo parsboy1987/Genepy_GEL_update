@@ -18,7 +18,7 @@ cp header_meta meta_CADD20.txt
 #bcftools view f5.vcf.gz | grep -v "#" > f5.vcf
 #cat f5.vcf | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' > c6
 #perl -lane '$,="\t"; print @F[0..8], map { substr($_,0,3) } @F[9..$#F]' f5.vcf > c6
-zgrep -v "#" f5.vcf.gz | perl -lane 'print join("\t", @F[0..8], map { substr($_,0,3) } @F[9..$#F])' > c6
+zgrep -v "#" f5.vcf.gz | perl -F'\t' -lane 'print join("\t", map { substr($_,0,3) } @F[9..$#F])' > c6
 
 ##merge;
 paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
