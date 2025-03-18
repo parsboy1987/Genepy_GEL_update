@@ -4,7 +4,7 @@ process CADD_score {
   publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   input:
-  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(ccds_idx)
+  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(ccds_idx),path(vcfinput_idx)
       
   //val cadd_param = params.cadd_
   output:
