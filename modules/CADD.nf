@@ -4,7 +4,7 @@ process CADD_score {
   publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   input:
-  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(ccds_idx),path(vcfinput_idx)
+  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(ccds_idx)
       
   //val cadd_param = params.cadd_
   output:
@@ -14,6 +14,7 @@ process CADD_score {
     """
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
+    tabix -p vcf ${vcfFile}
     bcftools view -R ${ccds} ${vcfFile} -Oz -o filtered_CCDS_UTR.vcf.gz
     tabix -p vcf filtered_CCDS_UTR.vcf.gz
 
