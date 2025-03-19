@@ -64,7 +64,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
         ethnicity = Channel.fromPath("${params.ethnicity}")
        // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
        chromosomeList = params.chromosomes
-      // println "${params.gnomad_add}/"
+       println "START"
        println "Chromosome list: $chromosomeList"
        chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
                       def filename = file.baseName  // Extracts filename without the .vcf.gz extension
