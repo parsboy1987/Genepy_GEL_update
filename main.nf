@@ -72,10 +72,10 @@ sch= Channel.fromPath("${params.annotations_cadd}")
                       }.view()
       //com_ch= chrx.combine(sch).view()
       CADD_score(chrx)
-      VEP_score(CADD_score.out.pre_proc_1,homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
-      Pre_processing_1(VEP_score.out,ethnicity,xgen_bed)
-      Pre_processing_2(Pre_processing_1.out,header_meta,IBD_gwas_bed,Genecode_p50_bed,templates)
-      Pre_processing_3(Pre_processing_2.out.main,templates)     
+      VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
+      Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
+      Pre_processing_2(Pre_processing_1.out,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
+      Pre_processing_3(Pre_processing_2.out.main,params.templates)     
       def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
       def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
