@@ -17,7 +17,7 @@ process CADD_score {
     tabix -p vcf ${vcfFile}
     bcftools view -R ${ccds} ${vcfFile} -Oz -o filtered_CCDS_UTR.vcf.gz
     tabix -p vcf filtered_CCDS_UTR.vcf.gz
-
+    zcat filtered_CCDS_UTR.vcf.gz | grep -v "##" | head | cut -f 1-10
     
     bcftools view -G filtered_CCDS_UTR.vcf.gz -Ov -o p1.vcf
     awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '3383,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
