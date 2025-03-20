@@ -3,7 +3,6 @@ process Pre_processing_3 {
   //maxForks 10
   label "Pre_processing_3"
   label "process_small"
-  retry 3
   input:
   tuple file("c1"), file("c2"), file("c3"), file("c4"),file("c5"),file("c5a"),file("c5b"),file("gene.lst"),file("f5.vcf.gz"),file("header_meta"), val(vcf_n) , val(chrx) 
   path(template)
