@@ -3,7 +3,6 @@ process Genepy_score {
     //publishDir "${params.chr}", mode: "copy", overwrite: true
     label "Genepy_score"
     label "process_large"
-    retry 3
     
     input:
     tuple path(path1),val(chr),val(cadd),path(genepy)
