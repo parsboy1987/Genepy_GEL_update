@@ -2,7 +2,7 @@ process Reatt_Genes {
     //publishDir "${params.chr}", mode: "copy", overwrite: true
     //maxForks 10
     label "Reatt_Genes"
-    label "process_large"
+    label "process_small"
     input:
     tuple val(cadd),val(chromosome_name),val(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
