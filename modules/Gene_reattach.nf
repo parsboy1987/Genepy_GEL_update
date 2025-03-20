@@ -3,6 +3,7 @@ process Reatt_Genes {
     //maxForks 10
     label "Reatt_Genes"
     label "process_small"
+    retry 3
     input:
     tuple val(cadd),val(chromosome_name),val(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
