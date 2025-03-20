@@ -9,6 +9,10 @@ echo "$region"
 mkdir -p "metafiles15_${region}"
 mkdir -p "metafiles20_${region}"
 mkdir -p "metafilesALL_${region}"
+touch "metafilesALL_${region}/1.txt"
+touch "metafiles15_${region}/1.txt"
+touch "metafileS20_${region}/1.txt"
+
 
 cp header_meta meta_CADDALL.txt
 cp header_meta meta_CADD15.txt
@@ -25,9 +29,6 @@ paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
 paste c1 c2 c3 c4 c5a c6 >> meta_CADD15.txt
 paste c1 c2 c3 c4 c5b c6 >> meta_CADD20.txt
 
-touch metafilesALL_${region}/1.txt
-touch metafiles15_${region}/1.txt
-touch metafileS20_${region}/1.txt
 
 ##CADD_all#
 while read gene;
