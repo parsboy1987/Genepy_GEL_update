@@ -3,6 +3,8 @@ process Pre_processing_2 {
   //maxForks 10
   label "Pre_processing_2"
   label "process_small"
+  retry 3
+
   input:
   tuple file("f5.vcf.gz"), val(vcf_n), val(chrx) 
   path(header_meta)
