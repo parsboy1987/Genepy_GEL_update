@@ -3,7 +3,7 @@ process VEP_score {
    //maxForks 10
   label "VEP_score"
   label "process_large"
-
+  retry 3
   
   input:
   tuple val(chrx), path("p1.vcf"), path("wes.tsv.gz"), path("wes.tsv.gz.tbi"), val(vcf_n) , file(vcfFile)
