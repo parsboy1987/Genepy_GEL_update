@@ -2,7 +2,7 @@ process Pre_processing_1 {
  //publishDir "${params.chr}", mode: "copy", overwrite: true
   maxForks 10
   label "Pre_processing_1"
-  label "process_small"
+  label "process_medium"
   
   input:
   tuple path(x), val(vcf_n), file(vcfFile), val(chrx) 
