@@ -1,6 +1,6 @@
 process Pre_processing_1 {
  //publishDir "${params.chr}", mode: "copy", overwrite: true
-  //maxForks 10
+  maxForks 10
   label "Pre_processing_1"
   label "process_small"
   
