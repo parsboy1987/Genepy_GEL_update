@@ -11,7 +11,7 @@ mkdir -p "metafiles20_${region}"
 mkdir -p "metafilesALL_${region}"
 touch "metafilesALL_${region}/1.txt"
 touch "metafiles15_${region}/1.txt"
-touch "metafileS20_${region}/1.txt"
+touch "metafiles20_${region}/1.txt"
 
 
 cp header_meta meta_CADDALL.txt
