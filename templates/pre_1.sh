@@ -5,7 +5,7 @@ paste meta_CADD_head p > header_meta
 #cp header.meta meta_CADD15.txt
 #cp header.meta meta_CADD20.txt
 
-bcftools view -G f5.vcf.gz  -Ov -o p1.vcf
+bcftools view -G f5.vcf.gz --threads $task.cpus -Ov -o p1.vcf
 
 grep -v '#' p1.vcf >f6
 cut -f 1-8 f6 >p1
