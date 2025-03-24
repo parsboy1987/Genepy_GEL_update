@@ -24,7 +24,7 @@ process Pre_processing_2 {
     cat ${IBD_gwas_bed} > IBD.bed
     cat ${Genecode_p50_bed} > p50.bed
     ## bgzip -c "f5.vcf" > f5.vcf.gz
-    bcftools view -h f5.vcf.gz | grep -v "##" | cut -f 10- >p
+    bcftools view -h f5.vcf.gz --threads $task.cpus | grep -v "##" | cut -f 10- >p
     ./pre_1.sh
     """
 }
