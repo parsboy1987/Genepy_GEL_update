@@ -1,6 +1,6 @@
 process VEP_score {
     //publishDir "${params.chr}", mode: "copy", overwrite: true
-   maxForks 20
+  // maxForks 20
   label "VEP_score"
   label "process_medium"
   
