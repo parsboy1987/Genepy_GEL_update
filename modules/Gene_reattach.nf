@@ -1,5 +1,5 @@
 process Reatt_Genes {
-    publishDir "${params.chr}", mode: "copy", overwrite: true
+    publishDir "${params.chr}/${cadd}", mode: "copy", overwrite: true
     //maxForks 10
     label "Reatt_Genes"
     label "process_micro"
@@ -8,7 +8,7 @@ process Reatt_Genes {
     //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
     output:
     tuple val(folder_paths),path("metafiles${cadd}"), emit: path_
-    
+    path("*")
     shell:
     """
     echo "start"
