@@ -37,6 +37,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
 //    .collect()
 //    .view { "CADD Subfolders: ${it.join(', ')}" }
 samples = Channel.fromPath("${params.vcf}/*")
+samples.view()
     println """\
          G E N E P Y           P I P E L I N E
           ===================================
