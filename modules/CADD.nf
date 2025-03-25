@@ -2,7 +2,7 @@ process CADD_score {
   label "CADD_score"
   label "process_medium"
   publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
-   maxForks 10
+   maxForks 15
   input:
   tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds)
       
