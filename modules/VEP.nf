@@ -19,7 +19,7 @@ process VEP_score {
   script:
   
     """
-   ls ${genomad_indx1}
+    ls ${genomad_indx1}
     vep  -i "p1.vcf" --offline --assembly GRCh38 --vcf --fork 10 --cache --force_overwrite --pick_allele --plugin CADD,${plugin1},${plugin2},"wes.tsv.gz"  --af_gnomade --af_gnomadg --fields "Allele,Consequence,SYMBOL,Gene,gnomADg_AF,gnomADg_NFE_AF,gnomADe_AF,gnomADe_NFE_AF,CADD_RAW,gnomadRF_RF_flag" -o "${chrx}.p1.vep.vcf" --dir_cache ${homos_vep}  --dir_plugins ${vep_plugins}
     
     """
