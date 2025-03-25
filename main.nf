@@ -36,8 +36,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
 //    .map { it.name }
 //    .collect()
 //    .view { "CADD Subfolders: ${it.join(', ')}" }
-samples = Channel.fromPath("${params.vcf}/*")
-samples.view()
+
     println """\
          G E N E P Y           P I P E L I N E
           ===================================
@@ -46,7 +45,7 @@ samples.view()
                    Sarah Ennis Lab
                      Iman Nazari
           ===================================
-         Samples         : ${samples}
+         Samples         : ${params.vcf}
          params.cadd     : ${params.annotations_cadd}
          """.stripIndent()
      
