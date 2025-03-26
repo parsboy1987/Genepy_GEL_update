@@ -66,11 +66,22 @@ sch= Channel.fromPath("${params.annotations_cadd}")
        chromosomeList = params.chromosomes
        println "START"
        println "Chromosome list: $chromosomeList"
-       chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
-                      def filename = file.baseName    //.replaceFirst(/\.vcf(\.gz)?$/, '')   // Extracts filename without the .vcf.gz extension
-                      return [chromosomeList,filename,file,"${params.annotations_cadd}","${params.ccds_region}"]       // Returns a tuple with [full path, base filename]
-                      }.view()
-      //com_ch= chrx.combine(sch).view()
+       //chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
+       //               def filename = file.baseName    //.replaceFirst(/\.vcf(\.gz)?$/, '')   // Extracts filename without the .vcf.gz extension
+       //               return [chromosomeList,filename,file,"${params.annotations_cadd}","${params.ccds_region}"]       // Returns a tuple with [full path, base filename]
+       //               }.view()
+      def regionPatterns = ['chr22_1_10828453', 'chr22_21129938_21349068', 'chr22_21349069_22141767', 'chr22_22141768_23984312','chr22_38483936_40850931','chr22_40850931_42981587']  // Define allowed patterns
+
+        chrx = Channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz")
+            .filter { file -> 
+                def filename = file.baseName
+                return regionPatterns.any { pattern -> filename.contains(pattern) }  // Keep only matching files
+            }
+            .map { file -> 
+                def filename = file.baseName
+                return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}"]
+            }
+            .view()
       CADD_score(chrx)
       VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
       Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
