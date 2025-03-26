@@ -70,7 +70,7 @@ sch= Channel.fromPath("${params.annotations_cadd}")
        //               def filename = file.baseName    //.replaceFirst(/\.vcf(\.gz)?$/, '')   // Extracts filename without the .vcf.gz extension
        //               return [chromosomeList,filename,file,"${params.annotations_cadd}","${params.ccds_region}"]       // Returns a tuple with [full path, base filename]
        //               }.view()
-      def regionPatterns = ['chr22_1_10828453', 'chr22_21129938_21349068', 'chr22_21349069_22141767', 'chr22_22141768_23984312','chr22_38483936_40850931','chr22_40850931_42981587']  // Define allowed patterns
+      def regionPatterns = ['chr22_1_10848253', 'chr22_21129938_21349068', 'chr22_21349069_22141767', 'chr22_22141768_23984312','chr22_38483936_40850931','chr22_40850932_42981587']  // Define allowed patterns
 
         chrx = Channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz")
             .filter { file -> 
