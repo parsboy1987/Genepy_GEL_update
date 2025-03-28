@@ -27,16 +27,6 @@ include { Genepy_score } from "./modules/Genepy"
 // Define workflow
 workflow {
 
-sch= Channel.fromPath("${params.annotations_cadd}")
-   // .map { it.name }
-   // .collect()
-  //  .view { "CADD Subfolders: ${it.join(', ')}" }
-//Channel.fromPath(params.annotations_cadd)
-//    .filter{is.
-//    .map { it.name }
-//    .collect()
-//    .view { "CADD Subfolders: ${it.join(', ')}" }
-
     println """\
          G E N E P Y           P I P E L I N E
           ===================================
@@ -49,27 +39,10 @@ sch= Channel.fromPath("${params.annotations_cadd}")
          params.cadd     : ${params.annotations_cadd}
          """.stripIndent()
      
-        homos_vep = Channel.fromPath("${params.homos_vep}")
-        vep_plugins = Channel.fromPath("${params.vep_plugins}")
-        header_meta  = Channel.fromPath("${params.header_meta}")
-        genepy_py = Channel.fromPath("${params.genepy_py}")
-        gene_code_bed = Channel.fromPath("${params.gene_code_bed}")
-        templates = Channel.fromPath("${params.templates}")
-        xgen_bed = Channel.fromPath("${params.xgen_bed}")
-        IBD_gwas_bed = Channel.fromPath("${params.IBD_gwas_bed}")
-        Genecode_p50_bed = Channel.fromPath("${params.Genecode_p50_bed}")
-        plugin1 = Channel.fromPath("${params.plugin1}")
-        plugin2 = Channel.fromPath("${params.plugin2}")
-        //gnomad_add = Channel.fromPath("${params.gnomad_add}/").view()
-        ethnicity = Channel.fromPath("${params.ethnicity}")
-       // def chromosomeList = params.chromosomes.split(',').collect { it.trim().replaceAll('"', '') }
+        
        chromosomeList = params.chromosomes
        println "START"
        println "Chromosome list: $chromosomeList"
-       //chrx = channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz").map { file -> 
-       //               def filename = file.baseName    //.replaceFirst(/\.vcf(\.gz)?$/, '')   // Extracts filename without the .vcf.gz extension
-       //               return [chromosomeList,filename,file,"${params.annotations_cadd}","${params.ccds_region}"]       // Returns a tuple with [full path, base filename]
-       //               }.view()
       def regionPatterns = ['chr22_1_10848253', 'chr22_21129938_21349068', 'chr22_21349069_22141767', 'chr22_22141768_23984312','chr22_38483936_40850931','chr22_40850932_42981587']  // Define allowed patterns
 
         chrx = Channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz")
