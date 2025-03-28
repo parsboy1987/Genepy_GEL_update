@@ -2,7 +2,7 @@ process Pre_processing_2 {
   //publishDir "${params.chr}", mode: "copy", overwrite: true
   //maxForks 10
   label "Pre_processing_2"
-  label "process_micro"
+ // label "process_micro"
   
 
   input:
