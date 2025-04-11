@@ -8,7 +8,7 @@ process CADD_score {
       
   //val cadd_param = params.cadd_
   output:
-  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file("vcfFile"), emit: pre_proc_1
+  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(vcfFile), emit: pre_proc_1
   
   script:
     """
