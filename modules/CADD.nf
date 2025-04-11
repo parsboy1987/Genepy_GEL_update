@@ -2,23 +2,23 @@ process CADD_score {
   label "CADD_score"
   //label "process_micro"
   publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
-   maxForks 15
+  // maxForks 15
   input:
   tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds)
       
   //val cadd_param = params.cadd_
   output:
-  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file("filtered_CCDS_UTR.vcf.gz"), emit: pre_proc_1
+  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file("vcfFile"), emit: pre_proc_1
   
   script:
     """
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
-    bcftools view  -R ${ccds} ${vcfFile} -Oz --threads $task.cpus -o filtered_CCDS_UTR.vcf.gz
-    tabix -p vcf filtered_CCDS_UTR.vcf.gz
-    zcat filtered_CCDS_UTR.vcf.gz | grep -v "##" | head | cut -f 1-10
-    bcftools view -G filtered_CCDS_UTR.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
+  ## bcftools view  -R ${ccds} ${vcfFile} -Oz --threads $task.cpus -o filtered_CCDS_UTR.vcf.gz
+  ##  tabix -p vcf filtered_CCDS_UTR.vcf.gz
+    zcat ${vcfFile} | grep -v "##" | head | cut -f 1-10
+    bcftools view -G ${vcfFile} -Ov  --threads $task.cpus -o p1.vcf
     awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '3383,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
     CADD.sh -c $task.cpus -o wes1_${chrx}.tsv.gz ${chrx}.p11.vcf
     zcat wes1_${chrx}.tsv.gz | awk 'BEGIN {FS="\t"} /^#/ {print} \$0 !~ /^#/ && \$NF >= 15' | bgzip > wes_${chrx}.tsv.gz
