@@ -12,7 +12,7 @@ nextflow.enable.dsl=2
 def checkPathParamList = [ 
     params.vcf
 ]
-
+ 
 include { CADD_score } from "./modules/CADD"  
 include { VEP_score } from "./modules/VEP"  
 include { Pre_processing_1 } from "./modules/Pre_pr1"  
