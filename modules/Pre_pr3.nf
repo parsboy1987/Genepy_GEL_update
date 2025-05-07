@@ -12,7 +12,7 @@ process Pre_processing_3 {
   path("metafilesALL_*"), emit: meta_filesALL
   //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20"), emit: folders
   //path("*")
-  //file("c6")
+  file("c6")
   //file("meta_CADDALL.txt")
   shell:
     """
