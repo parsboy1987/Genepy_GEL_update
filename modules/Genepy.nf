@@ -23,7 +23,9 @@ process Genepy_score {
     for file in ${path1}/*; do
         if [ -f "\$file" ]; then
             echo "Processing file: \$file"
-            python -u ./gp.py "\$file"
+            fname=\$(basename "\$file")
+            awk -F"\\t" '{OFS=FS;for (i=7;i<=16;i++) { if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$)/) { \$i="3.98e-6";} } print }' "\$file" > "\$fname"
+            python -u ./gp.py "\$fname"
         fi
     done
     """
