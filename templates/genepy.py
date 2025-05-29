@@ -41,7 +41,12 @@ def get_scores(data: np.array) -> np.array:
 
 def get_allele_freq(data: np.array) -> np.array:
     ##allele frequency as it is in the UKBB cohort; this is currently based on the raw pVCF data.
-    af = data[:, 6:15]
+    af_n = data[:, 6:15]
+    af = np.where(
+    (af_n == '') | (af_n == '0') | (af_n == '0.0') | (af_n.astype(str).astype(float) == 0) | 
+    (af_n.astype(str) == 'nan') | (af_n.astype(str) == 'NaN'),
+    '3.86e-6',
+    af_n)
     af = af.astype("float")
     ##the ref allele frequency
     af0 = 1 - np.nansum(af, axis=1)
