@@ -65,7 +65,10 @@ def format_data(data: pd.DataFrame) -> Tuple[np.array, np.array, np.array, np.ar
     samples_header = header[26:]
     samples = data[:, 26:]
     samples[samples == "0"] = "0/0"
+    samples[samples == "1:L"] = "0/0"
     samples[samples == "1:P"] = "0/0"
+    samples[samples == ".:L"] = "0/0"
+    samples[samples == ".:P"] = "0/0"
     samples = samples.astype("str")
 
     return scores, af, samples, samples_header
