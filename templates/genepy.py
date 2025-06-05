@@ -43,7 +43,7 @@ def get_allele_freq(data: np.array) -> np.array:
     ##allele frequency as it is in the UKBB cohort; this is currently based on the raw pVCF data.
     af_n = data[:, 6:15]
     af = np.where(
-    (af_n == '') | (af_n == '0') | (af_n == '0.0') | (af_n.astype(str).astype(float) == 0) | 
+    (af_n == '') | (af_n == '0') | (af_n == '0.0') | (af_n.astype(float) == 0) | 
     (af_n.astype(str) == 'nan') | (af_n.astype(str) == 'NaN'),
     '3.86e-6',
     af_n)
@@ -65,11 +65,16 @@ def format_data(data: pd.DataFrame) -> Tuple[np.array, np.array, np.array, np.ar
     samples_header = header[26:]
     samples = data[:, 26:]
     samples[samples == "0"] = "0/0"
-    samples = samples.replace(to_replace=r'^[\.0-9]+:[a-zA-Z]+$', value='0/0', regex=True)
+    fix_genotype_vec = np.vectorize(fix_genotype)
+    samples = fix_genotype_vec(samples)
     samples = samples.astype("str")
     return scores, af, samples, samples_header
 
-
+def fix_genotype(val):
+    if re.fullmatch(r'(?:[\.0-9]+:[a-zA-Z]+|[01]|\.)', val):
+        return '0/0'
+    return val
+    
 def parse_command_line_args():
     parser = argparse.ArgumentParser(description="GenePy2 - Make score matrix")
     parser.add_argument("--gene", type=str, help="Gene name", required=True)
