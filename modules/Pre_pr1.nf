@@ -9,7 +9,8 @@ process Pre_processing_1 {
   path(ethnicity)
   path(xgen_bed)
   output:
-  tuple path("f5.vcf.gz"), val(vcf_n), val(chrx) 
+  tuple path("f5.vcf.gz"), val(vcf_n), val(chrx), emit:main
+  path("*")
   
   
   shell:
