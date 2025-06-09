@@ -26,7 +26,8 @@ process Pre_processing_1 {
     bcftools +fill-tags f3.vcf --threads $task.cpus -- -t 'FORMAT/AB:1=float((AD[:1]) / (DP))' | bgzip -c > f3.vcf.gz
     rm f3.vcf
     tabix -p vcf f3.vcf.gz
-    bcftools filter -S . --include 'FORMAT/DP>=8 & FORMAT/AB>=0.15 |FORMAT/GT="0/0"'  --threads $task.cpus -Oz -o f3b.vcf.gz f3.vcf.gz
+    bcftools filter -S . --include 'FORMAT/DP>=8 & FORMAT/AB>=0.15 |FORMAT/GT="0/0" | FORMAT/GT="0"'  --threads $task.cpus -Oz -o f3b.vcf.gz f3.vcf.gz
+    ## bcftools filter -S . --include 'FORMAT/DP>=8 & FORMAT/AB>=0.15 |FORMAT/GT="0/0"'  --threads $task.cpus -Oz -o f3b.vcf.gz f3.vcf.gz
     tabix -p vcf f3b.vcf.gz
 
     cat ${ethnicity} > ethnicity.txt
