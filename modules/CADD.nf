@@ -4,18 +4,30 @@ process CADD_score {
   publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
    maxForks 30
   input:
-  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds)
+  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(karyo)
       
   //val cadd_param = params.cadd_
   output:
-  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(vcfFile), emit: pre_proc_1
+  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(tmp.vcf.gz), emit: pre_proc_1
   
   script:
     """
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
-    tabix -p vcf ${vcfFile}
-    bcftools view -G ${vcfFile} -Ov  --threads $task.cpus -o p1.vcf
+    cp ${vcfFile} tmp.vcf.gz
+    tabix -p vcf tmp.vcf.gz
+    ############################ check Karyotype for chrx
+    awk '\$2=="XX" || \$2=="XO" {print $1}' ${karyo} > kary.txt
+    for condition in '.' '0' '1'; do
+      bcftools +setGT ${tmp_vcf} \
+          --samples-file kary.txt \
+          --set "${condition}" --to 1/1 \
+          -Oz -o tmp2.vcf.gz
+      tabix -f tmp2.vcf.gz
+      mv tmp2.vcf.gz tmp.vcf.gz
+    done
+    ############################
+    bcftools view -G tmp.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
     ## awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '2680,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
     st=\$(awk '\$0 !~ /^#/ {print NR; exit}' p1.vcf)
     awk -F"\t" '\$1 ~ /^#/ || length(\$4)>1 || length(\$5)>1' p1.vcf | sed "\${st},\\\$s/chr//g" > ${chrx}.p11.vcf
