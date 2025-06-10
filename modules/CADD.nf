@@ -17,7 +17,7 @@ process CADD_score {
     cp ${vcfFile} tmp.vcf.gz
     tabix -p vcf tmp.vcf.gz
     ############################ check Karyotype for chrx
-    awk '\$2=="XX" || \$2=="XO" {print $1}' ${kary} > kary.txt
+    awk '\$2=="XX" || \$2=="XO" {print \$1}' ${kary} > kary.txt
     for condition in '.' '0' '1'; do
       bcftools +setGT ${tmp_vcf} \
           --samples-file kary.txt \
@@ -25,6 +25,7 @@ process CADD_score {
           -Oz -o tmp2.vcf.gz
       tabix -f tmp2.vcf.gz
       mv tmp2.vcf.gz tmp.vcf.gz
+      tabix -p vcf tmp.vcf.gz
     done
     ############################
     bcftools view -G tmp.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
