@@ -4,7 +4,7 @@ process CADD_score {
   publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
    maxForks 30
   input:
-  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(karyo)
+  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds),path(kary)
       
   //val cadd_param = params.cadd_
   output:
@@ -17,7 +17,7 @@ process CADD_score {
     cp ${vcfFile} tmp.vcf.gz
     tabix -p vcf tmp.vcf.gz
     ############################ check Karyotype for chrx
-    awk '\$2=="XX" || \$2=="XO" {print $1}' ${karyo} > kary.txt
+    awk '\$2=="XX" || \$2=="XO" {print $1}' ${kary} > kary.txt
     for condition in '.' '0' '1'; do
       bcftools +setGT ${tmp_vcf} \
           --samples-file kary.txt \
