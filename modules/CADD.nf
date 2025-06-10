@@ -17,16 +17,12 @@ process CADD_score {
     cp ${vcfFile} tmp.vcf.gz
     tabix -p vcf tmp.vcf.gz
     ############################ check Karyotype for chrx
-    awk '\$2=="XX" || \$2=="XO" {print \$1}' ${kary} > kary1.txt
-    for condition in '.' '0' '1'; do
-      bcftools +setGT tmp.vcf.gz \
-          --samples-file kary1.txt \
-          --set "\${condition}" --to 1/1 \
-          -Oz -o tmp2.vcf.gz
-      tabix -f tmp2.vcf.gz
-      mv tmp2.vcf.gz tmp.vcf.gz
-      tabix -p vcf tmp.vcf.gz
-    done
+    awk '\$2=="XY" || \$2=="XO" {print \$1}' ${kary} > kary1.txt
+    bcftools setGT tmp.vcf.gz -- -t q -i 'GT="." || GT="0" || GT="1"' \
+    -n 'switch(GT, ".", "./.", "0", "0/0", "1", "1/1")' -s kary1.txt \
+    -Oz -o tmp2.vcf.gz
+    mv tmp2.vcf.gz tmp.vcf.gz
+    tabix -p vcf tmp.vcf.gz
     ############################
     bcftools view -G tmp.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
     ## awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '2680,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
