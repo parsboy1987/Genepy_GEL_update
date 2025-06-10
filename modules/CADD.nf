@@ -21,7 +21,7 @@ process CADD_score {
     for condition in '.' '0' '1'; do
       bcftools +setGT tmp.vcf.gz \
           --samples-file kary.txt \
-          --set "${condition}" --to 1/1 \
+          --set "\${condition}" --to 1/1 \
           -Oz -o tmp2.vcf.gz
       tabix -f tmp2.vcf.gz
       mv tmp2.vcf.gz tmp.vcf.gz
