@@ -19,7 +19,7 @@ process CADD_score {
     ############################ check Karyotype for chrx
     awk '\$2=="XX" || \$2=="XO" {print \$1}' ${kary} > kary.txt
     for condition in '.' '0' '1'; do
-      bcftools +setGT ${tmp_vcf} \
+      bcftools +setGT tmp.vcf.gz \
           --samples-file kary.txt \
           --set "${condition}" --to 1/1 \
           -Oz -o tmp2.vcf.gz
