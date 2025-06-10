@@ -17,10 +17,10 @@ process CADD_score {
     cp ${vcfFile} tmp.vcf.gz
     tabix -p vcf tmp.vcf.gz
     ############################ check Karyotype for chrx
-    awk '\$2=="XX" || \$2=="XO" {print \$1}' ${kary} > kary.txt
+    awk '\$2=="XX" || \$2=="XO" {print \$1}' ${kary} > kary1.txt
     for condition in '.' '0' '1'; do
       bcftools +setGT tmp.vcf.gz \
-          --samples-file kary.txt \
+          --samples-file kary1.txt \
           --set "\${condition}" --to 1/1 \
           -Oz -o tmp2.vcf.gz
       tabix -f tmp2.vcf.gz
