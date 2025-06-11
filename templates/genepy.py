@@ -56,19 +56,61 @@ def get_allele_freq(data: np.array) -> np.array:
 
     return af
 
+def read_karyo_samples(filepath: str) -> set:
+    """
+    Reads a list of sample IDs from a file (1 column, no header).
+    These are samples with XO or XY karyotypes needing chrX genotype fixes.
+    """
+    with open(filepath) as f:
+        samples = {line.strip() for line in f if line.strip()}
+    return samples
+def fix_chrX_gt(geno: str) -> str:
+    """
+    Fixes genotype strings like '0', '1', '.' (or '0:L', '1:P', '.:S') to diploid style. in chrX
+    """
+    if re.match(r"^0(?::.*)?$", geno):
+        return "0/0"
+    elif re.match(r"^1(?::.*)?$", geno):
+        return "1/1"
+    elif re.match(r"^\.(?::.*)?$", geno):
+        return "./."
+    return geno
 
-def format_data(data: pd.DataFrame) -> Tuple[np.array, np.array, np.array, np.array]:
-    header = data.columns.values
-    data = np.array(data)
-    scores = get_scores(data=data)
-    af = get_allele_freq(data=data)
-    samples_header = header[26:]
-    samples = data[:, 26:]
-    samples[samples == "0"] = "0/0"
+
+def format_data(data: pd.DataFrame, xo_xy_samples: set) -> Tuple[np.array, np.array, np.array, np.array]:
+    """
+    Formats genotype matrix; applies chrX diploid transformation to samples with XO or XY karyotype.
+    """
+    # Extract metadata before converting to NumPy
+    samples_header = data.columns[26:]
+    chrom_column = data.iloc[:, 0].values
+    samples_df = data.iloc[:, 26:]
+
+    # Convert to NumPy
+    data_np = data.to_numpy()
+    samples_np = samples_df.to_numpy().astype(str)
+
+    # Compute scores and allele frequencies
+    scores = get_scores(data_np)
+    af = get_allele_freq(data_np)
+
+    # Normalize "0" → "0/0"
+    samples_np[samples_np == "0"] = "0/0"
+
+    # Get indices of samples present in xo_xy_samples
+    fix_indices = [i for i, sample in enumerate(samples_header) if sample in xo_xy_samples]
+
+    # Apply chrX fix only to rows with chromosome == "X"
+    for row_idx, chrom in enumerate(chrom_column):
+        if chrom == "chrX":
+            for col_idx in fix_indices:
+                samples_np[row_idx, col_idx] = fix_chrX_gt(samples_np[row_idx, col_idx])
+
+    # Apply user-defined final fix
     fix_genotype_vec = np.vectorize(fix_genotype)
-    samples = fix_genotype_vec(samples)
-    samples = samples.astype("str")
-    return scores, af, samples, samples_header
+    samples_np = fix_genotype_vec(samples_np)
+    samples_np = samples_np.astype("str")
+    return scores, af, samples_np, samples_header
 
 def fix_genotype(val):
     if re.fullmatch(r'(?:[\.0-9]+:[a-zA-Z]+|[01]|\.)', val):
@@ -236,6 +278,7 @@ def read_head(file_path, n=10):
 files_with_paths = sys.argv[1]
 gene=files_with_paths
 file_name = os.path.basename(gene)
+xo_xy_samples = read_karyo_samples(sys.argv[2])
 print(file_name)
 if file_name.startswith("ENSG") and file_name.endswith('.meta'):
     print(file_name)
