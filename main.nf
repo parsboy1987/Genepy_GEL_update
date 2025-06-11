@@ -52,28 +52,27 @@ workflow {
             }
             .view()
       CADD_score(chrx)
-    //  VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
-    //  Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
-   //   Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
-   //   Pre_processing_3(Pre_processing_2.out.main,params.templates)     
-   //   def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
-   //   def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
-   //   def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
-   //   x_combo= meta15.concat(meta20).concat(metaALL)
-   //   Reatt_Genes(x_combo)
-   //   Reatt_Genes.out.path_.view()
-   //   def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
-   //         path1 = path.toString()
-   //          println "path: $path1"
-   //         def chromosome =  chromosomeList
-   //         def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-   //                          (path1.contains('metafiles20')) ? '20' :
-   //                          (path1.contains('metafiles15')) ? '15' : 'ALL'
-  //          [path, chromosome, cadd_score,"${params.genepy_py}"]
-  //      }
-  //    result.view()
-  //    Genepy_score(result)
-
+      VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
+      Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
+      Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
+      Pre_processing_3(Pre_processing_2.out.main,params.templates)     
+      def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
+      def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
+      def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
+      x_combo= meta15.concat(meta20).concat(metaALL)
+      Reatt_Genes(x_combo)
+      Reatt_Genes.out.path_.view()
+      def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
+            path1 = path.toString()
+             println "path: $path1"
+            def chromosome =  chromosomeList
+            def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+                             (path1.contains('metafiles20')) ? '20' :
+                             (path1.contains('metafiles15')) ? '15' : 'ALL'
+            [path, chromosome, cadd_score,"${params.genepy_py}"]
+        }
+      result.view()
+      Genepy_score(result)
 }
 
 workflow.onComplete {
