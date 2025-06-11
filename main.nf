@@ -48,7 +48,7 @@ workflow {
         chrx = Channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz")
             .map { file -> 
                 def filename = file.baseName
-                return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}" , "${params.kary}"]
+                return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}" ]
             }
             .view()
       CADD_score(chrx)
