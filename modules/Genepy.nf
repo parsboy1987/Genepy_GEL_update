@@ -5,7 +5,7 @@ process Genepy_score {
    // label "process_large"
     
     input:
-    tuple path(path1),val(chr),val(cadd),path(genepy)
+    tuple path(path1),val(chr),val(cadd),path(genepy),path(kary)
     // path(genepy) 
 
     output:
@@ -25,7 +25,7 @@ process Genepy_score {
             echo " Processing file : \$file"
             fname=\$(basename "\$file")
             awk -F"\\t" '{OFS=FS;for (i=7;i<=16;i++) { if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$)/) { \$i="3.98e-6";} } print }' "\$file" > "\$fname"
-            python -u ./gp.py "\$fname"
+            python -u ./gp.py "\$fname" ${kary}
         fi
     done
     """
