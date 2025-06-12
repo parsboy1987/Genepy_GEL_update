@@ -297,7 +297,7 @@ if file_name.startswith("ENSG") and file_name.endswith('.meta'):
 
 # Display the extracted data
     #print(header_data)
-    scores, af, data, samples_header = format_data(data=data)
+    scores, af, data, samples_header = format_data(data,xo_xy_samples)
     #print(f"Gene list from {file_name}:")
     if (np.isnan(scores).sum()) < (
        scores.shape[0]):  # compute metascores if at least 1 variant
