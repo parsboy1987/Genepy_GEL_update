@@ -21,7 +21,9 @@ process CADD_score {
     st=\$(awk '\$0 !~ /^#/ {print NR; exit}' p1.vcf)
     awk -F"\t" '\$1 ~ /^#/ || length(\$4)>1 || length(\$5)>1' p1.vcf | sed "\${st},\\\$s/chr//g" > ${chrx}.p11.vcf
     CADD.sh -c $task.cpus -o wes1_${chrx}.tsv.gz ${chrx}.p11.vcf
-    zcat wes1_${chrx}.tsv.gz | awk 'BEGIN {FS="\t"} /^#/ {print} \$0 !~ /^#/ && \$NF >= 15' | bgzip > wes_${chrx}.tsv.gz
-    tabix -p vcf wes_${chrx}.tsv.gz  
+    zcat wes1_${chrx}.tsv.gz | awk 'BEGIN {FS="\t"} /^#/ {print} \$0 !~ /^#/ && \$NF >= 15' | bgzip > wes1_${chrx}.tsv.gz
+    tabix -p vcf wes1_${chrx}.tsv.gz  
+    bcftools norm -m+any $input.vcf -Oz -o wes_${chrx}.tsv.gz
+    tabix -p vcf wes_${chrx}.tsv.gz
     """
 }
