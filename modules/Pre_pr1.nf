@@ -5,7 +5,7 @@ process Pre_processing_1 {
   //label "process_micro"
   
   input:
-  tuple path(x), val(vcf_n), file(vcfFile), val(chrx) 
+  tuple path(x), val(vcf_n), file(vcfFile), val(chrx) ,path(input_vcf)
   path(ethnicity)
   path(xgen_bed)
   output:
@@ -15,7 +15,7 @@ process Pre_processing_1 {
   
   shell:
     """
-    gunzip -c ${vcfFile} | grep -v '##'|cut -f 9-> p2
+    gunzip -c input_vcf | grep -v '##'|cut -f 9-> p2
     grep -v '##' ${x} > p1
     grep '##' ${x} > f3.vcf
     paste p1 p2 >> f3.vcf
