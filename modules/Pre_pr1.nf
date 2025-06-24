@@ -5,9 +5,10 @@ process Pre_processing_1 {
   //label "process_micro"
   
   input:
-  tuple path(x), val(vcf_n), file(vcfFile), val(chrx) ,path(input_vcf)
+  tuple path(x), val(vcf_n), file(vcfFile), val(chrx)
   path(ethnicity)
   path(xgen_bed)
+  path(input_vcf)
   output:
   tuple path("f5.vcf.gz"), val(vcf_n), val(chrx), emit:main
   path("*")
