@@ -15,15 +15,15 @@ process CADD_score {
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
+    bcftools norm -m+any ${vcfFile} -Oz -o input.vcf.gz
+    tabix -p vcf wes_${chrx}.tsv.gz
     ############################
-    bcftools view -G ${vcfFile} -Ov  --threads $task.cpus -o p1.vcf
+    bcftools view -G input.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
     ## awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '2680,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
     st=\$(awk '\$0 !~ /^#/ {print NR; exit}' p1.vcf)
     awk -F"\t" '\$1 ~ /^#/ || length(\$4)>1 || length(\$5)>1' p1.vcf | sed "\${st},\\\$s/chr//g" > ${chrx}.p11.vcf
     CADD.sh -c $task.cpus -o wes1_${chrx}.tsv.gz ${chrx}.p11.vcf
-    zcat wes1_${chrx}.tsv.gz | awk 'BEGIN {FS="\t"} /^#/ {print} \$0 !~ /^#/ && \$NF >= 15' | bgzip > wes2_${chrx}.tsv.gz
-    tabix -p vcf wes2_${chrx}.tsv.gz  
-    bcftools norm -m+any wes2_${chrx}.tsv.gz -Oz -o wes_${chrx}.tsv.gz
-    tabix -p vcf wes_${chrx}.tsv.gz
+    zcat wes1_${chrx}.tsv.gz | awk 'BEGIN {FS="\t"} /^#/ {print} \$0 !~ /^#/ && \$NF >= 15' | bgzip > wes_${chrx}.tsv.gz
+    tabix -p vcf wes_${chrx}.tsv.gz  
     """
 }
