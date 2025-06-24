@@ -21,7 +21,7 @@ process Pre_processing_1 {
     grep '##' ${x} > f3.vcf
     paste p1 p2 >> f3.vcf
     rm -r p1 p2
-    bcftools view -h  ${vcfFile} --threads $task.cpus | grep '^##FORMAT=' > format.txt
+    bcftools view -h  input_vcf --threads $task.cpus | grep '^##FORMAT=' > format.txt
     sed -i '1 r format.txt' f3.vcf
     #####
     bcftools +fill-tags f3.vcf --threads $task.cpus -- -t 'FORMAT/AB:1=float((AD[:1]) / (DP))' | bgzip -c > f3.vcf.gz
