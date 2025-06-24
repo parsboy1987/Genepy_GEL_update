@@ -16,7 +16,7 @@ process CADD_score {
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
     bcftools norm -m+any ${vcfFile} -Oz -o input.vcf.gz
-    tabix -p vcf wes_${chrx}.tsv.gz
+    tabix -p vcf input.vcf.gz
     ############################
     bcftools view -G input.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
     ## awk -F"\t" '\$1 ~/#/ || length(\$4)>1||length(\$5)>1' p1.vcf | sed '2680,\$s/chr//g' p1.vcf > ${chrx}.p11.vcf
