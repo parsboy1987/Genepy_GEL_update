@@ -38,7 +38,7 @@ paste p1 csq | awk '$5 ~/,/' |while read i; do echo "$i" | cut -f 5 -d' ' | sed 
 paste p1_m order |awk '$9 !~/,/' |cut -f 5 > alt_re
 paste p1_m order |awk '$9 !~/,/' |cut -f 1-8 > p1_re
 #paste p1_m order |awk '$9 !~/,/' |cut -f 8 | cut -f 3 -d';' | cut -f 1 > csq_re
-paste p1_m order |awk '$9 !~/,/' |cut -f 8 | awk -F";" '{for (i=1;i<=NF;i++) if ($i ~/CSQ\+/) print$i}' p1 |sed 's/CSQ\=//g' > csq_re
+paste p1_m order |awk '$9 !~/,/' |cut -f 8 | awk -F";" '{for (i=1;i<=NF;i++) if ($i ~/CSQ\=/) print$i}' |sed 's/CSQ\=//g' > csq_re
 paste p1_m order |awk '$9 ~/,/' |cut -f 1-7,9 > p1_1
 
 ##repeat
