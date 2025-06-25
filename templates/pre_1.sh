@@ -114,6 +114,6 @@ awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++)if($i<2.097252){$i="";}}1' c5 >c5b
 #    print
 #}' > c6
 
-rm p1* alt_re order*
+rm alt_re order*
 
 #rm k j
