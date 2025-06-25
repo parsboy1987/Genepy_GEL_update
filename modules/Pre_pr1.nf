@@ -8,7 +8,7 @@ process Pre_processing_1 {
   tuple path(x), val(vcf_n), file(vcfFile), val(chrx)
   path(ethnicity)
   path(xgen_bed)
-  path(input_vcf)
+  path("input.vcf.gz")
   output:
   tuple path("f5.vcf.gz"), val(vcf_n), val(chrx), emit:main
   path("*")
@@ -16,12 +16,12 @@ process Pre_processing_1 {
   
   shell:
     """
-    gunzip -c input_vcf | grep -v '##'|cut -f 9-> p2
+    gunzip -c "input.vcf.gz" | grep -v '##'|cut -f 9-> p2
     grep -v '##' ${x} > p1
     grep '##' ${x} > f3.vcf
     paste p1 p2 >> f3.vcf
     rm -r p1 p2
-    bcftools view -h  input_vcf --threads $task.cpus | grep '^##FORMAT=' > format.txt
+    bcftools view -h  "input.vcf.gz" --threads $task.cpus | grep '^##FORMAT=' > format.txt
     sed -i '1 r format.txt' f3.vcf
     #####
     bcftools +fill-tags f3.vcf --threads $task.cpus -- -t 'FORMAT/AB:1=float((AD[:1]) / (DP))' | bgzip -c > f3.vcf.gz
