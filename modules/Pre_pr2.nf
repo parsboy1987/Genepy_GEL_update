@@ -18,6 +18,16 @@ process Pre_processing_2 {
   path("p1_1")
   path("p1_2")
   path("p1_order")
+  path("p1") 
+  path("c")
+  path("csq")
+  path("p1_s")
+  path("p1_m")
+  path("p1_re")
+  path("alt_re")
+  path("csq_re")
+  path("order_re")
+  path("order")
   shell:
     """
     REAL_PATH1=\$(readlink -f ${template})
