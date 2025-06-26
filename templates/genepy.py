@@ -72,6 +72,24 @@ def fix_chrX_gt(geno: str) -> str:
         return "0/0"
     elif re.match(r"^1(?::.*)?$", geno):
         return "1/1"
+     elif re.match(r"^2(?::.*)?$", geno):
+        return "2/2"
+     elif re.match(r"^3(?::.*)?$", geno):
+        return "3/3"
+     elif re.match(r"^4(?::.*)?$", geno):
+        return "4/4"
+     elif re.match(r"^5(?::.*)?$", geno):
+        return "5/5"
+     elif re.match(r"^6(?::.*)?$", geno):
+        return "6/6"
+     elif re.match(r"^7(?::.*)?$", geno):
+        return "7/7"
+     elif re.match(r"^8(?::.*)?$", geno):
+        return "8/8"
+     elif re.match(r"^9(?::.*)?$", geno):
+        return "9/9"
+     elif re.match(r"^10(?::.*)?$", geno):
+        return "10/10"
     elif re.match(r"^\.(?::.*)?$", geno):
         return "./."
     return geno
