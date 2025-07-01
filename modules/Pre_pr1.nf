@@ -21,7 +21,7 @@ process Pre_processing_1 {
     grep '##' ${x} > f31.vcf
     paste p1 p2 >> f31.vcf
     rm -r p1 p2
-    awk -F"\t" '$7~/PASS/ || $1~/#/' f31.vcf > f3.vcf
+    awk -F"\t" '\$7~/PASS/ || \$1~/#/' f31.vcf > f3.vcf
     bcftools view -h  "input.vcf.gz" --threads $task.cpus | grep '^##FORMAT=' > format.txt
     sed -i '1 r format.txt' f3.vcf
     #####
