@@ -23,6 +23,26 @@ cp header_meta meta_CADD20.txt
 zgrep -v '#' f5.vcf.gz | cut -f10- | perl -F'\t' -lane 'print join("\t", map { substr($_,0,3) } @F)' > c6
 
 ##merge;
+files=(c1 c2 c3 c4 c5 c6)
+
+# Get the number of lines in the first file
+ref_lines=$(wc -l < "${files[0]}")
+
+aligned=true
+
+for file in "${files[@]}"; do
+    lines=$(wc -l < "$file")
+    if [[ "$lines" -ne "$ref_lines" ]]; then
+        aligned=false
+        break
+    fi
+done
+
+if $aligned; then
+    echo "All files have the same number of lines."
+else
+    echo "Files do not have the same number of lines."
+fi
 paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
 paste c1 c2 c3 c4 c5a c6 >> meta_CADD15.txt
 paste c1 c2 c3 c4 c5b c6 >> meta_CADD20.txt
