@@ -39,15 +39,21 @@ for file in "${files[@]}"; do
 done
 
 if $aligned; then
-    echo "All files have the same number of lines."
+    echo "All C* files have the same number of lines."
 else
-    echo "Files do not have the same number of lines."
+    echo "C* Files do not have the same number of lines."
 fi
 paste c1 c2 c3 c4 c5 c6 >> meta_CADDALL.txt
 paste c1 c2 c3 c4 c5a c6 >> meta_CADD15.txt
 paste c1 c2 c3 c4 c5b c6 >> meta_CADD20.txt
 mv c6 metafilesALL_${region}/.
+empty_count=$(awk -F'\t' 'NR > 1 && ($17 == "" || $17 == ".")' meta_CADDALL.txt | wc -l)
 
+if [[ "$empty_count" -eq 0 ]]; then
+    echo "MetaCADD_ALL >>>> All rows have values in the SCORE1 (column 17)."
+else
+    echo "MetaCADD_ALL >>>> Found $empty_count rows with missing values in SCORE1 (column 17)."
+fi
 ##CADD_all#
 while read gene;
     do
