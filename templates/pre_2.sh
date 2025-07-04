@@ -20,7 +20,7 @@ cp header_meta meta_CADD20.txt
 
 #zgrep -v "#" f5.vcf.gz | perl -F'\t' -lane 'print join("\t", map { substr($_,0,3) } @F[9..$#F])' > c6
 #zgrep -v '#' f5.vcf.gz | cut -f 10- | awk -F"\t" '{OFS=FS}{for(i=1;i<=NF;i++) $i=substr($i,1,3)}1' >c6
-zgrep -v '#' f5.vcf.gz | cut -f10- | perl -F'\t' -lane 'print join("\t", map { substr($_,0,3) } @F)' > c6
+zgrep -v '#' f5_dedup.vcf.gz | cut -f10- | perl -F'\t' -lane 'print join("\t", map { substr($_,0,3) } @F)' > c6
 
 ##merge;
 files=(c1 c2 c3 c4 c5 c6)
