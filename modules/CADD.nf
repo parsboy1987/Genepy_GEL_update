@@ -12,6 +12,7 @@ process CADD_score {
   path("input.vcf.gz"), emit: input_vcf
   script:
     """
+    echo "Iman"
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
