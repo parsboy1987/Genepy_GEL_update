@@ -11,7 +11,7 @@ process Pre_processing_1 {
   path("input.vcf.gz")
   output:
   tuple path("f5.vcf.gz"), val(vcf_n), val(chrx), emit:main
-  path("*.vcf")
+  path("*.vcf.gz")
   
   
   shell:
