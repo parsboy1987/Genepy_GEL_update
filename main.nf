@@ -41,7 +41,7 @@ workflow {
      
         
        chromosomeList = params.chromosomes
-       println "START"
+       println "START :)"
        println "Chromosome list: $chromosomeList"
      // def regionPatterns = ['chr22_1_10848253', 'chr22_21129938_21349068', 'chr22_21349069_22141767', 'chr22_22141768_23984312','chr22_38483936_40850931','chr22_40850932_42981587']  // Define allowed patterns
 
@@ -90,8 +90,5 @@ workflow.onComplete {
        """
    )
 }
-//workflow.onError {
-//  file(params.output).deleteDir()
-//}
 
                       
