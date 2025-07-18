@@ -13,7 +13,7 @@ process CADD_score {
   path("${chrx}.p11.vcf")
   script:
     """
-    echo "Iman"
+    echo "CADD"
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
