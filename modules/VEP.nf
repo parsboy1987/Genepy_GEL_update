@@ -5,7 +5,7 @@ process VEP_score {
   //label "process_medium"
   
   input:
-  tuple val(chrx), path("p1.vcf"), path("wes.tsv.gz"), path("wes.tsv.gz.tbi"), val(vcf_n) , file(vcfFile)
+  tuple val(chrx), path("p1.vcf"), path("wes.tsv.gz"), path("wes.tsv.gz.tbi"), val(vcf_n) , file(vcfFile), path("input.vcf.gz")
   path(homos_vep)
   path(vep_plugins)
   path(plugin1)
@@ -14,7 +14,7 @@ process VEP_score {
   path(genomad_indx2)
   
   output:
-   tuple path("${chrx}.p1.vep.vcf"), val(vcf_n), file(vcfFile), val(chrx) ,emit: vep_out
+   tuple path("${chrx}.p1.vep.vcf"), val(vcf_n), file(vcfFile), val(chrx),path("input.vcf.gz") ,emit: vep_out
   
   script:
   
