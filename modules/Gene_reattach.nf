@@ -17,8 +17,9 @@ process Reatt_Genes {
     mkdir -p "\$OUTPUT_FOLDER"
     touch "\$OUTPUT_FOLDER/1.txt"
     FINAL_LIST="${chromosome_name}_${cadd}_final.lst"
+    GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$FINAL_LIST"
-
+    > "\$GENE_LIST"
     declare -a FOLDERS
     for folder in ${folder_paths}; do
         folder=\$(echo "\$folder" | tr -d '[],') 
@@ -28,7 +29,7 @@ process Reatt_Genes {
     for folder in "\${FOLDERS[@]}"; do
         echo "\$folder" >> "\$FINAL_LIST"
         for file in "\${folder}"/*.meta; do
-            [ -e "\$file" ] || continue  
+            echo "\$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
             gene_files["\$gene_name"]+="\$file "
             echo "\$gene_name"
