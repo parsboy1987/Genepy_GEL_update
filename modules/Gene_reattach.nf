@@ -32,7 +32,7 @@ process Reatt_Genes {
         shopt -s nullglob
         for file in "\${folder}"/*.meta; do
             echo "File: \$file" >> "\$GENE_LIST"
-            gene_name=$(basename "\$file")
+            gene_name=\$(basename "\$file")
             gene_files["\$gene_name"]+="\$file "
             echo "\$gene_name"
         done
