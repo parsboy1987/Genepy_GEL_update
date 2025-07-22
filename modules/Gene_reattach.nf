@@ -21,20 +21,20 @@ process Reatt_Genes {
     > "\$FINAL_LIST"
     > "\$GENE_LIST"
     declare -a FOLDERS
-    for folder in "${FOLDERS[@]}"; do
-        if [[ ! -d "$folder" ]]; then
-            echo "WARNING: Folder not found: $folder" >> "$FINAL_LIST"
+    for folder in "\${FOLDERS[@]}"; do
+        if [[ ! -d "\$folder" ]]; then
+            echo "WARNING: Folder not found: \$folder" >> "$FINAL_LIST"
             continue
         fi
     
-        echo "Scanning folder: $folder" >> "$FINAL_LIST"
+        echo "Scanning folder: \$folder" >> "\$FINAL_LIST"
     
         shopt -s nullglob
-        for file in "${folder}"/*.meta; do
-            echo "File: $file" >> "$GENE_LIST"
-            gene_name=$(basename "$file")
-            gene_files["$gene_name"]+="$file "
-            echo "$gene_name"
+        for file in "\${folder}"/*.meta; do
+            echo "File: \$file" >> "\$GENE_LIST"
+            gene_name=$(basename "\$file")
+            gene_files["\$gene_name"]+="\$file "
+            echo "\$gene_name"
         done
     shopt -u nullglob
     done
