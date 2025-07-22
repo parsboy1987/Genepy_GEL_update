@@ -31,10 +31,11 @@ process Reatt_Genes {
             echo "WARNING: Folder not found: \$folder"
             continue
         fi
-    
+        
         echo "Scanning folder: \$folder" 
     
         shopt -s nullglob
+        echo "\$folder" >> "\$FINAL_LIST"
         for file in "\${folder}"/*.meta; do
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
