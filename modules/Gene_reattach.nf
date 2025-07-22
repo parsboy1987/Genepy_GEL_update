@@ -21,6 +21,11 @@ process Reatt_Genes {
     > "\$FINAL_LIST"
     > "\$GENE_LIST"
     declare -a FOLDERS
+    for folder in ${folder_paths}; do
+        folder=\$(echo "\$folder" | tr -d '[],')
+        FOLDERS+=("\$folder")
+    done
+
     for folder in "\${FOLDERS[@]}"; do
         if [[ ! -d "\$folder" ]]; then
             echo "WARNING: Folder not found: \$folder"
