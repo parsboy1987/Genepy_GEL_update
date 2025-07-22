@@ -1,5 +1,5 @@
 process Pre_processing_3 {
-  // publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
+  publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
   //maxForks 10
   label "Pre_processing_3"
   //label "process_micro"
