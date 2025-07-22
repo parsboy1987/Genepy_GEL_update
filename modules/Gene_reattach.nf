@@ -23,11 +23,11 @@ process Reatt_Genes {
     declare -a FOLDERS
     for folder in "\${FOLDERS[@]}"; do
         if [[ ! -d "\$folder" ]]; then
-            echo "WARNING: Folder not found: \$folder" >> "$FINAL_LIST"
+            echo "WARNING: Folder not found: \$folder"
             continue
         fi
     
-        echo "Scanning folder: \$folder" >> "\$FINAL_LIST"
+        echo "Scanning folder: \$folder" 
     
         shopt -s nullglob
         for file in "\${folder}"/*.meta; do
