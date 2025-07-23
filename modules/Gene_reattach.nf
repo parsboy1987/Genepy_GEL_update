@@ -19,9 +19,9 @@ process Reatt_Genes {
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$GENE_LIST"
     declare -a FOLDERS
-    for dir in $folder_paths; do 
+    for dir in ${folder_paths}; do 
         echo "\$dir"
-        ls \$dir/
+        ##ls \$dir/
         for file in "\$dir"/*.meta; do
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
