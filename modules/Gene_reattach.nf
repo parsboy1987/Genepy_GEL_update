@@ -4,7 +4,7 @@ process Reatt_Genes {
     label "Reatt_Genes"
     //label "process_micro"
     input:
-    tuple val(cadd),val(chromosome_name),val(folder_paths)
+    tuple val(cadd),val(chromosome_name),path(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
     output:
     tuple val(folder_paths),path("metafiles${cadd}"), emit: path_
@@ -19,9 +19,9 @@ process Reatt_Genes {
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$GENE_LIST"
     declare -a FOLDERS
-    for dir in ${folder_paths}; do 
+    for dir in ${folder_paths[@]}; do 
         echo "\$dir"
-        ls \$dir/
+        ls \$dir
         for file in "\$dir"/*.meta; do
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
