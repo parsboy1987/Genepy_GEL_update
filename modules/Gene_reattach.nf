@@ -20,7 +20,7 @@ process Reatt_Genes {
     > "\$GENE_LIST"
     declare -a FOLDERS
     for dir in ${folder_paths}; do 
-        clean_paths=$(echo \$dir | tr -d '[],')
+        clean_paths=\$(echo \$dir | tr -d '[],')
         echo "\$clean_paths"
         ls \$clean_paths
         for file in "\$clean_paths"/*.meta; do
