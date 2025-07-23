@@ -65,7 +65,7 @@ process Reatt_Genes {
             done
 
             for file in "\${files[@]}"; do
-                real_file=$(realpath "\$file")
+                real_file=\$(realpath "\$file")
                 rm -f "\$real_file"
                 
                 echo "\$real_file deleted"
