@@ -57,11 +57,11 @@ workflow {
       Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
       Pre_processing_3(Pre_processing_2.out.main,params.templates)     
      // def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
-      def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list ->
-        def folders = genes_list instanceof List ? genes_list : [genes_list]
-        def folder_paths = folders.collect { file(it.toString()) }  // Ensure they are Nextflow Path objects
-        tuple("15", chromosomeList, folder_paths)
+      def meta15 = Pre_processing_3.out.meta_files15.collect().map { paths ->
+        def real_paths = paths instanceof List ? paths.collect { file(it.toString()) } : [file(paths.toString())]
+        tuple("15", chromosomeList, real_paths)
         }
+
       def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
