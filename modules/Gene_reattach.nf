@@ -25,6 +25,7 @@ process Reatt_Genes {
 
     declare -A gene_files
     for dir in ${folder_paths}; do 
+        echo "\$dir"
         clean_paths=\$(echo \$dir | tr -d '[],')
         echo "\$clean_paths"
         ls \$clean_paths
