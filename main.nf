@@ -58,16 +58,16 @@ workflow {
       Pre_processing_3(Pre_processing_2.out.main,params.templates)     
      // def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
       def meta15 = Pre_processing_3.out.meta_files15.collect().map { paths ->
-        def real_paths = paths instanceof List ? paths.collect { file(it.toString()) } : [file(paths.toString())]
+        def real_paths = paths.toString()
         tuple("15", chromosomeList, real_paths)
-        }
+        }.view()
 
       def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       x_combo.view()
-      Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_.view()
+     // Reatt_Genes(x_combo)
+    //  Reatt_Genes.out.path_.view()
     //  def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
     //        path1 = path.toString()
     //         println "path: $path1"
