@@ -65,8 +65,10 @@ process Reatt_Genes {
             done
 
             for file in "\${files[@]}"; do
-                rm -f "\$file"
-               # echo "scgfx"
+                real_file=$(realpath "\$file")
+                rm -f "\$real_file"
+                
+                echo "\$real_file deleted"
             done
         fi
     done
