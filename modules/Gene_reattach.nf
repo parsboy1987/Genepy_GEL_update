@@ -19,6 +19,8 @@ process Reatt_Genes {
     touch "\$OUTPUT_FOLDER/1.txt"
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$GENE_LIST"
+    duplicated_genes="${chromosome_name}_${cadd}_dup.lst"
+    > "\$duplicated_genes"
     set -u
     declare -a FOLDERS
  
@@ -51,6 +53,7 @@ process Reatt_Genes {
         echo "\$files"
         if [ \${#files[@]} -gt 1 ]; then
             echo "this is duplicated  \$gene"
+            echo "\$gene" >> "\$duplicated"
             output_file="\$OUTPUT_FOLDER/\${gene}"
 
             head -n 1 "\${files[0]}" > "\$output_file"
