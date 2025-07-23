@@ -31,7 +31,7 @@ process Reatt_Genes {
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
             gene_name="\${gene_name%.meta}"
-            gene_files["\$gene_name"]="\${gene_files[\$gene_name]} \$file"
+            gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \$file"
             echo "\$gene_name"
         done
     done
