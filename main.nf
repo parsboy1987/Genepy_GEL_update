@@ -56,9 +56,7 @@ workflow {
       Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
       Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
       Pre_processing_3(Pre_processing_2.out.main,params.templates)     
-      def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> 
-        path2= genes_list.toString()
-        ["15",chromosomeList, path2] }
+      def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
       def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
