@@ -18,7 +18,11 @@ process Reatt_Genes {
     touch "\$OUTPUT_FOLDER/1.txt"
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$GENE_LIST"
+    set -u
     declare -a FOLDERS
+ 
+
+    declare -A gene_files
     for dir in ${folder_paths}; do 
         clean_paths=\$(echo \$dir | tr -d '[],')
         echo "\$clean_paths"
