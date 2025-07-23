@@ -16,34 +16,16 @@ process Reatt_Genes {
     OUTPUT_FOLDER="metafiles${cadd}"
     mkdir -p "\$OUTPUT_FOLDER"
     touch "\$OUTPUT_FOLDER/1.txt"
-    FINAL_LIST="${chromosome_name}_${cadd}_final.lst"
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
-    > "\$FINAL_LIST"
     > "\$GENE_LIST"
     declare -a FOLDERS
-    for folder in ${folder_paths}; do
-        folder=\$(echo "\$folder" | tr -d '[],')
-        FOLDERS+=("\$folder")
+    for file in "${folder_paths}"/*.meta; do
+        echo "File: \$file" >> "\$GENE_LIST"
+        gene_name=\$(basename "\$file")
+        gene_files["\$gene_name"]+="\$file "
+        echo "\$gene_name"
     done
 
-    for folder in "\${FOLDERS[@]}"; do
-        if [[ ! -d "\$folder" ]]; then
-            echo "WARNING: Folder not found: \$folder"
-            continue
-        fi
-        
-        echo "Scanning folder: \$folder" 
-    
-        shopt -s nullglob
-        echo "\$folder" >> "\$FINAL_LIST"
-        for file in "\${folder}"/*.meta; do
-            echo "File: \$file" >> "\$GENE_LIST"
-            gene_name=\$(basename "\$file")
-            gene_files["\$gene_name"]+="\$file "
-            echo "\$gene_name"
-        done
-    shopt -u nullglob
-    done
 
     echo "half done!"
     for item in "\${gene_files[@]}"; do
@@ -73,19 +55,10 @@ process Reatt_Genes {
         fi
     done
 
-    if [ -d "\$OUTPUT_FOLDER" ]; then
-        realpath "\$OUTPUT_FOLDER" >> "\$FINAL_LIST"
-    fi
     
  ##   while IFS= read -r line; do
  ##       base_name=\$(basename "\$line")
  ##       echo "\$line" > "\$base_name".lstx
  ##   done < "\$FINAL_LIST"
-   while IFS= read -r line; do
-    if [ -s "\$line" ]; then  # Check if the file is not empty
-        base_name=\$(basename "\$line")
-        echo "\$line" > "\$base_name.lstx"  # Write the line to output file
-    fi
-    done < "\$FINAL_LIST" 
     """
 }
