@@ -61,8 +61,8 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       x_combo.view()
-    //  Reatt_Genes(x_combo)
-    //  Reatt_Genes.out.path_.view()
+      Reatt_Genes(x_combo)
+      Reatt_Genes.out.path_.view()
     //  def result = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
     //        path1 = path.toString()
     //         println "path: $path1"
