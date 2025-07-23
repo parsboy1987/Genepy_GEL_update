@@ -10,7 +10,7 @@ process Reatt_Genes {
     output:
     tuple val(folder_paths),path("metafiles${cadd}"), emit: path_
     
-    path("*")
+    path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
     shell:
     """
     echo "start"
