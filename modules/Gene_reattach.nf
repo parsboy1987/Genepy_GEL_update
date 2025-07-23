@@ -54,7 +54,7 @@ process Reatt_Genes {
         echo "\$files"
         if [ \${#files[@]} -gt 1 ]; then
             echo "this is duplicated  \$gene"
-            echo "\$gene" >> "\$duplicated"
+            echo "\$gene" >> "\$duplicated_genes"
             output_file="\$OUTPUT_FOLDER/\${gene}"
 
             head -n 1 "\${files[0]}" > "\$output_file"
