@@ -5,7 +5,7 @@ process Reatt_Genes {
     //label "process_micro"
     input:
     tuple val(cadd),val(chromosome_name),path(folder_paths)
-    //tuple path("metafilesALL"),path("metafiles15"),path("metafiles20")
+    //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
     tuple val(folder_paths),path("metafiles${cadd}"), emit: path_
     path("*")
