@@ -77,6 +77,7 @@ workflow {
       def results1 = results.inject([]) { acc, sublist ->
       acc + sublist  // Concatenate each sublist into accumulator list
 }
+}
       results1.view()
   //    Genepy_score(result)
 
