@@ -74,7 +74,10 @@ workflow {
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }}
       
-     Channel.from(results).view()
+    def ch_results_grouped = Channel.from(results)
+
+// Just to inspect (each emit will be one group/list of tuples)
+   ch_results_grouped.view()
   //    Genepy_score(result)
 }
 workflow.onComplete {
