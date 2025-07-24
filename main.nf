@@ -74,9 +74,11 @@ workflow {
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }}.toList().flatten()
-      results.view()
-  //    Genepy_score(result)
+      def results1 = results.inject([]) { acc, sublist ->
+      acc + sublist  // Concatenate each sublist into accumulator list
 }
+      results1.view()
+  //    Genepy_score(result)
 
 workflow.onComplete {
    println ( workflow.success ? """
