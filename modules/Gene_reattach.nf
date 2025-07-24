@@ -8,7 +8,7 @@ process Reatt_Genes {
     tuple val(cadd),val(chromosome_name),path(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
-    tuple val(folder_paths),path("metafiles${cadd}"), emit: path_
+    path("metafiles${cadd}"), emit: path_
     
     path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
     shell:
@@ -16,8 +16,9 @@ process Reatt_Genes {
     echo "start"
     
     OUTPUT_FOLDER="metafiles${cadd}"
-    mkdir -p "\$OUTPUT_FOLDER"
-    touch "\$OUTPUT_FOLDER/1.txt"
+    DUP_FOLDER="${OUTPUT_FOLDER}/metafiles${cadd}_dup"
+    mkdir -p "\$DUP_FOLDER"
+    touch "\$DUP_FOLDER/1.txt"
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$GENE_LIST"
     duplicated_genes="${chromosome_name}_${cadd}_dup.lst"
@@ -32,11 +33,14 @@ process Reatt_Genes {
         clean_paths=\$(echo \$dir | tr -d '[],')
         echo "\$clean_paths"
         ls \$clean_paths
+        ###subfolder_name=$(basename "$clean_path")
+        #####mkdir -p "${OUTPUT_FOLDER}/${clean_path}"
         for file in "\$clean_paths"/*.meta; do
+            ##cp "\$file" "\${OUTPUT_FOLDER}/"
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
             gene_name="\${gene_name%.meta}"
-            gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \$file"
+            gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \${file}"
             echo "\$gene_name"
         done
     done
@@ -55,7 +59,7 @@ process Reatt_Genes {
         if [ \${#files[@]} -gt 1 ]; then
             echo "this is duplicated  \$gene"
             echo "\$gene" >> "\$duplicated_genes"
-            output_file="\$OUTPUT_FOLDER/\${gene}"
+            output_file="\$DUP_FOLDER/\${gene}.meta"
 
             head -n 1 "\${files[0]}" > "\$output_file"
 
@@ -63,13 +67,14 @@ process Reatt_Genes {
                 
                 tail -n +2 "\$file" >> "\$output_file"
             done
-
-            for file in "\${files[@]}"; do
-                real_file=\$(realpath "\$file")
-                rm -f "\$real_file"
-                
-                echo "\$real_file deleted"
-            done
+    else
+            cp "\${files[0]" "\${OUTPUT_FOLDER}/"
+            ##for file in "\${files[@]}"; do
+            ##    real_file=\$(realpath "\$file")
+           ##     rm -f "\$real_file"
+           ##     
+           ##     echo "\$real_file deleted"
+          ##  done
         fi
     done
 
