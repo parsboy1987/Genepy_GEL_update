@@ -65,19 +65,15 @@ workflow {
       x_combo.view()
       Reatt_Genes(x_combo)
       Reatt_Genes.out.path_.view()
-      def result = Reatt_Genes.out.path_
-      .collectMany { folder -> 
-        def subfolders = folder.listFiles().findAll { it.isDirectory() }
-        return subfolders.collect { sub -> 
-            def path1 = sub.toString()
-            def cadd_score = path1.contains('metafilesALL') ? 'ALL' :
-                             path1.contains('metafiles20') ? '20' :
-                             path1.contains('metafiles15') ? '15' : 'ALL'
-            [sub, chromosomeList, cadd_score, params.genepy_py, params.kary]
+      Reatt_Genes.out.path_.map { folder ->
+      def path1 = folder.toString()
+      def cadd_score = path1.contains('metafilesALL') ? 'ALL' :
+                       path1.contains('metafiles20') ? '20' :
+                       path1.contains('metafiles15') ? '15' : 'ALL'
+      [folder, chromosomeList, cadd_score, params.genepy_py, params.kary]
         }
-    }
 
-        result.view()
+      result.view()
 
   //    Genepy_score(result)
 }
