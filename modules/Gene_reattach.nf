@@ -8,7 +8,7 @@ process Reatt_Genes {
     tuple val(cadd),val(chromosome_name),path(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
-    path("metafiles${cadd}/*"), emit: path_
+    path("metafiles${cadd}"), emit: path_
     
     path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
     shell:
@@ -16,9 +16,9 @@ process Reatt_Genes {
     echo "start"
     
     OUTPUT_FOLDER="metafiles${cadd}"
-    DUP_FOLDER="\${OUTPUT_FOLDER}/metafiles${cadd}_dup"
+    DUP_FOLDER="\$OUTPUT_FOLDER/metafiles${cadd}_dup"
     mkdir -p "\$DUP_FOLDER"
-    touch "\$DUP_FOLDER/1.txt"
+    touch "\${DUP_FOLDER}/1.txt"
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
     > "\$GENE_LIST"
     duplicated_genes="${chromosome_name}_${cadd}_dup.lst"
@@ -37,7 +37,7 @@ process Reatt_Genes {
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
             gene_name="\${gene_name%.meta}"
-            gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \${file}"
+            gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \$file"
             echo "\$gene_name"
         done
     done
