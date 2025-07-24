@@ -8,7 +8,7 @@ process Reatt_Genes {
     tuple val(cadd),val(chromosome_name),path(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
-    path("metafiles${cadd}"), emit: path_
+    path("metafiles${cadd}/*"), emit: path_
     
     path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
     shell:
@@ -56,7 +56,7 @@ process Reatt_Genes {
         if [ \${#files[@]} -gt 1 ]; then
             echo "this is duplicated  \$gene"
             echo "\$gene" >> "\$duplicated_genes"
-            output_file="\$DUP_FOLDER/\${gene}.meta"
+            output_file="\${DUP_FOLDER}/\${gene}.meta"
 
             head -n 1 "\${files[0]}" > "\$output_file"
 
@@ -65,19 +65,7 @@ process Reatt_Genes {
             done
     else
             cp "\${files[0]" "\${OUTPUT_FOLDER}/"
-            ##for file in "\${files[@]}"; do
-            ##    real_file=\$(realpath "\$file")
-           ##     rm -f "\$real_file"
-           ##     
-           ##     echo "\$real_file deleted"
-          ##  done
         fi
     done
-
-    
- ##   while IFS= read -r line; do
- ##       base_name=\$(basename "\$line")
- ##       echo "\$line" > "\$base_name".lstx
- ##   done < "\$FINAL_LIST"
     """
 }
