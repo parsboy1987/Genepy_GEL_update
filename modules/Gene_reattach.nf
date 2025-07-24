@@ -16,7 +16,7 @@ process Reatt_Genes {
     echo "start"
     
     OUTPUT_FOLDER="metafiles${cadd}"
-    DUP_FOLDER="${OUTPUT_FOLDER}/metafiles${cadd}_dup"
+    DUP_FOLDER="\${OUTPUT_FOLDER}/metafiles${cadd}_dup"
     mkdir -p "\$DUP_FOLDER"
     touch "\$DUP_FOLDER/1.txt"
     GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
