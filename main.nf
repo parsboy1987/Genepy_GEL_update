@@ -62,19 +62,16 @@ workflow {
       def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
-      x_combo.view()
+      x_combo
       Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_.view()
-      Reatt_Genes.out.path_.map { folder ->
-      def path1 = folder.toString()
-      def cadd_score = path1.contains('metafilesALL') ? 'ALL' :
-                       path1.contains('metafiles20') ? '20' :
-                       path1.contains('metafiles15') ? '15' : 'ALL'
-      [folder, chromosomeList, cadd_score, params.genepy_py, params.kary]
+      def results = Reatt_Genes.out.path_.map { folder ->
+          def path1 = folder.toString()
+          def cadd_score = path1.contains('metafilesALL') ? 'ALL' :
+                           path1.contains('metafiles20') ? '20' :
+                           path1.contains('metafiles15') ? '15' : 'ALL'
+          [folder, chromosomeList, cadd_score, params.genepy_py, params.kary]
         }
-
-      result.view()
-
+      results.view()
   //    Genepy_score(result)
 }
 
