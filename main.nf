@@ -57,14 +57,13 @@ workflow {
       Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
       Pre_processing_3(Pre_processing_2.out.main,params.templates)     
      // def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
-      def meta15 = Pre_processing_3.out.meta_files15.collect().map {genes_list -> ["15",chromosomeList, genes_list] }.view()
+      def meta15 = Pre_processing_3.out.meta_files15.collect().map {genes_list -> ["15",chromosomeList, genes_list] }
 
       def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
-      x_combo
       Reatt_Genes(x_combo)
-      def results = Reatt_Genes.out.path_.map{ mainfolder -> mainfolder.listFiles()
+      def results = Reatt_Genes.out.path_.flatten.map{ mainfolder -> mainfolder.listFiles()
               .findAll { it.isDirectory() }.collect { path ->
             path1 = path.toString()
             println "path: $path1"
@@ -74,10 +73,8 @@ workflow {
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }}
-      def results1 = results.inject([]) { acc, sublist ->
-      acc + sublist  // Concatenate each sublist into accumulator list
-}
-      results1.view()
+      
+      results.view()
   //    Genepy_score(result)
 }
 workflow.onComplete {
