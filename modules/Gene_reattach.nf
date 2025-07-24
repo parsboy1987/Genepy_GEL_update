@@ -64,7 +64,7 @@ process Reatt_Genes {
                 tail -n +2 "\$file" >> "\$output_file"
             done
     else
-            cp "\${files[0]" "\${OUTPUT_FOLDER}/"
+            cp "\${files[0]}" "\${OUTPUT_FOLDER}/"
         fi
     done
     """
