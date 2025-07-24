@@ -33,10 +33,7 @@ process Reatt_Genes {
         clean_paths=\$(echo \$dir | tr -d '[],')
         echo "\$clean_paths"
         ls \$clean_paths
-        ###subfolder_name=$(basename "$clean_path")
-        #####mkdir -p "${OUTPUT_FOLDER}/${clean_path}"
         for file in "\$clean_paths"/*.meta; do
-            ##cp "\$file" "\${OUTPUT_FOLDER}/"
             echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
             gene_name="\${gene_name%.meta}"
@@ -64,7 +61,6 @@ process Reatt_Genes {
             head -n 1 "\${files[0]}" > "\$output_file"
 
             for file in "\${files[@]}"; do
-                
                 tail -n +2 "\$file" >> "\$output_file"
             done
     else
