@@ -73,7 +73,7 @@ workflow {
                              (path1.contains('metafiles20')) ? '20' :
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
-        }}
+        }}.flatten()
       results.view()
   //    Genepy_score(result)
 }
