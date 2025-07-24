@@ -64,7 +64,7 @@ workflow {
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
       def results = Reatt_Genes.out.path_.map{ mainfolder -> mainfolder.listFiles()
-              .findAll { it.isDirectory() }.flatten { path ->
+              .findAll { it.isDirectory() }.collect { path ->
             path1 = path.toString()
             println "path: $path1"
             def chromosome =  chromosomeList
