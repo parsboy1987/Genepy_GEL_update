@@ -9,7 +9,7 @@ process Genepy_score {
     // path(genepy) 
 
     output:
-    path("*.txt"),optional: true
+    path("*.meta.txt"),optional: true
 
     shell:
     """
