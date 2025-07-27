@@ -74,7 +74,7 @@ workflow {
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }}
       results.view()
-     // Genepy_score(results)
+      Genepy_score(results)
 }
 workflow.onComplete {
    println ( workflow.success ? """
