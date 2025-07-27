@@ -20,6 +20,22 @@ include { Pre_processing_2 } from "./modules/Pre_pr2"
 include { Pre_processing_3 } from "./modules/Pre_pr3"  
 include { Reatt_Genes } from "./modules/Gene_reattach"
 include { Genepy_score } from "./modules/Genepy"
+process List_Folders {
+    input:
+    tuple path(folder), val(chromosome), val(cadd_score)
+    path(Genepy)
+    path(kary)
+    output:
+    tuple path(subfolder), val(chromosome), val(cadd_score), val(params.genepy_py), val(params.kary) into reattach_input
+
+    script:
+    """
+    find ${folder} -mindepth 1 -maxdepth 1 -type d > subfolders.txt
+    while read subfolder; do
+        echo -e "\$subfolder\t${chromosome}\t${cadd_score}\t${Genepy}\t${kary}"
+    done < subfolders.txt > tuples.tsv
+    """
+}
 
 
 
@@ -76,6 +92,7 @@ workflow {
    def results =  Reatt_Genes.out.path_
     .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
        results.view()
+       List_Folders(results,"${params.genepy_py}","${params.kary}").view()
      // Genepy_score(results)
 }
 workflow.onComplete {
