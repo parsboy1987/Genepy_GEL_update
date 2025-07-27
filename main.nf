@@ -74,7 +74,7 @@ workflow {
     //        [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
     //    }}
    def results =  Reatt_Genes.out.path_
-    .map { folder -> tuple(folder, params.chromosomes, folder.baseName()) }
+    .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
        results.view()
      // Genepy_score(results)
 }
