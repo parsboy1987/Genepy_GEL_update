@@ -26,7 +26,7 @@ process List_Folders {
     path(Genepy)
     path(kary)
     output:
-    tuple path(subfolder), val(chromosome), val(cadd_score), val(params.genepy_py), val(params.kary) into reattach_input
+    tuple path(subfolder), val(chromosome), val(cadd_score), path(Genepy), path(Kary)
 
     script:
     """
