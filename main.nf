@@ -63,7 +63,7 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      def results = Reatt_Genes.out.path_.map{ mainfolder -> mainfolder.listFiles()
+      def results = Reatt_Genes.out.path_.map{[1]}.map{ mainfolder -> mainfolder.listFiles()
               .findAll { it.isDirectory() }.collect { path ->
             path1 = path.toString()
             println "path: $path1"
@@ -74,7 +74,7 @@ workflow {
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }}
       results.view()
-      Genepy_score(results)
+     // Genepy_score(results)
 }
 workflow.onComplete {
    println ( workflow.success ? """
