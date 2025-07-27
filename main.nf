@@ -75,7 +75,7 @@ workflow {
     //    }}
       
 
-      def results = Reatt_Genes.out.path_.flatten().findAll { it.isDirectory() }.map { path ->
+      def results = Reatt_Genes.out.path_.flatten().findAll { it.isDir() }.map { path ->
             path1 = path.toString()
              println "path: $path1"
             def chromosome =  chromosomeList
