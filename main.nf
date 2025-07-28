@@ -91,11 +91,12 @@ workflow {
     //    }}
    def genepy_file = file(params.genepy_py)
    def kary_file = file(params.kary)
-   def results1 =  Reatt_Genes.out.path_
-    .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
-   def results2 = results1
-    .map { folder, chrom, score -> tuple(folder, chrom, score, genepy_file, kary_file) }.view()
-    List_Folders(results2).view()
+   Reatt_Genes.out.path_.view()
+   //def results1 =  Reatt_Genes.out.path_
+   // .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
+   //def results2 = results1
+   // .map { folder, chrom, score -> tuple(folder, chrom, score, genepy_file, kary_file) }.view()
+   // List_Folders(results2).view()
      // Genepy_score(results)
 }
 workflow.onComplete {
