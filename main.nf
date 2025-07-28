@@ -29,9 +29,10 @@ process List_Folders {
 
     script:
     """
+    mkdir emitted
     for subfolder in \$(find "${folder}" -mindepth 1 -maxdepth 1 -type d); do
-        echo "\$subfolder" >> subfolder_list.txt
-        ls "\$subfolder"
+        echo "copying \$subfolder"
+        cp -r "\$subfolder" emitted/
     done
     """
 }
