@@ -25,7 +25,7 @@ process List_Folders {
     input:
     tuple path(folder), val(chromosome), val(cadd_score), path(genepy), path(kary)
     output:
-    tuple path(subfolder), val(chromosome), val(cadd_score), path(genepy), path(kary)
+    tuple path("emitted/*"), val(chromosome), val(cadd_score), path(genepy), path(kary)
 
     script:
     """
@@ -93,10 +93,9 @@ workflow {
    def kary_file = file(params.kary)
    def results1 =  Reatt_Genes.out.path_
     .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
-       results1.view()
    def results2 = results1
     .map { folder, chrom, score -> tuple(folder, chrom, score, genepy_file, kary_file) }.view()
-    List_Folders(results2).view()
+    List_Folders(results2)
      // Genepy_score(results)
 }
 workflow.onComplete {
