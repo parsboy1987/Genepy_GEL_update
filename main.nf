@@ -29,11 +29,10 @@ process List_Folders {
 
     script:
     """
-    find "${folder}" -mindepth 1 -maxdepth 1 -type d > subfolders.txt
-    while read subfolder; do
+    for subfolder in \$(find "${folder}" -mindepth 1 -maxdepth 1 -type d); do
+        echo "\$subfolder" >> subfolder_list.txt
         ls "\$subfolder"
-        echo -e "\$subfolder\t${chromosome}\t${cadd_score}" >> debug.txt
-    done < subfolders.txt
+    done
     """
 }
 
