@@ -96,7 +96,7 @@ workflow {
    //def results2 = results1
    // .map { folder, chrom, score -> tuple(folder, chrom, score, genepy_file, kary_file) }.view()
    // List_Folders(results2).view()
-     // Genepy_score(results)
+     Genepy_score(results)
 }
 workflow.onComplete {
    println ( workflow.success ? """
