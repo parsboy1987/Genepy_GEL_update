@@ -21,6 +21,7 @@ include { Pre_processing_3 } from "./modules/Pre_pr3"
 include { Reatt_Genes } from "./modules/Gene_reattach"
 include { Genepy_score } from "./modules/Genepy"
 process List_Folders {
+    label "List_Folders"
     input:
     tuple path(folder), val(chromosome), val(cadd_score)
     path(Genepy)
