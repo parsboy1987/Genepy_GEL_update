@@ -20,23 +20,6 @@ include { Pre_processing_2 } from "./modules/Pre_pr2"
 include { Pre_processing_3 } from "./modules/Pre_pr3"  
 include { Reatt_Genes } from "./modules/Gene_reattach"
 include { Genepy_score } from "./modules/Genepy"
-process List_Folders {
-    label "List_Folders"
-    input:
-    tuple path(folder), val(chromosome), val(cadd_score), path(genepy), path(kary)
-    output:
-    tuple path("emitted/*"), val(chromosome), val(cadd_score), path(genepy), path(kary)
-
-    script:
-    """
-    mkdir emitted
-    for subfolder in \$(find "${folder}" -mindepth 1 -maxdepth 1 -type d); do
-        echo "copying \$subfolder"
-        cp -r "\$subfolder" emitted/
-    done
-    """
-}
-
 
 
 
@@ -88,14 +71,6 @@ workflow {
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }.view()
-  // def genepy_file = file(params.genepy_py)
-  // def kary_file = file(params.kary)
-  // Reatt_Genes.out.path_.view()
-   //def results1 =  Reatt_Genes.out.path_
-   // .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
-   //def results2 = results1
-   // .map { folder, chrom, score -> tuple(folder, chrom, score, genepy_file, kary_file) }.view()
-   // List_Folders(results2).view()
      Genepy_score(results)
 }
 workflow.onComplete {
