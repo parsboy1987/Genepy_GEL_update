@@ -23,18 +23,16 @@ include { Genepy_score } from "./modules/Genepy"
 process List_Folders {
     label "List_Folders"
     input:
-    tuple path(folder), val(chromosome), val(cadd_score)
-    path(Genepy)
-    path(kary)
+    tuple path(folder), val(chromosome), val(cadd_score), path(genepy), path(kary)
     output:
-    tuple path(subfolder), val(chromosome), val(cadd_score), path(Genepy), path(Kary)
+    tuple path(subfolder), val(chromosome), val(cadd_score), path(genepy), path(kary)
 
     script:
     """
     find ${folder} -mindepth 1 -maxdepth 1 -type d > subfolders.txt
     while read subfolder; do
-        echo -e "\$subfolder\t${chromosome}\t${cadd_score}\t${Genepy}\t${kary}"
-    done < subfolders.txt > tuples.tsv
+        echo -e "\$subfolder\t${chromosome}\t${cadd_score}" >> debug.txt
+    done < subfolders.txt
     """
 }
 
@@ -90,10 +88,14 @@ workflow {
     //                         (path1.contains('metafiles15')) ? '15' : 'ALL'
     //        [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
     //    }}
-   def results =  Reatt_Genes.out.path_
+   def genepy_file = file(params.genepy_py)
+   def kary_file = file(params.kary)
+   def results1 =  Reatt_Genes.out.path_
     .map { folder -> tuple(folder, params.chromosomes, folder.getName()) }
-       results.view()
-       List_Folders(results,"${params.genepy_py}","${params.kary}").view()
+       results1.view()
+   def results2 = results1
+    .map { folder, chrom, score -> tuple(folder, chrom, score, genepy_file, kary_file) }.view()
+    List_Folders(results2).view()
      // Genepy_score(results)
 }
 workflow.onComplete {
