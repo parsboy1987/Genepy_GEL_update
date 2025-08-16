@@ -67,9 +67,9 @@ process Reatt_Genes {
             for file in "\${files[@]}"; do
                 tail -n +2 "\$file" >> "\$output_file"
             done
-            echo "\$output_file" >> "\$OUTPUT_FILE_LIST" 
+            realpath "\$output_file" >> "\$OUTPUT_FILE_LIST" 
     else
-            echo "\${files[0]}" >> "\$OUTPUT_FILE_LIST"
+            realpath "\${files[0]}" >> "\$OUTPUT_FILE_LIST"
         fi
     done
     """
