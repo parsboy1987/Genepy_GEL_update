@@ -17,6 +17,8 @@ process Reatt_Genes {
     
     OUTPUT_FOLDER="metafiles${cadd}"
     OUTPUT_FILE_LIST="\${OUTPUT_FOLDER}/unique_file_paths.txt"
+    mkdir -p "\$OUTPUT_FOLDER"
+    touch "\${OUTPUT_FOLDER}/unique_file_paths.txt"
     > "\$OUTPUT_FILE_LIST"
     DUP_FOLDER="\$OUTPUT_FOLDER/metafiles${cadd}_dup"
     mkdir -p "\$DUP_FOLDER"
