@@ -62,8 +62,7 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      Reatt_Genes.out
-    .map { txt_file, chr, score ->
+      Reatt_Genes.out.path_.map { txt_file, chr, score ->
         // Read all lines from the gene list txt
         def lines = txt_file.readLines()
 
@@ -108,6 +107,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
