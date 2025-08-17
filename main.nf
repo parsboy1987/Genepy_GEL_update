@@ -62,13 +62,20 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_.map { txt_file, chr, score ->
-        // Read all lines from txt_file
+      Reatt_Genes.out
+    .map { txt_file, chr, score ->
+        // Read all lines from the gene list txt
         def lines = txt_file.readLines()
-        // Group into batches of 100
+
+        // Split into chunks of 100 lines
         lines.collate(100).withIndex().collect { chunk, idx ->
-            def chunk_file = txt_file.parent.resolve("${txt_file.baseName}_chunk${idx+1}.txt")
+            // Name the new chunk file dynamically
+            def chunk_file = txt_file.parent.resolve("${chr}_${score}_chunk${idx+1}.txt")
+            
+            // Write chunk lines to file
             chunk_file.text = chunk.join("\n") + "\n"
+
+            // Emit as tuple [file, chr, score]
             tuple(chunk_file, chr, score)
         }
     }
@@ -101,6 +108,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
