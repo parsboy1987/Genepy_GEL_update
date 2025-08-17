@@ -31,6 +31,7 @@ process Genepy_score {
     while IFS= read -r file; do
         if [ -f "\$file" ]; then
             echo "Processing file: \$file"
+            head \$file | cut -f 1-10
             fname=\$(basename "\$file")
 
             # Run awk cleanup
