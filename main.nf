@@ -78,7 +78,7 @@ workflow {
            return [chunk_file, chr, score,"${params.genepy_py}","${params.kary}"]
         }
     }
-    .flatten().view()
+    .flatten(1).view()
      // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
       //      path1 = path.toString()
       //      println "path: $path1"
@@ -107,6 +107,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
