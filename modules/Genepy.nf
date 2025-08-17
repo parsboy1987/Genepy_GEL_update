@@ -6,6 +6,8 @@ process Genepy_score {
     maxForks 10
     input:
     tuple path(path1),val(chr),val(cadd),path(genepy),path(kary)
+    path(metafiles)
+    path(dup_folder)
     // path(genepy) 
 
     output:
