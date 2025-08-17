@@ -10,7 +10,8 @@ process Reatt_Genes {
     output:
     path("${cadd}_${chromosome_name}_chunk*.txt"), emit: path_
     path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
-
+    path(folder_paths), emit: paths
+    path("\${DUP_FOLDER}"), emit: dup_folder
     shell:
     """
     echo "start"
@@ -67,9 +68,9 @@ process Reatt_Genes {
             for file in "\${files[@]}"; do
                 tail -n +2 "\$file" >> "\$output_file"
             done
-            realpath "\$output_file" >> "\$OUTPUT_FILE_LIST" 
+            echo "\$output_file" >> "\$OUTPUT_FILE_LIST" 
     else
-            realpath "\${files[0]}" >> "\$OUTPUT_FILE_LIST"
+            echo "\${files[0]}" >> "\$OUTPUT_FILE_LIST"
         fi
     done
     split -l 100 -d --additional-suffix=.txt "\$OUTPUT_FILE_LIST" "${cadd}_${chromosome_name}_chunk"
