@@ -11,7 +11,7 @@ process Reatt_Genes {
     path("${cadd}_${chromosome_name}_chunk*.txt"), emit: path_
     path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
     path(folder_paths), emit: paths
-    path("\${DUP_FOLDER}"), emit: dup_folder
+    path("metafiles${cadd}/metafiles${cadd}_dup"), emit: dup_folder
     shell:
     """
     echo "start"
