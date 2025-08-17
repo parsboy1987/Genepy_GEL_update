@@ -62,7 +62,7 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_.map { chunk_file ->
+      Reatt_Genes.out.path_.flatten().map{[it]}.map { chunk_file ->
         // extract score and chromosome from filename if needed, or keep as variables
         def fname = new File(chunk_file.toString()).getName()   // safe filename from string
         def parts = fname.split('_')
@@ -98,6 +98,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
