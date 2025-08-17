@@ -65,7 +65,7 @@ workflow {
       Reatt_Genes.out.path_.map { chunk_file ->
         // extract score and chromosome from filename if needed, or keep as variables
         def fname = chunk_file.toString()
-        def parts = fname.split('_')
+        def parts = fname.getFileName().split('_')
         def score = parts[1]       // adjust index according to your naming
         def chr   = parts[2]       // adjust index according to your naming
         [chunk_file, score, chr]
@@ -98,6 +98,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
