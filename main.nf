@@ -62,15 +62,17 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_
-        .splitText()
-        .flatMap { file -> file.readLines() }
-        .collate(100).map { lines ->
-            def idx = UUID.randomUUID().toString().take(8)   // unique id
-            def outFile = file("chunk_${idx}.txt")
-            outFile.text = lines.join("\n") + "\n"
-            return outFile
-        }.view()
+      Reatt_Genes.out.path_.map { txt_file, chr, score ->
+        // Read all lines from txt_file
+        def lines = txt_file.readLines()
+        // Group into batches of 100
+        lines.collate(100).withIndex().collect { chunk, idx ->
+            def chunk_file = txt_file.parent.resolve("${txt_file.baseName}_chunk${idx+1}.txt")
+            chunk_file.text = chunk.join("\n") + "\n"
+            tuple(chunk_file, chr, score)
+        }
+    }
+    .flatten().view()
      // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
       //      path1 = path.toString()
       //      println "path: $path1"
@@ -99,6 +101,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
