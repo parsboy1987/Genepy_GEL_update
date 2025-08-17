@@ -75,7 +75,7 @@ workflow {
             chunk_file.text = chunk.join("\n") + "\n"
 
             // Emit as tuple [file, chr, score]
-            [chunk_file, chr, score]
+           return [chunk_file, chr, score]
         }
     }
     .flatten().view()
@@ -107,6 +107,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
