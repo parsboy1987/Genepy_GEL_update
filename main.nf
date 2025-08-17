@@ -68,7 +68,7 @@ workflow {
         def parts = fname.split('_')
         def score = parts[0]       // adjust index according to your naming
         def chr   = parts[1]       // adjust index according to your naming
-        [chunk_file, score, chr]
+        [chunk_file, score, chr,"${params.genepy_py}","${params.kary}"]
     }.view()
      // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
       //      path1 = path.toString()
@@ -98,6 +98,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
