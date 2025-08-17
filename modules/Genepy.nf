@@ -46,7 +46,7 @@ process Genepy_score {
             }' "\$file" > "\$fname"
 
             # Run python script on cleaned file
-            python -u ${genepy_py} "\$fname" ${kary}
+            python -u ./gp.py "\$fname" ${kary}
         fi
     done < "${path1}"
     """
