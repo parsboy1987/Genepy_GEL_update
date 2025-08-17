@@ -79,7 +79,7 @@ workflow {
       //                       (path1.contains('metafiles15')) ? '15' : 'ALL'
       //      [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
       //  }.view()
-    // Genepy_score(results)
+     Genepy_score(results)
 }
 workflow.onComplete {
    println ( workflow.success ? """
@@ -98,6 +98,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
