@@ -62,7 +62,13 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      Reatt_Genes.out.path_.view()
+      Reatt_Genes.out.path_.map { chunk_list, score, chr ->
+        // Create one tuple per chunk file
+        chunk_list.collect { chunk_file ->
+            tuple(chunk_file, score, chr)
+        }
+    }
+    .flatten().view()
      // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
       //      path1 = path.toString()
       //      println "path: $path1"
@@ -91,6 +97,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
