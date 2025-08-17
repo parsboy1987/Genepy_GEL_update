@@ -8,7 +8,7 @@ process Reatt_Genes {
     tuple val(cadd),val(chromosome_name),path(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
-    path ("${cadd}_${chromosome_name}_chunk*.txt"), emit: path_
+    tuple path(chunk_file), val(cadd), val(chromosome_name), emit: path_
     path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
 
     shell:
@@ -73,5 +73,8 @@ process Reatt_Genes {
         fi
     done
     split -l 100 -d --additional-suffix=.txt "\$OUTPUT_FILE_LIST" "${cadd}_${chromosome_name}_chunk"
+    for f in ${cadd}_${chromosome_name}_chunk*.txt; do
+        echo "${f} ${cadd} ${chromosome_name}"
+    done
     """
 }
