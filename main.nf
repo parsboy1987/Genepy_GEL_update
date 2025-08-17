@@ -64,11 +64,11 @@ workflow {
       Reatt_Genes(x_combo)
       Reatt_Genes.out.path_.flatten().map{[it]}.map { chunk_file ->
         // extract score and chromosome from filename if needed, or keep as variables
-        def fname = new File(chunk_file.toString()).getName()   // safe filename from string
+        def fname = new File(chunk_file.toString()).getName().view()   // safe filename from string
         def parts = fname.split('_')
-        def score = parts[1]       // adjust index according to your naming
-        def chr   = parts[2]       // adjust index according to your naming
-        tuple(chunk_file, score, chr)
+        def score = parts[0]       // adjust index according to your naming
+        def chr   = parts[1]       // adjust index according to your naming
+        [chunk_file, score, chr]
     }.view()
      // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
       //      path1 = path.toString()
@@ -98,6 +98,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
