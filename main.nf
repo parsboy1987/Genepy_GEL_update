@@ -65,7 +65,12 @@ workflow {
       Reatt_Genes.out.path_
         .splitText()
         .flatMap { file -> file.readLines() }
-        .collate(100).view()
+        .collate(100).map { lines ->
+            def idx = UUID.randomUUID().toString().take(8)   // unique id
+            def outFile = file("chunk_${idx}.txt")
+            outFile.text = lines.join("\n") + "\n"
+            return outFile
+        }.view()
      // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
       //      path1 = path.toString()
       //      println "path: $path1"
@@ -94,6 +99,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
