@@ -62,24 +62,24 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-      def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { chunk_file ->
+     // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { chunk_file ->
         // extract score and chromosome from filename if needed, or keep as variables
-        def fname = new File(chunk_file.toString()).getName()   // safe filename from string
-        def parts = fname.split('_')
-        def score = parts[0]       // adjust index according to your naming
-        def chr   = parts[1]       // adjust index according to your naming
-        [chunk_file, score, chr,"${params.genepy_py}","${params.kary}"]
-    }.view()
-     // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
-      //      path1 = path.toString()
-      //      println "path: $path1"
-      //      def chromosome =  chromosomeList
-      //      def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-      //                       (path1.contains('metafiles20')) ? '20' :
-      //                       (path1.contains('metafiles15')) ? '15' : 'ALL'
-      //      [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
-      //  }.view()
-     Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
+      //  def fname = new File(chunk_file.toString()).getName()   // safe filename from string
+      //  def parts = fname.split('_')
+      //  def score = parts[0]       // adjust index according to your naming
+      //  def chr   = parts[1]       // adjust index according to your naming
+      //  [chunk_file, score, chr,"${params.genepy_py}","${params.kary}"]
+    //}.view()
+      def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
+            path1 = path.toString()
+            println "path: $path1"
+            def chromosome =  chromosomeList
+            def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+                             (path1.contains('metafiles20')) ? '20' :
+                             (path1.contains('metafiles15')) ? '15' : 'ALL'
+            [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
+        }.view()
+     //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
 }
 workflow.onComplete {
    println ( workflow.success ? """
@@ -98,6 +98,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
