@@ -93,7 +93,7 @@ workflow {
     //  [folder_paths, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
     // }.view()
      def results = Reatt_Genes.out.collectMany { folder_paths, dup_path ->
-    folder_paths.collect { folder_path ->
+    folder_paths.map{[it]}.map { folder_path ->
         def path1 = folder_path.toString()
         println "path: $path1"
 
@@ -126,6 +126,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
