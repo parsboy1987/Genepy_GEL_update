@@ -61,7 +61,7 @@ process Reatt_Genes {
         if [ \${#files[@]} -gt 1 ]; then
             echo "this is duplicated  \$gene"
             echo "\$gene" >> "\$duplicated_genes"
-            output_file="\${DUP_FOLDER}/\${gene}.meta"
+            output_file="\${OUTPUT_FOLDER}/\${gene}.meta"
 
             head -n 1 "\${files[0]}" > "\$output_file"
 
@@ -71,6 +71,6 @@ process Reatt_Genes {
             ##echo "\$output_file" >> "\$OUTPUT_FILE_LIST" 
     
     done
-    #split -l 100 -d --additional-suffix=.txt "\$OUTPUT_FILE_LIST" "${cadd}_${chromosome_name}_chunk"
+    ##split -l 100 -d --additional-suffix=.txt "\$OUTPUT_FILE_LIST" "${cadd}_${chromosome_name}_chunk"
     """
 }
