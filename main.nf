@@ -80,10 +80,6 @@ workflow {
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
             [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}",dup_fo]
         }.view()
-      def results = results1.combine(dup_fo) { tuple, dup_fox ->
-        tuple + [dup_fox.toString()]
-    }
-    .view()
 
      //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
 }
@@ -104,6 +100,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
