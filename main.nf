@@ -80,18 +80,32 @@ workflow {
       //                       (path1.contains('metafiles15')) ? '15' : 'ALL'
        //     [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}",dup_fo]
        // }.view()
-      def results = Reatt_Genes.out.map { folder_paths, dup_path ->
-      def path1 = folder_paths.toString()
-      println "path: $path1"
+      //def results = Reatt_Genes.out.map { folder_paths, dup_path ->
+      //def path1 = folder_paths.toString()
+      //println "path: $path1"
 
-      def chromosome = chromosomeList
-      def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-                     (path1.contains('metafiles20')) ? '20' :
-                     (path1.contains('metafiles15')) ? '15' : 'ALL'
+      //def chromosome = chromosomeList
+      //def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+      //               (path1.contains('metafiles20')) ? '20' :
+      //               (path1.contains('metafiles15')) ? '15' : 'ALL'
 
     // Return a tuple that includes both the original folder and its dup_path
-      [folder_paths, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
-     }.view()
+    //  [folder_paths, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
+    // }.view()
+     def results = Reatt_Genes.out.collectMany { folder_paths, dup_path ->
+    folder_paths.collect { folder_path ->
+        def path1 = folder_path.toString()
+        println "path: $path1"
+
+        def chromosome = chromosomeList
+        def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+                         (path1.contains('metafiles20')) ? '20' :
+                         (path1.contains('metafiles15')) ? '15' : 'ALL'
+
+        // Return a tuple for each folder_path
+        [folder_path, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
+    }
+}.view()
 
      //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
 }
@@ -112,6 +126,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
