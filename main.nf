@@ -79,10 +79,9 @@ workflow {
             def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
                              (path1.contains('metafiles20')) ? '20' :
                              (path1.contains('metafiles15')) ? '15' : 'ALL'
-            [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}",dup_fo]
+            [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}"]
         }
-      def results = results1
-    .combine(dup_fo) { tuple, dup_fo ->
+      def results = results1.combine(dup_fo) { tuple, dup_fo ->
         tuple + [dup_fo.toString()]
     }
     .view()
@@ -106,6 +105,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
