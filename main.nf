@@ -70,16 +70,28 @@ workflow {
       //  def chr   = parts[1]       // adjust index according to your naming
       //  [chunk_file, score, chr,"${params.genepy_py}","${params.kary}"]
     //}.view()
-      def dup_fo  = Reatt_Genes.out.path_.flatten().map{[it]}.map { it.toString().contains('_dup') }.view()
-      def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
-            path1 = path.toString()
-            println "path: $path1"
-            def chromosome =  chromosomeList
-            def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-                             (path1.contains('metafiles20')) ? '20' :
-                             (path1.contains('metafiles15')) ? '15' : 'ALL'
-            [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}",dup_fo]
-        }.view()
+      //def dup_fo  = Reatt_Genes.out.path_.flatten().map{[it]}.map { it.toString().contains('_dup') }.view()
+      //def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
+      //      path1 = path.toString()
+      //      println "path: $path1"
+      //      def chromosome =  chromosomeList
+      //      def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+      //                       (path1.contains('metafiles20')) ? '20' :
+      //                       (path1.contains('metafiles15')) ? '15' : 'ALL'
+       //     [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}",dup_fo]
+       // }.view()
+      def results = Reatt_Genes.out.map { folder_paths, dup_path ->
+      def path1 = folder_paths.toString()
+      println "path: $path1"
+
+      def chromosome = chromosomeList
+      def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
+                     (path1.contains('metafiles20')) ? '20' :
+                     (path1.contains('metafiles15')) ? '15' : 'ALL'
+
+    // Return a tuple that includes both the original folder and its dup_path
+      [folder_paths, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
+     }.view()
 
      //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
 }
@@ -100,6 +112,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
