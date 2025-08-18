@@ -8,24 +8,24 @@ process Reatt_Genes {
     tuple val(cadd),val(chromosome_name),path(folder_paths)
     //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
-    path("${cadd}_${chromosome_name}_chunk*.txt"), emit: path_
-    path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
-    path(folder_paths), emit: paths
-    path("metafiles${cadd}/metafiles${cadd}_dup"), emit: dup_folder
+    tuple path(folder_paths),path(metafiles${cadd}_dup), emit: path_
+    //path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
+    //path(folder_paths), emit: paths
+    //path("metafiles${cadd}/metafiles${cadd}_dup"), emit: dup_folder
     shell:
     """
     echo "start"
     
-    OUTPUT_FOLDER="metafiles${cadd}"
-    OUTPUT_FILE_LIST="\${OUTPUT_FOLDER}/unique_file_paths.txt"
+    OUTPUT_FOLDER="metafiles${cadd}_dup"
+    ##OUTPUT_FILE_LIST="\${OUTPUT_FOLDER}/unique_file_paths.txt"
     mkdir -p "\$OUTPUT_FOLDER"
-    touch "\${OUTPUT_FOLDER}/unique_file_paths.txt"
-    > "\$OUTPUT_FILE_LIST"
-    DUP_FOLDER="\$OUTPUT_FOLDER/metafiles${cadd}_dup"
-    mkdir -p "\$DUP_FOLDER"
-    touch "\${DUP_FOLDER}/1.txt"
-    GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
-    > "\$GENE_LIST"
+    ##touch "\${OUTPUT_FOLDER}/unique_file_paths.txt"
+    ##> "\$OUTPUT_FILE_LIST"
+    ##DUP_FOLDER="\$OUTPUT_FOLDER/metafiles${cadd}_dup"
+    ##mkdir -p "\$DUP_FOLDER"
+    ##touch "\${DUP_FOLDER}/1.txt"
+    ##GENE_LIST="${chromosome_name}_${cadd}_GENE.lst"
+    ##> "\$GENE_LIST"
     duplicated_genes="${chromosome_name}_${cadd}_dup.lst"
     > "\$duplicated_genes"
     set -u
@@ -68,11 +68,9 @@ process Reatt_Genes {
             for file in "\${files[@]}"; do
                 tail -n +2 "\$file" >> "\$output_file"
             done
-            echo "\$output_file" >> "\$OUTPUT_FILE_LIST" 
-    else
-            echo "\${files[0]}" >> "\$OUTPUT_FILE_LIST"
-        fi
+            ##echo "\$output_file" >> "\$OUTPUT_FILE_LIST" 
+    
     done
-    split -l 100 -d --additional-suffix=.txt "\$OUTPUT_FILE_LIST" "${cadd}_${chromosome_name}_chunk"
+    #split -l 100 -d --additional-suffix=.txt "\$OUTPUT_FILE_LIST" "${cadd}_${chromosome_name}_chunk"
     """
 }
