@@ -70,7 +70,8 @@ workflow {
       //  def chr   = parts[1]       // adjust index according to your naming
       //  [chunk_file, score, chr,"${params.genepy_py}","${params.kary}"]
     //}.view()
-      def dup_fo = Reatt_Genes.out.path_.flatten().find { it.toString().contains("_dup") }
+      def all_paths  = Reatt_Genes.out.path_.flatten()
+      def dup_fo  = all_paths.filter { it.toString().contains("_dup") }
       def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
             path1 = path.toString()
             println "path: $path1"
@@ -99,6 +100,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
