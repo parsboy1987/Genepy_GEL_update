@@ -39,7 +39,7 @@ process Reatt_Genes {
         echo "\$clean_paths"
         ls \$clean_paths
         for file in "\$clean_paths"/*.meta; do
-            echo "File: \$file" >> "\$GENE_LIST"
+          ##  echo "File: \$file" >> "\$GENE_LIST"
             gene_name=\$(basename "\$file")
             gene_name="\${gene_name%.meta}"
             gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \$file"
