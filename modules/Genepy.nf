@@ -29,16 +29,16 @@ process Genepy_score {
     ##    fi
     ## done
     for file in ${path1}/*; do
-    if [ -f "$file" ]; then
+    if [ -f "\$file" ]; then
         echo "Checking file : $file"
-        fname=$(basename "$file")
+        fname=\$(basename "\$file")
         
         # Case 1: path1 is a dup folder -> always process
-        if [[ $(basename "$path1") == dup* ]]; then
+        if [[ \$(basename "$path1") == dup* ]]; then
             echo "Path is a dup folder → processing $fname"
         
         # Case 2: normal metafile folder, skip if same file exists in dup
-        elif [ -n "$dup" ] && [ -f "$dup/$fname" ]; then
+        elif [ -n "$dup" ] && [ -f "$dup/\$fname" ]; then
             echo "Skipping $fname (exists in dup)"
             continue
         fi
@@ -53,9 +53,9 @@ process Genepy_score {
                 } 
             } 
             print 
-        }' "$file" > "$fname"
+        }' "\$file" > "\$fname"
         
-        python -u ./gp.py "$fname" ${kary}
+        python -u ./gp.py "\$fname" ${kary}
     fi
 done
     """
