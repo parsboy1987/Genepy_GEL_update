@@ -76,7 +76,7 @@ workflow {
           def baseKey = fullKey?.replace('dup','metafiles')
           [ baseKey, d ]
       }
-      metas.join(dups)
+      def met_ = metas.join(dups)
        .map { key, folder_path, dup_path ->
 
         // Assign CADD score based on folder
@@ -88,7 +88,7 @@ workflow {
      }
      .view()
      
-       dups.map { key, dup_path ->
+       def dup_ = dups.map { key, dup_path ->
 
         // Assign CADD score based on folder
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
@@ -98,7 +98,8 @@ workflow {
         [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
      }
      .view()
-     //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
+     Genepy_score(dup_)
+     Genepy_score(met_)
 }
 workflow.onComplete {
    println ( workflow.success ? """
@@ -117,6 +118,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
