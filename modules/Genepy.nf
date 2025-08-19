@@ -5,9 +5,7 @@ process Genepy_score {
    // label "process_large"
     maxForks 10
     input:
-    tuple path(path1),val(chr),val(cadd),path(genepy),path(kary)
-    path(metafiles)
-    path(dup_folder)
+    tuple path(path1),val(chr),val(cadd),path(genepy),path(kary),path(dup)
     // path(genepy) 
 
     output:
@@ -30,26 +28,35 @@ process Genepy_score {
     ##        python -u ./gp.py "\$fname" ${kary}
     ##    fi
     ## done
-    while IFS= read -r file; do
-        if [ -f "\$file" ]; then
-            echo "Processing file: \$file"
-            head \$file | cut -f 1-10
-            fname=\$(basename "\$file")
-
-            # Run awk cleanup
-            awk -F"\\t" '{
-                OFS=FS;
-                for (i=7;i<=16;i++) {
-                    if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$)/) {
-                        \$i="3.98e-6";
-                    }
-                }
-                print
-            }' "\$file" > "\$fname"
-
-            # Run python script on cleaned file
-            python -u ./gp.py "\$fname" ${kary}
+    for file in ${path1}/*; do
+    if [ -f "$file" ]; then
+        echo "Checking file : $file"
+        fname=$(basename "$file")
+        
+        # Case 1: path1 is a dup folder -> always process
+        if [[ $(basename "$path1") == dup* ]]; then
+            echo "Path is a dup folder → processing $fname"
+        
+        # Case 2: normal metafile folder, skip if same file exists in dup
+        elif [ -n "$dup" ] && [ -f "$dup/$fname" ]; then
+            echo "Skipping $fname (exists in dup)"
+            continue
         fi
-    done < "${path1}"
+        
+        # Process file
+        echo "Processing file : $fname"
+        awk -F"\t" '{
+            OFS=FS;
+            for (i=7;i<=16;i++) { 
+                if(length($i)<1 || $i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?$/) { 
+                    $i="3.98e-6";
+                } 
+            } 
+            print 
+        }' "$file" > "$fname"
+        
+        python -u ./gp.py "$fname" ${kary}
+    fi
+done
     """
 }
