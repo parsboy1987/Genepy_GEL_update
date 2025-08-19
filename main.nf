@@ -63,60 +63,53 @@ workflow {
       Reatt_Genes(x_combo)
     
       // Flatten the Reatt_Genes outputs
-val flatMetas = Reatt_Genes.out.path.collect().flatten()
-val flatDups  = Reatt_Genes.out.dup.collect().flatten()
+// Flatten Nextflow outputs first
+def flatMetas = Reatt_Genes.out.path.flatten()
+def flatDups  = Reatt_Genes.out.dup.flatten()
 
-// Create channel for metas
-val metas = Channel.from(flatMetas)
-    .map { p ->
-        def fullKey = p.toString().tokenize('/').find { it.startsWith('metafiles') }
-        def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')
-        [baseKey, p]
-    }
-    .broadcast()
+// Build metas channel: emits [ baseKey, folder_path ]
+def metas = flatMetas.map { p ->
+    def fullKey = p.toString().tokenize('/').find { it.startsWith('metafiles') }
+    def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')  // remove numeric suffix
+    tuple(baseKey, p)                                // ✅ tuple, not nested list
+}
 
-// Create channel for duplicates
-val dups = Channel.from(flatDups)
-    .map { d ->
-        def fullKey = d.toString().tokenize('/').find { it.startsWith('dup') }
-        def baseKey = fullKey?.replace('dup', 'metafiles')
-        [baseKey, d]
-    }
-    .broadcast()
-
-// Combine metas and dups by baseKey
-val met_ = metas.combine(dups)
-    .filter { pair -> pair[0][0] == pair[1][0] }  // match baseKey
-    .map { pair ->
-        def m = pair[0]   // [baseKey, folder_path]
-        def d = pair[1]   // [baseKey, dup_path]
-
+// Build dups channel: emits [ baseKey, dup_path ]
+def dups = flatDups.map { d ->
+    def fullKey = d.toString().tokenize('/').find { it.startsWith('dup') }
+    def baseKey = fullKey?.replace('dup', 'metafiles')
+    tuple(baseKey, d)                                // ✅ tuple, not nested list
+}
+dups.collect.ciew()
+// Combine metas with their matching dup(s)
+def met_ = metas
+    .combine(dups)                       // produce all pairs
+    .filter { m, d -> m[0] == d[0] }     // keep only matches on baseKey
+    .map { m, d ->                       // m = [key, path], d = [key, dup]
         def key         = m[0]
         def folder_path = m[1]
         def dup_path    = d[1]
 
+        // Assign CADD score
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
                          (key == 'metafiles20') ? '20' :
                          (key == 'metafiles15') ? '15' : 'ALL'
 
         tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
     }
+    //.view()
 
-// View combined metas
-met_.view { "combined: $it" }
-
-// Prepare dups channel separately if needed
-val dup_ = dups.map { pair ->
-    def key = pair[0]
-    def dup_path = pair[1]
-
+// Dups as their own channel if needed
+def dup_ = dups.map { key, dup_path ->
     def cadd_score = (key == 'metafilesALL') ? 'ALL' :
                      (key == 'metafiles20') ? '20' :
                      (key == 'metafiles15') ? '15' : 'ALL'
 
-    [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
+    tuple(dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
 }
+//.view()
 
+//Genepy_score(met_)
 
 
      //Genepy_score(dup_)
@@ -139,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
