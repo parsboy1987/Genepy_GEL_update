@@ -62,38 +62,39 @@ workflow {
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
     
-      def metas = Reatt_Genes.out.path
-    .collect()
-    .flatten()
+      // Flatten the Reatt_Genes outputs
+val flatMetas = Reatt_Genes.out.path.collect().flatten()
+val flatDups  = Reatt_Genes.out.dup.collect().flatten()
+
+// Create channel for metas
+val metas = Channel.from(flatMetas)
     .map { p ->
         def fullKey = p.toString().tokenize('/').find { it.startsWith('metafiles') }
         def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')
         [baseKey, p]
     }
-    .broadcast()  // broadcast so it can be reused
+    .broadcast()
 
-def dups = Reatt_Genes.out.dup
-    .collect()
-    .flatten()
+// Create channel for duplicates
+val dups = Channel.from(flatDups)
     .map { d ->
         def fullKey = d.toString().tokenize('/').find { it.startsWith('dup') }
         def baseKey = fullKey?.replace('dup', 'metafiles')
         [baseKey, d]
     }
-    .broadcast()  // broadcast once
+    .broadcast()
 
-// --- Combine metas and dups ---
-def met_ = metas.combine(dups)
+// Combine metas and dups by baseKey
+val met_ = metas.combine(dups)
     .filter { pair -> pair[0][0] == pair[1][0] }  // match baseKey
     .map { pair ->
         def m = pair[0]   // [baseKey, folder_path]
         def d = pair[1]   // [baseKey, dup_path]
 
-        def key = m[0]
+        def key         = m[0]
         def folder_path = m[1]
-        def dup_path = d[1]
+        def dup_path    = d[1]
 
-        // Assign CADD score
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
                          (key == 'metafiles20') ? '20' :
                          (key == 'metafiles15') ? '15' : 'ALL'
@@ -101,10 +102,11 @@ def met_ = metas.combine(dups)
         tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
     }
 
+// View combined metas
 met_.view { "combined: $it" }
 
-// --- Optional: handle dups alone if needed ---
-def dup_ = dups.map { pair ->
+// Prepare dups channel separately if needed
+val dup_ = dups.map { pair ->
     def key = pair[0]
     def dup_path = pair[1]
 
@@ -114,6 +116,7 @@ def dup_ = dups.map { pair ->
 
     [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
 }
+
 
 
      //Genepy_score(dup_)
@@ -136,6 +139,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
