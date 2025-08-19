@@ -53,7 +53,7 @@ for file in ${path1}/*; do
                 print
             }' "\$file" > "\$fname"
 
-            python -u ./gp.py "\$fname.processed" ${kary}
+            python -u ./gp.py "\$fname" ${kary}
         fi
     done
     """
