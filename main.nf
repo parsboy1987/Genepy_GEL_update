@@ -80,15 +80,15 @@ def dups = flatDups.map { d ->
     def baseKey = fullKey?.replace('dup', 'metafiles')
     tuple(baseKey, d)                                // ✅ tuple, not nested list
 }
-dups.collect().ciew()
+//dups.collect().ciew()
 // Combine metas with their matching dup(s)
 def met_ = metas
     .combine(dups)                       // produce all pairs
-    .filter { m, d -> m[0] == d[0] }     // keep only matches on baseKey
-    .map { m, d ->                       // m = [key, path], d = [key, dup]
+    .filter { m -> m[0] == m[2] }     // keep only matches on baseKey
+    .map { m ->                       // 
         def key         = m[0]
         def folder_path = m[1]
-        def dup_path    = d[1]
+        def dup_path    = d[3]
 
         // Assign CADD score
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
@@ -97,7 +97,7 @@ def met_ = metas
 
         tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
     }
-    //.view()
+    .view()
 
 // Dups as their own channel if needed
 def dup_ = dups.map { key, dup_path ->
@@ -132,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
