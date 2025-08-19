@@ -28,35 +28,33 @@ process Genepy_score {
     ##        python -u ./gp.py "\$fname" ${kary}
     ##    fi
     ## done
-    for file in ${path1}/*; do
-    if [ -f "\$file" ]; then
-        echo "Checking file : $file"
-        fname=\$(basename "\$file")
-        
-        # Case 1: path1 is a dup folder -> always process
-        if [[ \$(basename "$path1") == dup* ]]; then
-            echo "Path is a dup folder → processing $fname"
-        
-        # Case 2: normal metafile folder, skip if same file exists in dup
-        elif [ -n "$dup" ] && [ -f "$dup/\$fname" ]; then
-            echo "Skipping $fname (exists in dup)"
-            continue
+for file in ${path1}/*; do
+        if [ -f "\$file" ]; then
+            fname=\$(basename "\$file")
+
+            # Case 1: path1 itself is a dup folder → always process
+            if [[ \$(basename "\$path1") == dup* ]]; then
+                echo "Path is dup → processing \$fname"
+
+            # Case 2: path1 is chunk/metafile folder → skip if dup exists
+            elif [ -n "${dup}" ] && [ -f "${dup}/\$fname" ]; then
+                echo "Skipping \$fname (exists in dup)"
+                continue
+            fi
+
+            echo "Processing file : \$fname"
+            awk -F"\\t" '{
+                OFS=FS;
+                for (i=7;i<=16;i++) {
+                    if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$) {
+                        \$i="3.98e-6";
+                    }
+                }
+                print
+            }' "\$file" > "\$fname"
+
+            python -u ./gp.py "\$fname.processed" ${kary}
         fi
-        
-        # Process file
-        echo "Processing file : $fname"
-        awk -F"\t" '{
-            OFS=FS;
-            for (i=7;i<=16;i++) { 
-                if(length($i)<1 || $i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?$/) { 
-                    $i="3.98e-6";
-                } 
-            } 
-            print 
-        }' "\$file" > "\$fname"
-        
-        python -u ./gp.py "\$fname" ${kary}
-    fi
-done
+    done
     """
 }
