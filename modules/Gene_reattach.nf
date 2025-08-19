@@ -9,7 +9,7 @@ process Reatt_Genes {
     //tuple path("metafilesALL"),path("metafiles15"),val("metafiles20")
     output:
     path(folder_paths), emit: path
-    path("metafiles${cadd}_dup"), emit: path
+    path("dup${cadd}"), emit: dup
     
     //path("${chromosome_name}_${cadd}_dup.lst"), emit: dup
     //path(folder_paths), emit: paths
@@ -18,7 +18,7 @@ process Reatt_Genes {
     """
     echo "start"
     
-    OUTPUT_FOLDER="metafiles${cadd}_dup"
+    OUTPUT_FOLDER="dup${cadd}"
     ##OUTPUT_FILE_LIST="\${OUTPUT_FOLDER}/unique_file_paths.txt"
     mkdir -p "\$OUTPUT_FOLDER"
     ##touch "\${OUTPUT_FOLDER}/unique_file_paths.txt"
