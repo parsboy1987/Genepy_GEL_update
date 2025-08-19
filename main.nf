@@ -49,7 +49,6 @@ workflow {
                 def filename = file.baseName
                 return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}" ]
             }
-            .view()
       CADD_score(chrx)
       VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
       Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
@@ -153,6 +152,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
