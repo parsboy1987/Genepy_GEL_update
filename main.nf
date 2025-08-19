@@ -106,33 +106,35 @@ workflow {
    // }
 //}.view()
 // Flatten lists of paths to handle each folder/file individually
-    def flatMetas = Reatt_Genes.out.path.flatten()
-    def flatDups  = Reatt_Genes.out.dup.flatten()
+    // Collect all paths into lists so we can flatten safely
+def flatMetas = Reatt_Genes.out.path.collect().flatten()
+def flatDups  = Reatt_Genes.out.dup.collect().flatten()
 
-    // Map metafiles to a simple key (folder prefix)
-    def metas = flatMetas.map { p ->
-        def key = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
-        [ key, p ]
-    }
+// Map metafiles to a simple key (folder prefix)
+def metas = flatMetas.map { p ->
+    def key = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
+    [ key, p ]
+}
 
-    // Map dup folders to the same key pattern
-    def dups = flatDups.map { d ->
-        def key = d.toString().tokenize('/').find{ it.startsWith('dup') }.replace('dup','metafiles')
-        [ key, d ]
-    }
+// Map dup folders to the same key pattern
+def dups = flatDups.map { d ->
+    def key = d.toString().tokenize('/').find{ it.startsWith('dup') }?.replace('dup','metafiles')
+    [ key, d ]
+}
 
-    // Join metafiles with their corresponding dup folder
-    metas.join(dups)
-         .map { key, folder_path, dup_path ->
+// Join metafiles with their corresponding dup folder
+metas.join(dups)
+     .map { key, folder_path, dup_path ->
 
-            // Assign CADD score based on folder
-            def cadd_score = (key == 'metafilesALL') ? 'ALL' :
-                             (key == 'metafiles20') ? '20' :
-                             (key == 'metafiles15') ? '15' : 'ALL'
+        // Assign CADD score based on folder
+        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
+                         (key == 'metafiles20') ? '20' :
+                         (key == 'metafiles15') ? '15' : 'ALL'
 
-            [folder_path, ${params.chromosomes},cadd_score,"${params.genepy_py}", "${params.kary}", dup_path]
-         }
-         .view()
+        [folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
+     }
+     .view()
+
      //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
 }
 workflow.onComplete {
@@ -152,6 +154,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
