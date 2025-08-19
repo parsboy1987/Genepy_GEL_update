@@ -109,7 +109,7 @@ def dup_ = dups.map { key, dup_path ->
 }
 //.view()
 
-//Genepy_score(met_)
+met_.combine(dup_).view()
 
 
      //Genepy_score(dup_)
@@ -132,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
