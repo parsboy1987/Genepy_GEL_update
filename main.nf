@@ -131,7 +131,7 @@ workflow {
                              (key == 'metafiles20') ? '20' :
                              (key == 'metafiles15') ? '15' : 'ALL'
 
-            [folder_path, dup_path, cadd_score]
+            [folder_path, ${params.chromosomes},cadd_score,"${params.genepy_py}", "${params.kary}", dup_path]
          }
          .view()
      //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
@@ -153,6 +153,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
