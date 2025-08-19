@@ -82,7 +82,7 @@ workflow {
     }
       def metas_b = metas.broadcast()
       def dups_b1 = dups.broadcast()
-      def dups_b2 = dups.broadcast()
+      //def dups_b2 = dups.broadcast()
       def met_ = metas_b.combine(dups_b1)
     .filter { pair -> pair[0][0] == pair[1][0] }
     .map { pair ->
@@ -102,7 +102,7 @@ workflow {
 
 met_.view { "combined: $it" }
 
-def dup_ = dups_b2.map { pair ->
+def dup_ = dups_b1.map { pair ->
     def key = pair[0]
     def dup_path = pair[1]
 
@@ -133,6 +133,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
