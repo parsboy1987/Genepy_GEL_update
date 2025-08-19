@@ -70,23 +70,34 @@ workflow {
           def baseKey = fullKey.replaceAll(/(_\d+)+$/, '') // remove numeric suffix
           [ baseKey, p ]
       }
+     def met_ = metas
+    .combine(dups)                       // produce all pairs
+    .filter { m, d -> m[0] == d[0] }     // keep only where baseKey matches
+    .map { m, d ->                       // unpack and build tuple
+        def key         = m[0]
+        def folder_path = m[1]
+        def dup_path    = d[1]
+
+        // assign CADD score based on folder key
+        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
+                         (key == 'metafiles20') ? '20' :
+                         (key == 'metafiles15') ? '15' : 'ALL'
+
+        [ folder_path,
+          params.chromosomes,
+          cadd_score,
+          params.genepy_py,
+          params.kary,
+          dup_path ]
+    }
+    .view()
 
       def dups = flatDups.map { d ->
           def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
           def baseKey = fullKey?.replace('dup','metafiles')
           [ baseKey, d ]
       }
-      def met_ = metas.join(dups)
-       .map { key, folder_path, dup_path ->
-
-        // Assign CADD score based on folder
-        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
-                         (key == 'metafiles20') ? '20' :
-                         (key == 'metafiles15') ? '15' : 'ALL'
-
-        [folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
-     }
-     .view()
+      
      
        def dup_ = dups.map { key, dup_path ->
 
@@ -99,7 +110,7 @@ workflow {
      }
      .view()
      //Genepy_score(dup_)
-     Genepy_score(met_)
+     //Genepy_score(met_)
 }
 workflow.onComplete {
    println ( workflow.success ? """
@@ -118,6 +129,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
