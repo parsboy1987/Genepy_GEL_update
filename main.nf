@@ -123,6 +123,8 @@ def dups = flatDups.map { d ->
 }
 
 // Join metafiles with their corresponding dup folder
+metas.view()
+dups.view()
 metas.join(dups)
      .map { key, folder_path, dup_path ->
 
@@ -154,6 +156,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
