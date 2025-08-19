@@ -112,14 +112,15 @@ def flatDups  = Reatt_Genes.out.dup.collect().flatten()
 
 // Map metafiles to a simple key (folder prefix)
 def metas = flatMetas.map { p ->
-    def key = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
-    [ key, p ]
+    def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
+    def baseKey = fullKey.replaceAll(/(_\d+)+$/, '') // remove numeric suffix
+    [ baseKey, p ]
 }
 
-// Map dup folders to the same key pattern
 def dups = flatDups.map { d ->
-    def key = d.toString().tokenize('/').find{ it.startsWith('dup') }?.replace('dup','metafiles')
-    [ key, d ]
+    def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
+    def baseKey = fullKey?.replace('dup','metafiles')
+    [ baseKey, d ]
 }
 
 // Join metafiles with their corresponding dup folder
@@ -156,6 +157,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
