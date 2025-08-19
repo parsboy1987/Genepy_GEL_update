@@ -65,17 +65,21 @@ workflow {
       def flatMetas = Reatt_Genes.out.path.collect().flatten()
       def flatDups  = Reatt_Genes.out.dup.collect().flatten()
 
-      def metas = flatMetas.map { p ->
-          def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
-          def baseKey = fullKey.replaceAll(/(_\d+)+$/, '') // remove numeric suffix
-          [ baseKey, p ]
-      }
+      def metas = Channel
+    .from(flatMetas)
+    .map { p ->
+        def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
+        def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')
+        [ baseKey, p ]
+    }
      
-      def dups = flatDups.map { d ->
-          def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
-          def baseKey = fullKey?.replace('dup','metafiles')
-          [ baseKey, d ]
-      }
+      def dups = Channel
+    .from(flatDups)
+    .map { d ->
+        def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
+        def baseKey = fullKey?.replace('dup','metafiles')
+        [ baseKey, d ]
+    }
       
        def met_ = metas
     .combine(dups)
@@ -128,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
