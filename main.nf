@@ -76,7 +76,8 @@ workflow {
           def baseKey = fullKey?.replace('dup','metafiles')
           [ baseKey, d ]
       }
-      
+      metas.view { "metas: $it" }
+      dups.view { "dups: $it" }
        def met_ = metas
     .combine(dups)                       // produce all pairs
     .filter { m, d -> m[0] == d[0] }     // keep only where baseKey matches
@@ -97,7 +98,7 @@ workflow {
           params.kary,
           dup_path ]
     }
-    .view()
+    
 
        def dup_ = dups.map { key, dup_path ->
 
@@ -108,7 +109,7 @@ workflow {
 
         [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
      }
-     .view()
+     
      //Genepy_score(dup_)
      //Genepy_score(met_)
 }
@@ -129,6 +130,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
