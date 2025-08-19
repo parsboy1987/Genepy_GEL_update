@@ -61,73 +61,23 @@ workflow {
       def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
       x_combo= meta15.concat(meta20).concat(metaALL)
       Reatt_Genes(x_combo)
-     // def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { chunk_file ->
-        // extract score and chromosome from filename if needed, or keep as variables
-      //  def fname = new File(chunk_file.toString()).getName()   // safe filename from string
-      //  def parts = fname.split('_')
-      //  def score = parts[0]       // adjust index according to your naming
-      //  def chr   = parts[1]       // adjust index according to your naming
-      //  [chunk_file, score, chr,"${params.genepy_py}","${params.kary}"]
-    //}.view()
-      //def dup_fo  = Reatt_Genes.out.path_.flatten().map{[it]}.map { it.toString().contains('_dup') }.view()
-      //def results = Reatt_Genes.out.path_.flatten().map{[it]}.map { path ->
-      //      path1 = path.toString()
-      //      println "path: $path1"
-      //      def chromosome =  chromosomeList
-      //      def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-      //                       (path1.contains('metafiles20')) ? '20' :
-      //                       (path1.contains('metafiles15')) ? '15' : 'ALL'
-       //     [path, chromosome, cadd_score,"${params.genepy_py}","${params.kary}",dup_fo]
-       // }.view()
-      //def results = Reatt_Genes.out.map { folder_paths, dup_path ->
-      //def path1 = folder_paths.toString()
-      //println "path: $path1"
+    
+      def flatMetas = Reatt_Genes.out.path.collect().flatten()
+      def flatDups  = Reatt_Genes.out.dup.collect().flatten()
 
-      //def chromosome = chromosomeList
-      //def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-      //               (path1.contains('metafiles20')) ? '20' :
-      //               (path1.contains('metafiles15')) ? '15' : 'ALL'
+      def metas = flatMetas.map { p ->
+          def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
+          def baseKey = fullKey.replaceAll(/(_\d+)+$/, '') // remove numeric suffix
+          [ baseKey, p ]
+      }
 
-    // Return a tuple that includes both the original folder and its dup_path
-    //  [folder_paths, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
-    // }.view()
-   //  def results = Reatt_Genes.out.collectMany { folder_paths, dup_path ->
-   // folder_paths.map{[it]}.map { folder_path ->
-   //     def path1 = folder_path.toString()
-   //     println "path: $path1"
-
-     //   def chromosome = chromosomeList
-     //   def cadd_score = (path1.contains('metafilesALL')) ? 'ALL' :
-     //                    (path1.contains('metafiles20')) ? '20' :
-     //                    (path1.contains('metafiles15')) ? '15' : 'ALL'
-
-        // Return a tuple for each folder_path
-       // [folder_path, chromosome, cadd_score, "${params.genepy_py}", "${params.kary}", dup_path]
-   // }
-//}.view()
-// Flatten lists of paths to handle each folder/file individually
-    // Collect all paths into lists so we can flatten safely
-def flatMetas = Reatt_Genes.out.path.collect().flatten()
-def flatDups  = Reatt_Genes.out.dup.collect().flatten()
-
-// Map metafiles to a simple key (folder prefix)
-def metas = flatMetas.map { p ->
-    def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
-    def baseKey = fullKey.replaceAll(/(_\d+)+$/, '') // remove numeric suffix
-    [ baseKey, p ]
-}
-
-def dups = flatDups.map { d ->
-    def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
-    def baseKey = fullKey?.replace('dup','metafiles')
-    [ baseKey, d ]
-}
-
-// Join metafiles with their corresponding dup folder
-metas.view()
-dups.view()
-metas.join(dups)
-     .map { key, folder_path, dup_path ->
+      def dups = flatDups.map { d ->
+          def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
+          def baseKey = fullKey?.replace('dup','metafiles')
+          [ baseKey, d ]
+      }
+      metas.join(dups)
+       .map { key, folder_path, dup_path ->
 
         // Assign CADD score based on folder
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
@@ -137,7 +87,17 @@ metas.join(dups)
         [folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
      }
      .view()
+     
+       dups.map { key, dup_path ->
 
+        // Assign CADD score based on folder
+        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
+                         (key == 'metafiles20') ? '20' :
+                         (key == 'metafiles15') ? '15' : 'ALL'
+
+        [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
+     }
+     .view()
      //Genepy_score(results,Reatt_Genes.out.paths,Reatt_Genes.out.dup_folder)
 }
 workflow.onComplete {
@@ -157,6 +117,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
