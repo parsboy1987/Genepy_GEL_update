@@ -94,7 +94,7 @@ workflow {
 
         tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
     }
-    .view()
+   
     
 
        def dup_ = dups.map { key, dup_path ->
@@ -106,7 +106,8 @@ workflow {
 
         [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
      }
-     
+     metas.combine(dups)
+     .view { "combined: $it" }
      //Genepy_score(dup_)
      //Genepy_score(met_)
 }
@@ -127,6 +128,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
