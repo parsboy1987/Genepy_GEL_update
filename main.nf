@@ -70,7 +70,14 @@ workflow {
           def baseKey = fullKey.replaceAll(/(_\d+)+$/, '') // remove numeric suffix
           [ baseKey, p ]
       }
-     def met_ = metas
+     
+      def dups = flatDups.map { d ->
+          def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
+          def baseKey = fullKey?.replace('dup','metafiles')
+          [ baseKey, d ]
+      }
+      
+       def met_ = metas
     .combine(dups)                       // produce all pairs
     .filter { m, d -> m[0] == d[0] }     // keep only where baseKey matches
     .map { m, d ->                       // unpack and build tuple
@@ -92,13 +99,6 @@ workflow {
     }
     .view()
 
-      def dups = flatDups.map { d ->
-          def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
-          def baseKey = fullKey?.replace('dup','metafiles')
-          [ baseKey, d ]
-      }
-      
-     
        def dup_ = dups.map { key, dup_path ->
 
         // Assign CADD score based on folder
@@ -129,6 +129,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
