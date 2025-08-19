@@ -76,28 +76,25 @@ workflow {
           def baseKey = fullKey?.replace('dup','metafiles')
           [ baseKey, d ]
       }
-      metas.view { "metas: $it" }
-      dups.view { "dups: $it" }
+      
        def met_ = metas
-    .combine(dups)                       // produce all pairs
-    .filter { m, d -> m[0] == d[0] }     // keep only where baseKey matches
-    .map { m, d ->                       // unpack and build tuple
+    .combine(dups)
+    .filter { pair -> pair[0][0] == pair[1][0] }   // compare baseKey
+    .map { pair ->
+        def m = pair[0]   // [ baseKey, chunk_path ]
+        def d = pair[1]   // [ baseKey, dup_path ]
+
         def key         = m[0]
         def folder_path = m[1]
         def dup_path    = d[1]
 
-        // assign CADD score based on folder key
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
                          (key == 'metafiles20') ? '20' :
                          (key == 'metafiles15') ? '15' : 'ALL'
 
-        [ folder_path,
-          params.chromosomes,
-          cadd_score,
-          params.genepy_py,
-          params.kary,
-          dup_path ]
+        tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
     }
+    .view()
     
 
        def dup_ = dups.map { key, dup_path ->
@@ -130,6 +127,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
