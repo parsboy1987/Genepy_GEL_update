@@ -71,7 +71,7 @@ workflow {
         def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
         def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')
         [ baseKey, p ]
-    }
+    }.broadcast()
      
       def dups = Channel
     .from(flatDups)
@@ -79,7 +79,7 @@ workflow {
         def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
         def baseKey = fullKey?.replace('dup','metafiles')
         [ baseKey, d ]
-    }
+    }.broadcast()
       
        def met_ = metas
     .combine(dups)
@@ -132,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
