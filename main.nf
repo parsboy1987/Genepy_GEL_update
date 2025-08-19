@@ -98,7 +98,7 @@ workflow {
         [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
      }
      .view()
-     Genepy_score(dup_)
+     //Genepy_score(dup_)
      Genepy_score(met_)
 }
 workflow.onComplete {
@@ -118,6 +118,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
