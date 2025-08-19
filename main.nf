@@ -80,7 +80,7 @@ def dups = flatDups.map { d ->
     def baseKey = fullKey?.replace('dup', 'metafiles')
     tuple(baseKey, d)                                // ✅ tuple, not nested list
 }
-dups.collect.ciew()
+dups.collect().ciew()
 // Combine metas with their matching dup(s)
 def met_ = metas
     .combine(dups)                       // produce all pairs
@@ -132,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
