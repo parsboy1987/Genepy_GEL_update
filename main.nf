@@ -71,7 +71,7 @@ workflow {
         def fullKey = p.toString().tokenize('/').find{ it.startsWith('metafiles') }
         def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')
         [ baseKey, p ]
-    }.broadcast()
+    }
      
       def dups = Channel
     .from(flatDups)
@@ -79,14 +79,15 @@ workflow {
         def fullKey = d.toString().tokenize('/').find{ it.startsWith('dup') }
         def baseKey = fullKey?.replace('dup','metafiles')
         [ baseKey, d ]
-    }.broadcast()
-      
-       def met_ = metas
-    .combine(dups)
-    .filter { pair -> pair[0][0] == pair[1][0] }   // compare baseKey
+    }
+      def metas_b = metas.broadcast()
+      def dups_b1 = dups.broadcast()
+      def dups_b2 = dups.broadcast()
+      def met_ = metas_b.combine(dups_b1)
+    .filter { pair -> pair[0][0] == pair[1][0] }
     .map { pair ->
-        def m = pair[0]   // [ baseKey, chunk_path ]
-        def d = pair[1]   // [ baseKey, dup_path ]
+        def m = pair[0]
+        def d = pair[1]
 
         def key         = m[0]
         def folder_path = m[1]
@@ -98,20 +99,20 @@ workflow {
 
         tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
     }
-   
-    
 
-       def dup_ = dups.map { key, dup_path ->
+met_.view { "combined: $it" }
 
-        // Assign CADD score based on folder
-        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
-                         (key == 'metafiles20') ? '20' :
-                         (key == 'metafiles15') ? '15' : 'ALL'
+def dup_ = dups_b2.map { pair ->
+    def key = pair[0]
+    def dup_path = pair[1]
 
-        [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
-     }
-     metas.combine(dups)
-     .view { "combined: $it" }
+    def cadd_score = (key == 'metafilesALL') ? 'ALL' :
+                     (key == 'metafiles20') ? '20' :
+                     (key == 'metafiles15') ? '15' : 'ALL'
+
+    [dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path]
+}
+
      //Genepy_score(dup_)
      //Genepy_score(met_)
 }
@@ -132,6 +133,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
