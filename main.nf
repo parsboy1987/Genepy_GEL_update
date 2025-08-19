@@ -88,7 +88,7 @@ def met_ = metas
     .map { m ->                       // 
         def key         = m[0]
         def folder_path = m[1]
-        def dup_path    = d[3]
+        def dup_path    = m[3]
 
         // Assign CADD score
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
@@ -132,6 +132,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
