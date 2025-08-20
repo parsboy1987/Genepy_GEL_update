@@ -16,7 +16,7 @@ process Genepy_score {
 
     Genepy=\$(readlink -f ${genepy})
     ls \$Genepy
-    head ${path1}
+    ls ${path1}
     cp \$Genepy ./gp.py
     chmod +x ./gp.py
     echo ${path1}
