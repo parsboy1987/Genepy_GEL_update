@@ -37,16 +37,17 @@ for file in ${path1}/*; do
             fi
             # Case 1: path1 itself is a dup folder → always process
             if [ -n "${dup}" ] && [ -f "${dup}/\$fname" ]; then
-                echo "Processing \$fname from dup folder"
-                \$file="${dup}/\$fname"   # Update \$file to point to dup folder version
+                echo "Processing \$file from dup folder"
+                awk -F"\\t" '{OFS=FS;for (i=7;i<=16;i++) { if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$)/) { \$i="3.98e-6";} } print }' "${dup}/\$fname" > "\$fname"
+
+                python -u ./gp.py "\$fname" ${kary}
             else
-                echo "Processing \$fname from chunk folder"
+                echo "Processing \$file from chunk folder"
+                awk -F"\\t" '{OFS=FS;for (i=7;i<=16;i++) { if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$)/) { \$i="3.98e-6";} } print }' "\$file" > "\$fname"
+
+                python -u ./gp.py "\$fname" ${kary}
+                
             fi
-
-            echo "Processing file : \$fname"
-            awk -F"\\t" '{OFS=FS;for (i=7;i<=16;i++) { if(length(\$i)<1 || \$i ~ /^0+([.0]+)?([eE][+-]?[0-9]+)?\$)/) { \$i="3.98e-6";} } print }' "\$file" > "\$fname"
-
-            python -u ./gp.py "\$fname" ${kary}
         fi
     done
     """
