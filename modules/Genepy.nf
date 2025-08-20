@@ -36,11 +36,11 @@ for file in ${path1}/*; do
                 continue
             fi
             # Case 1: path1 itself is a dup folder → always process
-            if [ -n "${dup}" ] && [ -f "${dup}/$fname" ]; then
-                echo "Processing $fname from dup folder"
-                file="${dup}/$fname"   # Update $file to point to dup folder version
+            if [ -n "${dup}" ] && [ -f "${dup}/\$fname" ]; then
+                echo "Processing \$fname from dup folder"
+                file="${dup}/\$fname"   # Update $file to point to dup folder version
             else
-                echo "Processing $fname from chunk folder"
+                echo "Processing \$fname from chunk folder"
             fi
 
             echo "Processing file : \$fname"
