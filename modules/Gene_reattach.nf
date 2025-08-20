@@ -1,5 +1,5 @@
 process Reatt_Genes {
-    publishDir "${params.chr}/${cadd}", mode: "copy", overwrite: true
+    publishDir "${params.chr}", mode: "copy", overwrite: true
     //maxForks 10
     label "Reatt_Genes"
     
