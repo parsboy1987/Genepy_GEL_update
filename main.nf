@@ -83,33 +83,39 @@ def dups = flatDups.map { d ->
 //dups.collect().ciew()
 // Combine metas with their matching dup(s)
 def met_ = metas
-    .combine(dups)                       // produce all pairs
-    .filter { m -> m[0] == m[2] }     // keep only matches on baseKey
-    .map { m ->                       // 
+    .combine(dups)
+    .filter { m -> m[0] == m[2] }
+    .map { m ->
         def key         = m[0]
         def folder_path = m[1]
         def dup_path    = m[3]
 
-        // Assign CADD score
         def cadd_score = (key == 'metafilesALL') ? 'ALL' :
                          (key == 'metafiles20') ? '20' :
                          (key == 'metafiles15') ? '15' : 'ALL'
 
-        tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
+        tuple(cadd_score, tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path))
     }
+    .groupTuple()   // => [ 'ALL' : [[...], [...]], '20': [[...]], '15': [[...]] ]
     .view()
 
-// Dups as their own channel if needed
+// 2. Build dup_ also keyed by cadd_score
 def dup_ = dups.map { key, dup_path ->
     def cadd_score = (key == 'metafilesALL') ? 'ALL' :
                      (key == 'metafiles20') ? '20' :
                      (key == 'metafiles15') ? '15' : 'ALL'
 
-    tuple(dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
+    tuple(cadd_score, dup_path)
 }
-//.view()
 
-met_.combine(dup_).view()
+// 3. Join on cadd_score
+def merged = met_.join(dup_)
+    .map { cadd_score, metas_list, dup_path ->
+        // Add dup_path to each met tuple
+        metas_list.collect { m -> m + [dup_path] }
+    }
+    .flatten()
+    .view()
 
 
      //Genepy_score(dup_)
@@ -132,6 +138,7 @@ workflow.onComplete {
 }
 
                       
+
 
 
 
