@@ -31,8 +31,8 @@ process Genepy_score {
 for file in ${path1}/*; do
         if [ -f "\$file" ]; then
             fname=\$(basename "\$file")
-            if [ "\$fname" = "1.txt" ]; then
-            echo "Skipping \$fname (special case)"
+            if [[ ! "$fname" == *.meta ]]; then
+            echo "Skipping $fname (not a .meta file)"
             continue
             fi
             # Case 1: path1 itself is a dup folder → always process
