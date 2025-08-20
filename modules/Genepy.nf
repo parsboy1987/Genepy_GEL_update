@@ -32,17 +32,15 @@ for file in ${path1}/*; do
         if [ -f "\$file" ]; then
             fname=\$(basename "\$file")
             if [[ ! "\$fname" == *.meta ]]; then
-            echo "Skipping \$fname (not a .meta file)"
-            continue
+                echo "Skipping \$fname (not a .meta file)"
+                continue
             fi
             # Case 1: path1 itself is a dup folder → always process
-            if [[ \$(basename "{$path1}") == dup* ]]; then
-                echo "Path is dup → processing \$fname"
-
-            # Case 2: path1 is chunk/metafile folder → skip if dup exists
-            elif [ -n "${dup}" ] && [ -f "${dup}/\$fname" ]; then
-                echo "Skipping \$fname (exists in dup)"
-                continue
+            if [ -n "${dup}" ] && [ -f "${dup}/$fname" ]; then
+                echo "Processing $fname from dup folder"
+                file="${dup}/$fname"   # Update $file to point to dup folder version
+            else
+                echo "Processing $fname from chunk folder"
             fi
 
             echo "Processing file : \$fname"
