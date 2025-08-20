@@ -111,8 +111,8 @@ def dup_ = dups.map { key, dup_path ->
 
 
 
-     Genepy_score(dup_)
-     //Genepy_score(met_)
+     //Genepy_score(dup_)
+     Genepy_score(met_)
 }
 workflow.onComplete {
    println ( workflow.success ? """
@@ -129,4 +129,5 @@ workflow.onComplete {
        """
    )
 }
+
 
