@@ -5,7 +5,7 @@ process VEP_score {
   //label "process_medium"
   
   input:
-  tuple val(chrx), path("p1.vcf"), path("wes.tsv.gz"), path("wes.tsv.gz.tbi"), val(vcf_n) , file(vcfFile), path("input.vcf.gz")
+  tuple val(chrx), path("p1.vcf"), path("wes.tsv.gz"), path("wes.tsv.gz.tbi"), val(vcf_n) , path(vcfFile), path("input.vcf.gz")
   path(homos_vep)
   path(vep_plugins)
   path(plugin1)
