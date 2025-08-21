@@ -12,7 +12,7 @@ process Pre_processing_2 {
   path(Genecode_p50_bed)
   path(template)
   output:
-  tuple file("c1"), file("c2"), file("c3"), file("c4"),file("c5"),file("c5a"),file("c5b"),file("gene.lst"),file("f5_dedup.vcf.gz"),file("header_meta"), val(vcf_n) , val(chrx) ,emit: main 
+  tuple path("c1"), path("c2"), path("c3"), path("c4"),path("c5"),path("c5a"),path("c5b"),path("gene.lst"),path("f5_dedup.vcf.gz"),file("header_meta"), val(vcf_n) , val(chrx) ,emit: main 
   
   shell:
     """
