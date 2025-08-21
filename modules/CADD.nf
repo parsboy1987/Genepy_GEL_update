@@ -4,11 +4,11 @@ process CADD_score {
   publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
    maxForks 20
   input:
-  tuple val(chrx), val(vcf_n), file(vcfFile),path(cadd_),path(ccds)
+  tuple val(chrx), val(vcf_n), path(vcfFile),path(cadd_),path(ccds)
       
   //val cadd_param = params.cadd_
   output:
-  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), file(vcfFile),path("input.vcf.gz"), emit: pre_proc_1
+  tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), path(vcfFile),path("input.vcf.gz"), emit: pre_proc_1
   // path("input.vcf.gz"), emit: input_vcf
   path("${chrx}.p11.vcf")
   script:
