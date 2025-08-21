@@ -1,5 +1,5 @@
 process VEP_score {
-    publishDir "${params.chr}/${vcf_n}", mode: "copy", overwrite: true
+    publishDir "${params.outDir}/${params.chr}/${vcf_n}", mode: "copy", overwrite: true
   // maxForks 20
   label "VEP_score"
   //label "process_medium"
