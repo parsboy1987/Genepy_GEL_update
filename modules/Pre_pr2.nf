@@ -13,21 +13,7 @@ process Pre_processing_2 {
   path(template)
   output:
   tuple file("c1"), file("c2"), file("c3"), file("c4"),file("c5"),file("c5a"),file("c5b"),file("gene.lst"),file("f5_dedup.vcf.gz"),file("header_meta"), val(vcf_n) , val(chrx) ,emit: main 
-  path("c_u") 
-  path("p1_u")
-  path("p1_1")
-  path("p1_2")
-  path("p1_order")
-  path("p1") 
-  path("c")
-  path("csq")
-  path("p1_s")
-  path("p1_m")
-  path("p1_re")
-  path("alt_re")
-  path("csq_re")
-  path("order_re")
-  path("order")
+  
   shell:
     """
     REAL_PATH1=\$(readlink -f ${template})
