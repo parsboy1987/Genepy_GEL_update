@@ -40,13 +40,17 @@ process Reatt_Genes {
         clean_paths=\$(echo \$dir | tr -d '[],')
         echo "\$clean_paths"
         ls \$clean_paths
-        for file in "\$clean_paths"/*.meta; do
-          ##  echo "File: \$file" >> "\$GENE_LIST"
-            gene_name=\$(basename "\$file")
-            gene_name="\${gene_name%.meta}"
-            gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \$file"
-            echo "\$gene_name"
-        done
+        if compgen -G "\$clean_paths"/*.meta > /dev/null; then
+            for file in "\$clean_paths"/*.meta; do
+              ##  echo "File: \$file" >> "\$GENE_LIST"
+                gene_name=\$(basename "\$file")
+                gene_name="\${gene_name%.meta}"
+                gene_files["\$gene_name"]="\${gene_files[\$gene_name]:-} \$file"
+                echo "\$gene_name"
+            done
+        else
+            echo "No .meta files found in \$clean_paths"
+        fi
     done
     
 
