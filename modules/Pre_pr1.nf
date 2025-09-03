@@ -1,7 +1,7 @@
 process Pre_processing_1 {
   publishDir "${params.outDir}/${params.chr}/${vcf_n}", mode: "copy", overwrite: true
   // maxForks 10
-  label "Pre_processing_1"
+  label "Pre_processing_1_${vcf_n}"
   //label "process_micro"
   
   input:
