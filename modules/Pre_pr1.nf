@@ -7,7 +7,7 @@ process Pre_processing_1 {
   input:
   tuple path(x), val(vcf_n), path(vcfFile), val(chrx),path("input.vcf.gz")
   path(ethnicity)
-  path(karyo.txt)
+  path(karyo)
   output:
   tuple path("f5.vcf.gz"), val(vcf_n), val(chrx), emit:main
   path("*.vcf.gz")
@@ -23,7 +23,7 @@ process Pre_processing_1 {
     
     ############################ adding conversion of genotypes in chrx for males
     if [ "$chrx" = "chrX" ]; then
-      male_samples=\$(awk '{print \$1}' karyo.txt)
+      male_samples=\$(awk '{print \$1}' karyo)
       awk -F"\t" '\$7~/PASS/ || \$1~/#/' f31.vcf > f32.vcf
       bcftools +setGT f32.vcf \
       --samples "$male_samples" \
