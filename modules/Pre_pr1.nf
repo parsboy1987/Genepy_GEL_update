@@ -21,6 +21,9 @@ process Pre_processing_1 {
     paste p1 p2 >> f31.vcf
     rm -r p1 p2
     awk -F"\t" '\$7~/PASS/ || \$1~/#/' f31.vcf > f3.vcf
+    ############################ adding conversion of genotypes in chrx for males
+    
+    ##############################
     bcftools view -h  "input.vcf.gz" --threads $task.cpus | grep '^##FORMAT=' > format.txt
     sed -i '1 r format.txt' f3.vcf
     #####
@@ -32,11 +35,11 @@ process Pre_processing_1 {
     tabix -p vcf f3b.vcf.gz
 
     cat ${ethnicity} > ethnicity.txt
-    bcftools +fill-tags f3b.vcf.gz --threads $task.cpus -- -S ethnicity.txt -t 'HWE,F_MISSING' | bcftools view -e '(CHROM=="chrY" & INFO/F_MISSING>=0.56 & INFO/HWE_1>(0.05/15922704))' --threads $task.cpus | bcftools view -i 'INFO/F_MISSING<0.12 & INFO/HWE_1>(0.05/15922704)' --threads $task.cpus -Oz -o f4.vcf.gz
+    bcftools +fill-tags f3b.vcf.gz --threads $task.cpus -- -S ethnicity.txt -t 'HWE,F_MISSING' | bcftools view -e '(CHROM=="chrY" & INFO/F_MISSING>=0.56 & INFO/HWE_1>(0.05/15922704))' --threads $task.cpus | bcftools view -i 'INFO/F_MISSING<0.12 & INFO/HWE_1>(0.05/15922704)' --threads $task.cpus -Oz -o f5.vcf.gz
 
-    tabix -p vcf f4.vcf.gz
+    tabix -p vcf f5.vcf.gz
     
-    bcftools view f4.vcf.gz -R ${xgen_bed} --threads $task.cpus -Oz -o f5.vcf.gz
+    #bcftools view f4.vcf.gz -R ${xgen_bed} --threads $task.cpus -Oz -o f5.vcf.gz
     
     
     """
