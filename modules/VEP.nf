@@ -2,7 +2,7 @@ process VEP_score {
     publishDir "${params.outDir}/${params.chr}/${vcf_n}", mode: "copy", overwrite: true
   // maxForks 20
   tag "VEP_score_${vcf_n}"
-  //label "process_medium"
+  label "VEP_score"
   
   input:
   tuple val(chrx), path("p1.vcf"), path("wes.tsv.gz"), path("wes.tsv.gz.tbi"), val(vcf_n) , path(vcfFile), path("input.vcf.gz")
