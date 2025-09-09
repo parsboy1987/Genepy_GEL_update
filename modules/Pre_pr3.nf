@@ -2,7 +2,7 @@ process Pre_processing_3 {
   publishDir "${params.outDir}/${params.chr}/${vcf_n}", mode: "copy", overwrite: true
   //maxForks 10
   tag "Pre_processing_3_${vcf_n}"
-  //label "process_micro"
+  label "Pre_processing_3"
   input:
   tuple path("c1"), path("c2"), path("c3"), path("c4"),path("c5"),path("c5a"),path("c5b"),path("gene.lst"),path("f5_dedup.vcf.gz"),path("header_meta"), val(vcf_n) , val(chrx) 
   path(template)
