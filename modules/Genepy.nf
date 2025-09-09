@@ -1,7 +1,7 @@
 process Genepy_score {
     publishDir "${params.outDir}/${params.chr}/${cadd}", mode: "copy", overwrite: true
     //publishDir "${params.chr}", mode: "copy", overwrite: true
-    label "Genepy_score_${cadd}"
+    tag "Genepy_score_${cadd}"
    // label "process_large"
     maxForks 20
     input:
