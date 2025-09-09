@@ -1,5 +1,5 @@
 process CADD_score {
-  tag "CADD_score_${vcf_n}"
+  //tag "CADD_score_${vcf_n}"
   //label "process_micro"
   publishDir "${params.outDir}/${params.chr}/${vcf_n}", mode: "copy", overwrite: true
    maxForks 20
