@@ -27,7 +27,7 @@ process CADD_score {
       bcftools filter -S . --include '(FORMAT/DP>=8 & FORMAT/AB>=0.15) |FORMAT/GT="0/0" | FORMAT/GT="0"'  --threads $task.cpus -Ov -o f3b.vcf f3.vcf
       bcftools norm -m+any ${vcfFile} -Oz -o input.vcf.gz
     fi
-    rm f3.vcf f3b.vcf
+   ## rm f3.vcf f3b.vcf
     tabix -p vcf input.vcf.gz
     ############################
     bcftools view -G input.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
