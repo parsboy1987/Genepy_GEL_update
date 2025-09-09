@@ -20,19 +20,7 @@ process Pre_processing_1 {
     grep '##' ${x} > f31.vcf
     paste p1 p2 >> f31.vcf
     rm -r p1 p2
-    
-    ############################ adding conversion of genotypes in chrx for males
-    if [ "$chrx" = "chrX" ]; then
-      male_samples=\$(awk '{print \$1}' karyo)
-      awk -F"\t" '\$7~/PASS/ || \$1~/#/' f31.vcf > f32.vcf
-      bcftools +setGT f32.vcf \
-      --samples "$male_samples" \
-      --setGT 'if(GT="0") "0/0"; else if(GT="1") "1/1"; else if(GT="2") "2/2"; else if(GT="3") "3/3"; else if(GT="4") "4/4"; else if(GT="5") "5/5"; else if(GT="6") "6/6" ; else if(GT="7") "7/7"; else if(GT="8") "8/8"; else if(GT="9") "9/9"; else if(GT="10") "10/10" ; else if(GT=".") "./."; else GT' \
-      -Ov -o f3.vcf
-    else
-      awk -F"\t" '\$7~/PASS/ || \$1~/#/' f31.vcf > f3.vcf
-    fi
-    ##############################
+    awk -F"\t" '\$7~/PASS/ || \$1~/#/' f31.vcf > f3.vcf
     bcftools view -h  "input.vcf.gz" --threads $task.cpus | grep '^##FORMAT=' > format.txt
     sed -i '1 r format.txt' f3.vcf
     #####
