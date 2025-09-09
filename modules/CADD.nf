@@ -17,7 +17,12 @@ process CADD_score {
     REAL_PATH1=\$(readlink -f ${cadd_})
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
-    bcftools norm -m+any ${vcfFile} -Oz -o input.vcf.gz
+    if [ ${chrx} = "chrX" ]; then
+      bcftools +setGT ${vcfFile} -- -t a -n c:'X/X' > ${chrx}.vcf
+      bcftools norm -m+any ${chrx}.vcf -Oz -o input.vcf.gz
+    else
+      bcftools norm -m+any ${vcfFile} -Oz -o input.vcf.gz
+    fi
     tabix -p vcf input.vcf.gz
     ############################
     bcftools view -G input.vcf.gz -Ov  --threads $task.cpus -o p1.vcf
