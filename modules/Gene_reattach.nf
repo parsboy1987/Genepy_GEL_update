@@ -1,7 +1,7 @@
 process Reatt_Genes {
     //publishDir "${params.outDir}/${params.chr}", mode: "copy", overwrite: true
     //maxForks 10
-    label "Reatt_Genes"
+    tag "Reatt_Genes"
     
     //label "process_micro"
     input:
