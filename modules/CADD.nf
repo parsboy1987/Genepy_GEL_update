@@ -10,7 +10,8 @@ process CADD_score {
   output:
   tuple val(chrx), path("p1.vcf"), path("wes_${chrx}.tsv.gz"), path("wes_${chrx}.tsv.gz.tbi"), val(vcf_n), path(vcfFile),path("input.vcf.gz"), emit: pre_proc_1
   // path("input.vcf.gz"), emit: input_vcf
-  path("${chrx}.p11.vcf")
+  path("f3.vcf")
+  path("f3b.vcf")
   script:
     """
     echo "CADD"
