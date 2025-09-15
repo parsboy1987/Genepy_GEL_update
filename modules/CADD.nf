@@ -23,7 +23,7 @@ process CADD_score {
       | bcftools view -Oz -o subset.modified.vcf.gz
       bcftools index subset.modified.vcf.gz
       bcftools annotate -a subset.modified.vcf.gz -c CHROM,POS,FORMAT/GT --threads $task.cpus -Ov -o ${chrx}_GT.vcf ${vcfFile}
-      bcftools index modified.vcf.gz
+      #bcftools index ${chrx}_GT.vcf
       ####################################
       bcftools +fill-tags ${chrx}_GT.vcf --threads $task.cpus -- -t 'FORMAT/AB:1=float((AD[:1]) / (DP))' > f3.vcf
       bcftools filter -S . --include '(FORMAT/DP>=8 & FORMAT/AB>=0.15) |FORMAT/GT="0/0" | FORMAT/GT="0"'  --threads $task.cpus -Ov -o f3b.vcf f3.vcf
