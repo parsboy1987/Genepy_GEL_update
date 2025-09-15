@@ -47,7 +47,7 @@ workflow {
         chrx = Channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz")
             .map { file -> 
                 def filename = file.baseName
-                return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}" ]
+                return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}",params.kary]
             }
       CADD_score(chrx)
       VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
@@ -129,6 +129,7 @@ workflow.onComplete {
        """
    )
 }
+
 
 
 
