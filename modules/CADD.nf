@@ -4,7 +4,7 @@ process CADD_score {
   publishDir "${params.outDir}/${params.chr}/${vcf_n}", mode: "copy", overwrite: true
    maxForks 20
   input:
-  tuple val(chrx), val(vcf_n), path(vcfFile),path(cadd_),path(ccds)
+  tuple val(chrx), val(vcf_n), path(vcfFile),path(cadd_),path(ccds),path{kary}
       
   //val cadd_param = params.cadd_
   output:
@@ -18,7 +18,13 @@ process CADD_score {
     ln -sf \$REAL_PATH1 /opt/CADD-scripts-CADD1.6/data/annotations/GRCh38_v1.6
     tabix -p vcf ${vcfFile}
     if [ ${chrx} = "chrX" ]; then
-      bcftools +setGT ${vcfFile} -- -t a -n c:'X/X' > ${chrx}_GT.vcf
+      ####################################
+      bcftools view -S kary -Ou ${vcfFile} --threads $task.cpus | bcftools +setGT -Ou -- -t q -i 'GT="1"' -n 'c:1/1' --threads $task.cpus\
+      | bcftools view -Oz -o subset.modified.vcf.gz
+      bcftools index subset.modified.vcf.gz
+      bcftools annotate -a subset.modified.vcf.gz -c CHROM,POS,FORMAT/GT --threads $task.cpus -Ov -o ${chrx}_GT.vcf ${vcfFile}
+      bcftools index modified.vcf.gz
+      ####################################
       bcftools +fill-tags ${chrx}_GT.vcf --threads $task.cpus -- -t 'FORMAT/AB:1=float((AD[:1]) / (DP))' > f3.vcf
       bcftools filter -S . --include '(FORMAT/DP>=8 & FORMAT/AB>=0.15) |FORMAT/GT="0/0" | FORMAT/GT="0"'  --threads $task.cpus -Ov -o f3b.vcf f3.vcf
       bcftools norm -m+any f3b.vcf -Oz -o input.vcf.gz
