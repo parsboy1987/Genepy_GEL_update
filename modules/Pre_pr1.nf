@@ -11,6 +11,7 @@ process Pre_processing_1 {
   output:
   tuple path("f5.vcf.gz"), val(vcf_n), val(chrx), emit:main
   path("*.vcf.gz")
+  path("*.vcf")
   
   
   shell:
@@ -32,7 +33,8 @@ process Pre_processing_1 {
     ##tabix -p vcf f3b.vcf.gz
 
     cat ${ethnicity} > ethnicity.txt
-    bcftools +fill-tags f3.vcf --threads $task.cpus -- -S ethnicity.txt -t 'HWE,F_MISSING' | bcftools view -e '(CHROM=="chrY" & INFO/F_MISSING>=0.56 & INFO/HWE_1>(0.05/15922704))' --threads $task.cpus | bcftools view -i 'INFO/F_MISSING<0.12 & INFO/HWE_1>(0.05/15922704)' --threads $task.cpus -Oz -o f5.vcf.gz
+    bcftools +fill-tags f3.vcf --threads $task.cpus -- -S ethnicity.txt -t 'HWE,F_MISSING' | bcftools view -e '(CHROM=="chrY" & INFO/F_MISSING>=0.56 & INFO/HWE_1>(0.05/15922704))' --threads $task.cpus -Ov f4.vcf 
+    bcftools view -i 'INFO/F_MISSING<0.12 & INFO/HWE_1>(0.05/15922704)' --threads $task.cpus -Oz -o f5.vcf.gz f4.vcf
 
     tabix -p vcf f5.vcf.gz
     
