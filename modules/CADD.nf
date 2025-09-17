@@ -20,7 +20,7 @@ process CADD_score {
     tabix -p vcf ${vcfFile}
     if [ ${chrx} = "chrX" ]; then
       ####################################
-      bcftools view -S kary -Ou ${vcfFile} --threads $task.cpus | bcftools +setGT -Ou -- -t q -i 'GT="1"' -n 'c:1/1' --threads $task.cpus\
+      bcftools view -S ${kary} -Ou ${vcfFile} --threads $task.cpus | bcftools +setGT -Ou -- -t q -i 'GT="1"' -n 'c:1/1' --threads $task.cpus\
       | bcftools view -Oz -o subset.modified.vcf.gz
       bcftools index subset.modified.vcf.gz
       bcftools annotate -a subset.modified.vcf.gz -c CHROM,POS,FORMAT/GT --threads $task.cpus -Ov -o ${chrx}_GT.vcf ${vcfFile}
