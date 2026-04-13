@@ -15,11 +15,11 @@ def checkPathParamList = [
  
 include { CADD_score } from "./modules/CADD"  
 include { VEP_score } from "./modules/VEP"  
-include { Pre_processing_1 } from "./modules/Pre_pr1"  
-include { Pre_processing_2 } from "./modules/Pre_pr2"  
-include { Pre_processing_3 } from "./modules/Pre_pr3"  
-include { Reatt_Genes } from "./modules/Gene_reattach"
-include { Genepy_score } from "./modules/Genepy"
+////include { Pre_processing_1 } from "./modules/Pre_pr1"  
+////include { Pre_processing_2 } from "./modules/Pre_pr2"  
+////include { Pre_processing_3 } from "./modules/Pre_pr3"  
+////include { Reatt_Genes } from "./modules/Gene_reattach"
+////include { Genepy_score } from "./modules/Genepy"
 
 
 
@@ -31,88 +31,116 @@ workflow {
           ===================================
      G E N O M I C --------------- M E D I C I N E 
                          UoS
-                   Sarah Ennis Lab
                      Iman Nazari
           ===================================
          Samples         : ${params.vcf}
          params.cadd     : ${params.annotations_cadd}
          """.stripIndent()
      
+        def shard_dir_name = file(params.shard_path).name
+        def shard_number = (shard_dir_name =~ /shard-(\d+)/)[0][1]
         
-       chromosomeList = params.chromosomes
+        def shard_path_pattern = "${params.shard_path}/subshard-*/dragen.vcf.gz"
        println "START :)"
-       println "Chromosome list: $chromosomeList"
-     // def regionPatterns = ['chr22_1_10848253', 'chr22_21129938_21349068', 'chr22_21349069_22141767', 'chr22_22141768_23984312','chr22_38483936_40850931','chr22_40850932_42981587']  // Define allowed patterns
+       println "Shard list: $shard_number"
 
-        chrx = Channel.fromPath("${params.vcf}/*_${params.chromosomes}_*.vcf.gz")
-            .map { file -> 
-                def filename = file.baseName
-                return [chromosomeList, filename, file, "${params.annotations_cadd}", "${params.ccds_region}","${params.kary}"]
+
+        def shard_map = [:]
+
+        file(params.multiallelic_shards_bed)
+            .eachLine { line ->
+                if( !line?.trim() ) return
+
+                def cols = line.split('\\t| +')
+                def chr_name = cols[0]
+                def shard    = cols[4].toString()
+                def subshard = cols[5].toString()
+
+                shard_map["${shard}_${subshard}"] = chr_name
+            }   
+
+        chrx = Channel.fromPath(shard_path_pattern, checkIfExists: true)
+        .take(3)
+        .map { vcf_file->
+            def shard_num       = params.shard_number.toString()
+            def subshard_number = f.parent.name.replace('subshard-', '')
+            def vcf_n = "subshard-${subshard_number}"
+            def chr_name        = shard_map["${shard_num}_${subshard_number}"]
+            if( !chr_name ) {
+                throw new IllegalArgumentException("No chromosome mapping found for shard=${shard_num}, subshard=${subshard_num}")
             }
+
+            // def gnomad_joint_vcf = "${params.gnomad_joint_dir}/${chr_name}.joint.vcf.gz"
+            def vcf_n = "Shard_${shard_num}_Subshard_${subshard_num}"
+
+            tuple(shard_num, subshard_num, chr_name, vcf_file,file(params.annotations_cadd))
+        }
+  //          tuple(shard_num, vcf_n, f, file(params.annotations_cadd))
+  //      }
       CADD_score(chrx)
       VEP_score(CADD_score.out.pre_proc_1,params.homos_vep,params.vep_plugins,params.plugin1,params.plugin2,params.genomad_indx1,params.genomad_indx2)
-      Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
-      Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
-      Pre_processing_3(Pre_processing_2.out.main,params.templates)     
-     // def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
-      def meta15 = Pre_processing_3.out.meta_files15.collect().map {genes_list -> ["15",chromosomeList, genes_list] }
-
-      def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
-      def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
-      x_combo= meta15.concat(meta20).concat(metaALL)
-      Reatt_Genes(x_combo)
+////      Pre_processing_1(VEP_score.out,params.ethnicity,params.xgen_bed)
+////      Pre_processing_2(Pre_processing_1.out.main,params.header_meta,params.IBD_gwas_bed,params.Genecode_p50_bed,params.templates)
+////      Pre_processing_3(Pre_processing_2.out.main,params.templates)     
+////     // def meta15 = Pre_processing_3.out.meta_files15.collect().map { genes_list -> ["15",chromosomeList, genes_list] }
+////      def meta15 = Pre_processing_3.out.meta_files15.collect().map {genes_list -> ["15",chromosomeList, genes_list] }
+////
+////      def meta20 = Pre_processing_3.out.meta_files20.collect().map { genes_list -> ["20",chromosomeList, genes_list] }
+////      def metaALL = Pre_processing_3.out.meta_filesALL.collect().map { genes_list -> ["ALL",chromosomeList, genes_list] }
+////      x_combo= meta15.concat(meta20).concat(metaALL)
+////      Reatt_Genes(x_combo)
     
       // Flatten the Reatt_Genes outputs
 // Flatten Nextflow outputs first
-def flatMetas = Reatt_Genes.out.path.flatten()
-def flatDups  = Reatt_Genes.out.dup.flatten()
+////def flatMetas = Reatt_Genes.out.path.flatten()
+////def flatDups  = Reatt_Genes.out.dup.flatten()
 
 // Build metas channel: emits [ baseKey, folder_path ]
-def metas = flatMetas.map { p ->
-    def fullKey = p.toString().tokenize('/').find { it.startsWith('metafiles') }
-    def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')  // remove numeric suffix
-    tuple(baseKey, p)                                // ✅ tuple, not nested list
-}
+////def metas = flatMetas.map { p ->
+////    def fullKey = p.toString().tokenize('/').find { it.startsWith('metafiles') }
+////    def baseKey = fullKey.replaceAll(/(_\d+)+$/, '')  // remove numeric suffix
+////    tuple(baseKey, p)                                // ✅ tuple, not nested list
+////}
 
 // Build dups channel: emits [ baseKey, dup_path ]
-def dups = flatDups.map { d ->
-    def fullKey = d.toString().tokenize('/').find { it.startsWith('dup') }
-    def baseKey = fullKey?.replace('dup', 'metafiles')
-    tuple(baseKey, d)                                // ✅ tuple, not nested list
-}
+////def dups = flatDups.map { d ->
+////    def fullKey = d.toString().tokenize('/').find { it.startsWith('dup') }
+////    def baseKey = fullKey?.replace('dup', 'metafiles')
+////    tuple(baseKey, d)                                // ✅ tuple, not nested list
+////}
 //dups.collect().ciew()
 // Combine metas with their matching dup(s)
-def met_ = metas
-    .combine(dups)                       // produce all pairs
-    .filter { m -> m[0] == m[2] }     // keep only matches on baseKey
-    .map { m ->                       // 
-        def key         = m[0]
-        def folder_path = m[1]
-        def dup_path    = m[3]
-
-        // Assign CADD score
-        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
-                         (key == 'metafiles20') ? '20' :
-                         (key == 'metafiles15') ? '15' : 'ALL'
-
-        tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
-    }
-    .view()
+////def met_ = metas
+////    .combine(dups)                       // produce all pairs
+////    .filter { m -> m[0] == m[2] }     // keep only matches on baseKey
+////    .map { m ->                       // 
+////        def key         = m[0]
+////        def folder_path = m[1]
+////        def dup_path    = m[3]
+////
+////        // Assign CADD score
+////        def cadd_score = (key == 'metafilesALL') ? 'ALL' :
+////                         (key == 'metafiles20') ? '20' :
+////                         (key == 'metafiles15') ? '15' : 'ALL'
+////
+////        tuple(folder_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
+////    }
+////    .view()
 
 // Dups as their own channel if needed
-def dup_ = dups.map { key, dup_path ->
-    def cadd_score = (key == 'metafilesALL') ? 'ALL' :
-                     (key == 'metafiles20') ? '20' :
-                     (key == 'metafiles15') ? '15' : 'ALL'
-
-    tuple(dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
-}
-.view()
+////def dup_ = dups.map { key, dup_path ->
+////    def cadd_score = (key == 'metafilesALL') ? 'ALL' :
+////                     (key == 'metafiles20') ? '20' :
+////                     (key == 'metafiles15') ? '15' : 'ALL'
+////
+////    tuple(dup_path, params.chromosomes, cadd_score, params.genepy_py, params.kary, dup_path)
+////}
+////.view()
 
 
 
      //Genepy_score(dup_)
-     Genepy_score(met_)
+////     Genepy_score(met_)
 }
 workflow.onComplete {
    println ( workflow.success ? """
@@ -129,7 +157,6 @@ workflow.onComplete {
        """
    )
 }
-
 
 
 
